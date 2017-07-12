@@ -22,6 +22,9 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# Cocoa Pods
+Pods/
+
 # Android/IntelliJ
 #
 build/
@@ -51,3 +54,5 @@ buck-out/
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+
