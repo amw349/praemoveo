@@ -1,0 +1,10 @@
+# Podfile content
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'TransporteUrbano' do
+  pod 'React', :path => '../node_modules/react-native'
+  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+
+  pod 'GoogleMaps'  # <~~ remove this line if you do not want to support GoogleMaps on iOS
+
+end
