@@ -16,7 +16,7 @@ import {
 import MapView from 'react-native-maps';
 import routes from '../routes/routes.json';
 
-export default class Map extends Component {
+export default class AllRoutes extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,13 +26,13 @@ export default class Map extends Component {
     }
 
     renderRoutes() {
-        var routes = [];
+        let routes = [];
         for (i in this.state.routes) {
-            routes[i] = <MapView.Polyline
+            routes.push(<MapView.Polyline
                 coordinates={this.state.routes[i].geometry.coordinates}
                 strokeColor={this.state.routes[i].properties.color}
                 strokeWidth={this.state.strokeWidth}
-            />;
+            />);
         }
         return routes;
     }
@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'red',
+        zIndex:-1
     }
 });
 
