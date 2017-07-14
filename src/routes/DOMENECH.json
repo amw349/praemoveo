@@ -1,0 +1,157 @@
+{
+  "type": "Feature",
+  "properties": {
+    "color": "#7797C7",
+    "fullName": "Dómenech"
+  },
+  "geometry": {
+    "type": "MultiLineString",
+    "coordinates": [
+      {
+        "longitude": -66.076264,
+        "latitude": 18.416573
+      },
+      {
+        "longitude": -66.07668,
+        "latitude": 18.416366
+      },
+      {
+        "longitude": -66.075647,
+        "latitude": 18.414395
+      },
+      {
+        "longitude": -66.075466,
+        "latitude": 18.414281
+      },
+      {
+        "longitude": -66.073436,
+        "latitude": 18.415202
+      },
+      {
+        "longitude": -66.071611,
+        "latitude": 18.415361
+      },
+      {
+        "longitude": -66.071059,
+        "latitude": 18.412864
+      },
+      {
+        "longitude": -66.071159,
+        "latitude": 18.412623
+      },
+      {
+        "longitude": -66.070995,
+        "latitude": 18.412499
+      },
+      {
+        "longitude": -66.070811,
+        "latitude": 18.412638
+      },
+      {
+        "longitude": -66.069364,
+        "latitude": 18.412689
+      },
+      {
+        "longitude": -66.065448,
+        "latitude": 18.413432
+      },
+      {
+        "longitude": -66.056839671,
+        "latitude": 18.416017788
+      },
+      {
+        "longitude": -66.056839671,
+        "latitude": 18.416017788
+      },
+      {
+        "longitude": -66.056809,
+        "latitude": 18.416027
+      },
+      {
+        "longitude": -66.056547,
+        "latitude": 18.416271
+      },
+      {
+        "longitude": -66.056547,
+        "latitude": 18.416271
+      },
+      {
+        "longitude": -66.056218,
+        "latitude": 18.416803
+      },
+      {
+        "longitude": -66.055864,
+        "latitude": 18.416937
+      },
+      {
+        "longitude": -66.055539,
+        "latitude": 18.416705
+      },
+      {
+        "longitude": -66.055399,
+        "latitude": 18.416063
+      },
+      {
+        "longitude": -66.055478,
+        "latitude": 18.4159
+      },
+      {
+        "longitude": -66.055944,
+        "latitude": 18.415853
+      },
+      {
+        "longitude": -66.056839671,
+        "latitude": 18.416017788
+      },
+      {
+        "longitude": -66.056839671,
+        "latitude": 18.416017788
+      },
+      {
+        "longitude": -66.056868,
+        "latitude": 18.416023
+      },
+      {
+        "longitude": -66.065462,
+        "latitude": 18.413475
+      },
+      {
+        "longitude": -66.069365,
+        "latitude": 18.41275
+      },
+      {
+        "longitude": -66.070848,
+        "latitude": 18.412718
+      },
+      {
+        "longitude": -66.070998,
+        "latitude": 18.412818
+      },
+      {
+        "longitude": -66.071552,
+        "latitude": 18.415382
+      },
+      {
+        "longitude": -66.071369,
+        "latitude": 18.417083
+      },
+      {
+        "longitude": -66.071605,
+        "latitude": 18.417411
+      },
+      {
+        "longitude": -66.07291,
+        "latitude": 18.417944
+      },
+      {
+        "longitude": -66.073028,
+        "latitude": 18.418119
+      },
+      {
+        "longitude": -66.076228,
+        "latitude": 18.41659
+      }
+    ]
+  },
+  "id": "DOMENECH"
+}

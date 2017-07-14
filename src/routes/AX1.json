@@ -1,0 +1,53 @@
+{
+  "type": "Feature",
+  "properties": {
+    "color": "#00FF00",
+    "fullName": "Acuaexpreso"
+  },
+  "geometry": {
+    "type": "MultiLineString",
+    "coordinates": [
+      {
+        "longitude": -66.112909887,
+        "latitude": 18.463048473
+      },
+      {
+        "longitude": -66.112772969,
+        "latitude": 18.461127625
+      },
+      {
+        "longitude": -66.11689401,
+        "latitude": 18.444518114
+      },
+      {
+        "longitude": -66.116888549,
+        "latitude": 18.444047352
+      },
+      {
+        "longitude": -66.116662939,
+        "latitude": 18.443703015
+      },
+      {
+        "longitude": -66.116655682,
+        "latitude": 18.44370531
+      },
+      {
+        "longitude": -66.116881292,
+        "latitude": 18.444049647
+      },
+      {
+        "longitude": -66.116886754,
+        "latitude": 18.444520409
+      },
+      {
+        "longitude": -66.112765713,
+        "latitude": 18.46112992
+      },
+      {
+        "longitude": -66.11290263,
+        "latitude": 18.463050768
+      }
+    ]
+  },
+  "id": "AX1"
+}
