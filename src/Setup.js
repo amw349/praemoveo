@@ -13,29 +13,31 @@ export default class Setup extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            progress: new Animated.Value(0),
-        };
+        this.setAnim = this.setAnim.bind(this);
     }
 
 
     state = {
         isOpen: false,
         selectedItem: 'About',
+        progress: new Animated.Value(0),
+
     };
 
     componentDidMount() {
-      /*  Animated.timing(this.state.progress, {
-            toValue: 1,
-            duration: 100,
-        }).start();
-        */
-        // this.animation.play();
+
     }
 
     toggle() {
         this.setState({
             isOpen: !this.state.isOpen,
+        });
+        this.state.progress.setValue(0);
+        Animated.timing(this.state.progress, {
+            toValue: 1,
+            duration: 3000,
+        }).start(({ finished }) => {
+            if (finished) this.forceUpdate();
         });
     }
 
@@ -50,38 +52,35 @@ export default class Setup extends Component {
         });
     };
 
+    setAnim(anim) {
+        this.animation = anim;
+    }
 
     render() {
         const menu = <Menu onItemSelected={this.onMenuItemSelected}/>;
 
         return (
-
-            <View style={{flex: 1}}>
-
-
-                <SideMenu menu={menu} disableGestures={true} isOpen={this.state.isOpen}>
-
-                    <View style={{...StyleSheet.absoluteFillObject,
-                    top:40,
-                    left:22,
-                    height:30,
-                    zIndex:1002,
-                    }}>
-
-                        <TouchableHighlight accessibilityTraits="button"
-                                            underlayColor='transparent'
-                                            onPress={() => this.toggle()}>
-                            <Text >Open Menu</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.ueruigoing}>
-                        <Text style={{...styles.map,fontSize:20,color:'#EAEAEA'}}>¿A donde vamos hoy?</Text>
-
-                    </View>
-                    <Map />
-                </SideMenu>
-
-            </View>
+            <SideMenu menu={menu} disableGestures={true} isOpen={this.state.isOpen}>
+                <View onPress={() => this.toggle()}
+                      style={{...StyleSheet.absoluteFillObject,top:0,left:22,height:30,zIndex:1002,}}>
+                    <TouchableHighlight accessibilityTraits="button"
+                                        underlayColor='transparent'
+                                        onPress={() => this.toggle(this.animate)}>
+                        <View>
+                            <Animation
+                                ref={this.setAnim}
+                                speed={1}
+                                style={{left:-55,top:-10,paddingTop:1,width: 250,height: 150,zIndex:1005,...StyleSheet.absoluteFillObjec}}
+                                source={require('./lottie/menuButton1.json')}
+                            />
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.ueruigoing}>
+                    <Text style={{...styles.map,fontSize:20,color:'#EAEAEA'}}>¿A donde vamos hoy?</Text>
+                </View>
+                <Map />
+            </SideMenu>
         );
     }
 }
