@@ -57,13 +57,7 @@ export default class Setup extends Component {
         return (
 
             <View style={{flex: 1}}>
-        {/*        <View style={{flex: 1,zIndex:1005,width: 200,height: 200}}>
-                    <Animation
-                        ref={animation => {this.animation = animation;}}
-                        style={{width: 250,height: 200,zIndex:1005,}}
-                        source={require('./lottie/menuButton1.json')}
-                    />
-                </View>*/}
+
 
                 <SideMenu menu={menu} disableGestures={true} isOpen={this.state.isOpen}>
 

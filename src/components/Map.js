@@ -84,6 +84,8 @@ export default class Map extends Component {
     }
 
     render() {
+
+        // let render= AllRoutes.renderRoutes();
         return (
             <View style={styles.container}>
                 <MapView style={styles.map}
