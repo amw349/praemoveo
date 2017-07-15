@@ -23,23 +23,19 @@ export default class AllRoutesMetro extends Component {
     }
 
     renderRoutes() {
-        var routes = [];
-        for (i in this.state.routes) {
-            routes[i] = <MapView.Polyline
-                coordinates={this.state.routes[i].geometry.coordinates}
-                strokeColor={this.state.routes[i].properties.color}
+        return this.state.routes.map((element) =>
+            <MapView.Polyline
+                coordinates={element.geometry.coordinates}
+                strokeColor={element.properties.color}
                 strokeWidth={this.state.strokeWidth}
-            />;
-        }
-        return routes;
+            />
+        );
     }
 
     render() {
         let renderRoutes = this.renderRoutes();
         return (
-            <View style={styles.container}>
-                {renderRoutes}
-            </View>
+            <View >{renderRoutes}</View>
         );
     }
 }
@@ -49,6 +45,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'red',
+        zIndex:-1
     }
 });
 

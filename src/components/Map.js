@@ -22,7 +22,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export default class Map extends Component {
     constructor(props) {
         super(props);
-        console.log("map");
         this.state = {
             initialPosition: {
                 latitude: 0,
@@ -90,9 +89,7 @@ export default class Map extends Component {
                 <MapView style={styles.map}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.initialPosition}>
-                    <MapView.Marker
-                        coordinate={this.state.markerPosition}
-                    >
+                    <MapView.Marker coordinate={this.state.markerPosition}>
                         <View style={styles.radius}>
                             <View style={styles.marker}></View>
                         </View>
@@ -110,14 +107,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex:1001
     },
     map: {
         flex: 1,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        position: 'absolute'
+        ...StyleSheet.absoluteFillObject
     },
     radius: {
         height: 50,
