@@ -1,9 +1,6 @@
 /**
  * Created by alexandraward on 7/14/17.
  */
-/**
- * Created by alexandraward on 7/11/17.
- */
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -14,9 +11,9 @@ import {
     Animated
 } from 'react-native';
 import MapView from 'react-native-maps';
-import routes from '../routes/routes.json';
+import routes from '../../json/metroRoutes/routes';
 
-export default class Map extends Component {
+export default class AllRoutesMetro extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,4 +52,4 @@ const styles = StyleSheet.create({
     }
 });
 
-AppRegistry.registerComponent('AllRoutes', () => AllRoutes);
+AppRegistry.registerComponent('AllRoutesMetro', () => AllRoutesMetro);

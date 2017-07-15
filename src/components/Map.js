@@ -11,8 +11,8 @@ import {
     Animated
 } from 'react-native';
 import MapView from 'react-native-maps';
-import AllRoutes from './AllRoutes';
-
+import AllRoutesMetro from './AllRoutesMetro/AllRoutesMetro';
+import AllRoutesCaguas from './AllRoutesCaguas/AllRoutesCaguas';
 
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
@@ -22,6 +22,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export default class Map extends Component {
     constructor(props) {
         super(props);
+        console.log("map");
         this.state = {
             initialPosition: {
                 latitude: 0,
@@ -96,7 +97,8 @@ export default class Map extends Component {
                             <View style={styles.marker}></View>
                         </View>
                     </MapView.Marker>
-                    <AllRoutes />
+                    <AllRoutesMetro />
+                    <AllRoutesCaguas />
                 </MapView>
             </View>
         );
