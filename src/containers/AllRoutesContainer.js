@@ -1,33 +1,32 @@
 /**
- * Created by alexandraward on 7/14/17.
+ * Created by alexandraward on 7/17/17.
  */
+'use strict';
 import React, {Component} from 'react';
 import {
     AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    Animated
+    View
 } from 'react-native';
 import MapView from 'react-native-maps';
-import routes from '../../json/caguasRoutes/routes';
+import AllRoutes from '../components/AllRoutes';
+import PropTypes from 'prop-types';
 
-export default class AllRoutesCaguas extends Component {
+export default class AllRoutesContainer extends Component {
+
+    props: {
+        routes: PropTypes.object
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            routes: routes.routes,
-            strokeWidth: 2,
-        }
     }
 
     renderRoutes() {
-        return this.state.routes.map((element) =>
+        return this.props.routes.routes.map((element) =>
             <MapView.Polyline
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
-                strokeWidth={this.state.strokeWidth}
+                strokeWidth={2}
             />
         );
     }
@@ -36,10 +35,10 @@ export default class AllRoutesCaguas extends Component {
         let renderRoutes = this.renderRoutes();
         return (
             <View>
-                {renderRoutes}
+                <AllRoutes renderRoutes={renderRoutes}/>
             </View>
         );
     }
 }
 
-AppRegistry.registerComponent('AllRoutesCaguas', () => AllRoutesCaguas);
+AppRegistry.registerComponent('AllRoutesContainer', () => AllRoutesContainer);

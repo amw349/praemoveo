@@ -5,14 +5,11 @@ import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
-    Text,
     View,
     Dimensions,
-    Animated
 } from 'react-native';
 import MapView from 'react-native-maps';
-import AllRoutesMetro from './AllRoutesMetro/AllRoutesMetro';
-import AllRoutesCaguas from './AllRoutesCaguas/AllRoutesCaguas';
+import AllRoutesContainer from '../containers/AllRoutesContainer';
 
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
@@ -94,8 +91,8 @@ export default class Map extends Component {
                             <View style={styles.marker}></View>
                         </View>
                     </MapView.Marker>
-                    <AllRoutesMetro />
-                    <AllRoutesCaguas />
+                    <AllRoutesContainer routes={require("../json/routesCaguas/routesCaguas")} />
+                    <AllRoutesContainer routes={require("../json/routesMetro/routesMetro")} />
                 </MapView>
             </View>
         );

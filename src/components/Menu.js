@@ -11,8 +11,6 @@ import {
     Text,
     Styles} from "react-native";
 
-
-
 export default class Menu extends Component{
 
     render() {
