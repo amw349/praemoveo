@@ -7,6 +7,15 @@ import Map from "./components/Map";
 import SideMenu from "react-native-side-menu";
 import Menu from "./components/Menu";
 import Animation from "lottie-react-native";
+// import StackNavigator from "react-navigation";
+// import About from "./screens/About"
+// import SelectRoute from "./screens/SelectRoute"
+
+
+/*const App = StackNavigator({
+    about: { screen: About },
+    selectRoute: { screen: SelectRoute },
+});*/
 
 export default class Setup extends Component {
 
