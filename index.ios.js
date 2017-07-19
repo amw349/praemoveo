@@ -12,10 +12,6 @@ import {
   View
 } from 'react-native';
 import Setup from './src/Setup';
-import { Navigation } from 'react-native-navigation';
-import { registerScreens } from './src/screens';
-
-registerScreens();
 
 export default class TransporteUrbano extends Component {
   render() {

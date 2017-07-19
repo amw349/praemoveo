@@ -5,6 +5,7 @@ import { Navigation } from 'react-native-navigation';
 
 import About from "./About"
 import SelectRoute from "./SelectRoute"
+import Map from "../components/Map";
 
 
 export function registerScreens() {

@@ -5,5 +5,19 @@ import React, {Component} from "react";
 
 export default  class About extends Component{
 
-    render(){}
+    static navigationOptions = {
+        title: 'Welcome',
+    };
+
+
+    render(){
+
+        const { navigate } = this.props.navigation;
+        return (
+
+            <View>
+                <Text>Hello</Text>
+            </View>
+        )
+    }
 }

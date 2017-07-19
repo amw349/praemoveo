@@ -7,15 +7,15 @@ import Map from "./components/Map";
 import SideMenu from "react-native-side-menu";
 import Menu from "./components/Menu";
 import Animation from "lottie-react-native";
-// import StackNavigator from "react-navigation";
-// import About from "./screens/About"
-// import SelectRoute from "./screens/SelectRoute"
+import {StackNavigator} from "react-navigation";
+import About from "./screens/About"
+import SelectRoute from "./screens/SelectRoute"
 
 
-/*const App = StackNavigator({
+const App = StackNavigator({
     about: { screen: About },
     selectRoute: { screen: SelectRoute },
-});*/
+});
 
 export default class Setup extends Component {
 
@@ -65,6 +65,9 @@ export default class Setup extends Component {
         this.animation = anim;
     }
 
+
+
+
     render() {
         const menu = <Menu onItemSelected={this.onMenuItemSelected}/>;
 
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     },
     ueruigoing: {
         height: 52,
-        backgroundColor: 'rgba(69, 69, 69, 0.4)',
+        backgroundColor: 'rgba(42, 54, 59, 0.7)',
         zIndex: 1003,
         marginLeft: 21,
         marginRight: 21,

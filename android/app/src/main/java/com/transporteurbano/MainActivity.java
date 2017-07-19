@@ -1,9 +1,8 @@
 package com.transporteurbano;
 
 import com.facebook.react.ReactActivity;
-import com.reactnativenavigation.controllers.SplashActivity;
 
-public class MainActivity extends SplashActivity {
+public class MainActivity extends ReactActivity {
 
     /**
      * Returns the name of the main component registered from JavaScript.

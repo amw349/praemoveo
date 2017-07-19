@@ -17,15 +17,6 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-
-
-    @Override
-    public boolean isDebug() {
-      // Make sure you are using BuildConfig from your own application
-      return BuildConfig.DEBUG;
-    }
-
-
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -45,11 +36,6 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
-  }
-
-  @Override
-  public List<ReactPackage> createAdditionalReactPackages() {
-    return getPackages();
   }
 
   @Override
