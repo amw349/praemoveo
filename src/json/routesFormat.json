@@ -1,0 +1,49 @@
+{
+  "routes": [
+    {
+      "id": "1",
+      "fullName": "Centro Médico",
+      "abbreviation": "L1424",
+      "eta": "12:35 PM",
+      "color": "#E15A8C",
+      "favorite": false,
+      "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
+      "interval": "15 min",
+      "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]
+    },
+    {
+      "id": "2",
+      "fullName": "Aguas Buenas",
+      "abbreviation": "I1304",
+      "eta": "12:20 PM",
+      "color": "#49C7E0",
+      "favorite": false,
+      "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
+      "interval": "15 min",
+      "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]
+    },
+    {
+      "id": "3",
+      "fullName": "San Lorenzo",
+      "abbreviation": "I1367",
+      "eta": "12:25 PM",
+      "color": "#D13232",
+      "favorite": false,
+      "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
+      "interval": "15 min",
+      "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]
+    },
+    {
+      "id": "4",
+      "fullName": "Caguas",
+      "abbreviation": "SJ6613",
+      "eta": "12:35 PM",
+      "color": "#E0E839",
+      "favorite": false,
+      "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
+      "interval": "15 min",
+      "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]
+    }
+  ]
+}
+
