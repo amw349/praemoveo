@@ -7,12 +7,18 @@ import {
     AppRegistry,
     View,
     Text,
-    FlatList
+    FlatList,
+    TouchableHighlight,
+    StyleSheet
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationActions } from 'react-navigation'
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import Svg, {Circle} from 'react-native-svg';
 import SelectRouteListItem from "../components/SelectRouteListItem";
 
@@ -74,6 +80,13 @@ export default class SelectRouteListContainer extends Component {
         const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
+                    <TouchableHighlight accessibilityTraits="button"
+                                        underlayColor='transparent'
+                                        style={{...StyleSheet.absoluteFillObject,top:50,left:22,height:30,zIndex:1002,}}
+                                        onPress={() => this.props.navigation.goBack()}>
+
+                        <MaterialIcons name="arrow-back" size={30}></MaterialIcons>
+                    </TouchableHighlight>
                 <View style={{
                     flexDirection: 'column',
                     justifyContent: 'center',
