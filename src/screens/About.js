@@ -6,7 +6,7 @@ import React, {Component} from "react";
 export default  class About extends Component{
 
     static navigationOptions = {
-        title: 'Welcome',
+        title: 'Sobre Nosotros',
     };
 
 

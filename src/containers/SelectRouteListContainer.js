@@ -70,6 +70,8 @@ export default class SelectRouteListContainer extends Component {
     };
 
     render() {
+
+        const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
                 <View style={{
@@ -91,7 +93,7 @@ export default class SelectRouteListContainer extends Component {
                 </View>
                 {this.renderSeparator()}
                 <FlatList
-                    data={this.props.routesList.routes}
+                    data={params.routesList.routes}
                     renderItem={this._renderItem}
                     ItemSeparatorComponent={this.renderSeparator}
                 />

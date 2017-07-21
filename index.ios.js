@@ -4,6 +4,10 @@
  * @flow
  */
 
+
+import './App';
+
+/*
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -24,5 +28,6 @@ export default class TransporteUrbano extends Component {
 }
 
 AppRegistry.registerComponent('TransporteUrbano', () => TransporteUrbano);
+*/
 
 
