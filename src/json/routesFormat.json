@@ -6,7 +6,7 @@
       "abbreviation": "L1424",
       "eta": "12:35 PM",
       "color": "#E15A8C",
-      "favorite": false,
+      "favorite": true,
       "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
       "interval": "15 min",
       "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]
@@ -28,7 +28,7 @@
       "abbreviation": "I1367",
       "eta": "12:25 PM",
       "color": "#D13232",
-      "favorite": false,
+      "favorite": true,
       "span_of_service": [{"days": "Monday-Friday", "times": "8-2 AM"}],
       "interval": "15 min",
       "cycle_times": ["8:00 AM", "8:15 AM", "8:30 AM", "8:40 AM"]

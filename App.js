@@ -16,8 +16,9 @@ import {DrawerNavigator} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Setup from './src/Setup';
 // import * as screen from './src/screens';
-import SelectRouteListContainer from './src/containers/SelectRouteListContainer';
+import SelectRoute from './src/screens/SelectRoute';
 import About from './src/screens/About';
+import SelectTime from './src/components/SelectTime';
 
 /*export default class TransporteUrbano extends Component {
     render() {
@@ -29,12 +30,11 @@ import About from './src/screens/About';
     }
 }*/
 
-
-
 const TransporteUrbano = DrawerNavigator({
-    Map: { screen: Setup,},
-    InitialRouteSelect: { screen: SelectRouteListContainer},
+    Map: { screen: Setup},
+    InitialRouteSelect: { screen: SelectRoute},
     About: { screen: About},
+    SelectTime: { screen: SelectTime}
 });
 
 AppRegistry.registerComponent('TransporteUrbano', () => TransporteUrbano);
