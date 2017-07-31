@@ -6,8 +6,9 @@ import {AppRegistry, StyleSheet, Text, View, Button} from "react-native";
 import {DrawerNavigator, StackNavigator} from "react-navigation";
 import Setup from "./src/Setup";
 // import * as screen from './src/screens';
-import SelectRouteListContainer from "./src/containers/SelectRouteListContainer";
-import About from "./src/screens/About";
+import SelectRoute from './src/screens/SelectRoute';
+import About from './src/screens/About';
+import SelectTime from './src/components/SelectTime';
 
 
 function forVertical(props) {
@@ -32,6 +33,7 @@ function forVertical(props) {
 const TransporteUrbano = DrawerNavigator({
     Map: {screen: Setup,},
     About: {screen: About},
+    SelectTime: { screen: SelectTime}
 });
 
 const routeNavigation = StackNavigator({
