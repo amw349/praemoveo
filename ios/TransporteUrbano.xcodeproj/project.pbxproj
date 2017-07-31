@@ -1584,6 +1584,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tranxlabs.Praemoveo;
 				PRODUCT_NAME = TransporteUrbano;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1612,6 +1613,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tranxlabs.Praemoveo;
 				PRODUCT_NAME = TransporteUrbano;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

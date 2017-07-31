@@ -2,9 +2,19 @@
  * Created by alexandraward on 7/11/17.
  */
 import React, {Component} from "react";
-import {AppRegistry, StyleSheet, Text, View, TouchableHighlight,TouchableWithoutFeedback, Animated} from "react-native";
+import {
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    TouchableHighlight,
+    TouchableWithoutFeedback,
+    Animated,
+    Modal
+} from "react-native";
 import Map from "./components/Map";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import SelectRouteListContainer from "./containers/SelectRouteListContainer";
 
 export default class Setup extends Component {
 
@@ -13,6 +23,14 @@ export default class Setup extends Component {
         // this.setAnim = this.setAnim.bind(this);
     }
 
+
+    state = {
+        modalVisible: false,
+    };
+
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
+    }
 
     componentDidMount() {
 
@@ -24,7 +42,7 @@ export default class Setup extends Component {
             <View style={{flex:1}}>
                 <TouchableHighlight accessibilityTraits="button"
                                     underlayColor='transparent'
-                                    style={{...StyleSheet.absoluteFillObject,top:50,left:22,height:30,zIndex:1002,}}
+                                    style={{...StyleSheet.absoluteFillObject,top:22,left:16,height:30,zIndex:1002,}}
                                     onPress={() => this.props.navigation.navigate('DrawerOpen')}>
 
                     <Ionicons name="ios-menu" size={30}></Ionicons>
@@ -32,13 +50,22 @@ export default class Setup extends Component {
                 <View style={styles.destination}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
-
                                         onPress={() => this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})}>
+
                         <Text style={{...styles.map,fontSize:20,color:'#EAEAEA'}}>¿A donde vamos hoy?</Text>
                     </TouchableHighlight>
                 </View>
+
                 <Map />
+                {/*onPress={() => this.setModalVisible(true)}>*/}
+                {/*<Modal animationType={"slide"}
+                       transparent={true}
+                       visible={this.state.modalVisible}
+                       onRequestClose={() => {alert("Modal has been closed.")}}>
+                    <SelectRouteListContainer routes={require("./json/routesFormat.json")}/>
+                </Modal>*/}
             </View>
+
 
         )
     }

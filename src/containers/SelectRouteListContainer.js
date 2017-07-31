@@ -2,25 +2,13 @@
  * Created by alexandraward on 7/18/17.
  */
 'use strict';
-import React, {Component} from 'react';
-import {
-    AppRegistry,
-    View,
-    Text,
-    FlatList,
-    TouchableHighlight,
-    StyleSheet
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation'
-
-import Entypo from 'react-native-vector-icons/Entypo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-import Svg, {Circle} from 'react-native-svg';
-import SelectRouteListItem from "../components/SelectRouteListItem";
+import React, {Component} from "react";
+import {AppRegistry, View, Text, FlatList, TouchableHighlight, StyleSheet} from "react-native";
+import PropTypes from "prop-types";
+import Entypo from "react-native-vector-icons/Entypo";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Svg, {Circle} from "react-native-svg";
 
 export default class SelectRouteListContainer extends Component {
 
@@ -35,7 +23,7 @@ export default class SelectRouteListContainer extends Component {
     }
 
     _renderItem = ({item}) => (
-        <View style={{flexDirection: 'row', height: 53}}>
+        <View style={{flexDirection: 'row', height: 53,backgroundColor:'#fff'}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
                     <Svg height="30" width="30">
@@ -47,14 +35,16 @@ export default class SelectRouteListContainer extends Component {
                     <Text style={{fontSize: 12, fontFamily: 'Helvetica-Light'}}>Sale cada {item.interval}</Text>
                 </View>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
-                    <Ionicons name='ios-star-outline' size={18} />
+                    <Ionicons name='ios-star-outline' size={18}/>
                 </View>
             </View>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
                 <View style={{flexDirection: 'row', flex: 1}}>
                     <View style={{flex: 4/5, alignItems: 'center'}}>
-                        <Text style={{fontSize: 12, fontFamily: 'Helvetica-Light', marginTop: 12}}>Próxima llegada</Text>
-                        <Text style={{fontSize: 14, fontFamily: 'Helvetica-Light', marginBottom: 12}}>{item.eta} (en {item.interval})</Text>
+                        <Text
+                            style={{fontSize: 12, fontFamily: 'Helvetica-Light', marginTop: 12}}>Próxima llegada</Text>
+                        <Text style={{fontSize: 14, fontFamily: 'Helvetica-Light', marginBottom: 12}}>{item.eta}
+                            (en {item.interval})</Text>
                     </View>
                     <View style={{flex: 1/5, justifyContent: 'center', alignItems: 'flex-end'}}>
                         <Entypo name="chevron-thin-right" size={18} style={{marginRight: 10}}/>
@@ -77,26 +67,31 @@ export default class SelectRouteListContainer extends Component {
 
     render() {
 
-        const {params} = this.props.navigation.state;
+        const routes= this.props.navigation.state.params.routesList;
+        // params.routesList.routes
+        // const routes = this.props.routes;
         return (
-            <View style={{flex: 1}}>
-                    <TouchableHighlight accessibilityTraits="button"
-                                        underlayColor='transparent'
-                                        style={{...StyleSheet.absoluteFillObject,top:50,left:22,height:30,zIndex:1002,}}
-                                        onPress={() => this.props.navigation.goBack()}>
 
+            <View style={{flex: 1,opacity:.72}}>
+                <View style={{backgroundColor:'#f7f7f7',opacity:1}}>
+                    <TouchableHighlight
+                        accessibilityTraits="button"
+                        underlayColor='transparent'
+                        style={{...StyleSheet.absoluteFillObject,top:50,left:22,height:30,zIndex:1002,}}
+                        onPress={() => this.props.navigation.goBack()}>
                         <MaterialIcons name="arrow-back" size={30}></MaterialIcons>
                     </TouchableHighlight>
-                <View style={{
+                    <View style={{
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: 'rgba(255, 255, 255, .2)',
                     height: 150
                 }}>
-                    <Text>Aguas Buenas</Text>
+                        <Text>Aguas Buenas</Text>
+                    </View>
                 </View>
-                <View style={{flexDirection: 'row', height: 38, padding: 12}}>
+                <View style={{flexDirection: 'row', height: 38, padding: 12,backgroundColor:'#f7f7f7'}}>
                     <View style={{flex: 1}}>
                         <Text style={{fontFamily: 'Helvetica-Light'}}>Próximas llegadas</Text>
                     </View>
@@ -105,11 +100,13 @@ export default class SelectRouteListContainer extends Component {
                     </View>
                 </View>
                 {this.renderSeparator()}
-                <FlatList
-                    data={params.routesList.routes}
-                    renderItem={this._renderItem}
-                    ItemSeparatorComponent={this.renderSeparator}
+               <FlatList style={{backgroundColor:'#f7f7f7'}}
+                          data={routes.routes}
+                          renderItem={this._renderItem}
+                          ItemSeparatorComponent={this.renderSeparator}
                 />
+
+
             </View>
 
         );
