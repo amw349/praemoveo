@@ -8,7 +8,6 @@ import Setup from "./src/Setup";
 // import * as screen from './src/screens';
 import SelectRoute from './src/screens/SelectRoute';
 import About from './src/screens/About';
-import SelectTime from './src/components/SelectTime';
 
 
 function forVertical(props) {
@@ -32,16 +31,15 @@ function forVertical(props) {
 
 const TransporteUrbano = DrawerNavigator({
     Map: {screen: Setup,},
-    About: {screen: About},
-    SelectTime: { screen: SelectTime}
+    About: {screen: About}
 });
 
 const routeNavigation = StackNavigator({
         Home: {screen: TransporteUrbano,},
-        InitialRouteSelect: {screen: SelectRouteListContainer, mode: 'Modal',},
+        InitialRouteSelect: {screen: SelectRoute, mode: 'Modal',},
     },
     {
-        mode: 'card',
+        mode: 'modal',
         headerMode: 'none',
         // transitionConfig: () => ({ screenInterpolator: forVertical }),
         cardStyle: {
