@@ -2,7 +2,7 @@
  * Created by Edxe on 7/21/17.
  */
 import React, {Component} from "react";
-import {AppRegistry, StyleSheet, Text, View, Button} from "react-native";
+import {AppRegistry, StyleSheet, Text, View, Button,Easing,Animated} from "react-native";
 import {DrawerNavigator, StackNavigator} from "react-navigation";
 import Setup from "./src/Setup";
 // import * as screen from './src/screens';
@@ -23,7 +23,7 @@ function forVertical(props) {
     });
 
     return {
-        // opacity: .3,
+        opacity: .3,
         transform: [{translateX}, {translateY}]
     };
 }
@@ -39,11 +39,65 @@ const routeNavigation = StackNavigator({
         InitialRouteSelect: {screen: SelectRoute, mode: 'Modal',},
     },
     {
-        mode: 'modal',
+        mode: 'card',
         headerMode: 'none',
-        // transitionConfig: () => ({ screenInterpolator: forVertical }),
+       /* transitionConfig: () => ({
+            transitionSpec: {
+                duration: 1650,
+                easing: Easing.out(Easing.poly(4)),
+                timing: Animated.timing,
+            },
+            screenInterpolator: sceneProps => {
+                const { layout, position, scene } = sceneProps;
+                const { index } = scene;
+                // debugger;
+                const height = layout.initHeight;
+                const translateY = position.interpolate({
+                    inputRange: [index - 1, index, index + 1],
+                    outputRange: [height, 0, 0],
+                });
+
+                const opacity = position.interpolate({
+                    inputRange: [index - 1, index - 0.09, index],
+                    outputRange: [0, .7, .7],
+                });
+
+
+                return { opacity, transform: [{ translateY }] }
+            },
+        })*/
+        transitionConfig: () => ({
+            transitionSpec: {
+                duration: 1000,
+                easing: Easing.out(Easing.poly(4)),
+                timing: Animated.timing,
+            },
+            screenInterpolator: sceneProps => {
+                const { layout, position, scene } = sceneProps;
+                const { index } = scene;
+
+                const height = layout.initHeight;
+                const translateY = position.interpolate({
+                    inputRange: [index - 1, index, index + 1],
+                    outputRange: [height, 0, 0],
+                });
+                // debugger
+                /*const opacity = position.interpolate({
+                    outputRange: [index - 1, index - 0.99, index],
+                    inputRange: [0, 1, 1],
+                });*/
+                const opacity = position.interpolate({
+                    outputRange: [0,0],
+                    inputRange: [0,0],
+                });
+
+                return { opacity, transform: [{ translateY }] }
+            },
+        }),
         cardStyle: {
             opacity: 1,
+            shadowOpacity: 0,
+            backgroundColor: 'transparent',
         },
         navigationOptions: {
             cardStack: {

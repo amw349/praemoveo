@@ -36,7 +36,7 @@ export default class SelectRoute extends Component {
     };
 
     _renderItem = ({item}) => (
-        <View style={{flexDirection: 'row', height: 53}}>
+        <View style={{flexDirection: 'row', height: 53,backgroundColor:'white'}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
                     <Svg height="30" width="30">
@@ -100,7 +100,7 @@ export default class SelectRoute extends Component {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: 'rgba(255, 255, 255, .2)',
+                    backgroundColor: 'rgba(255, 255, 255, .8)',
                     height: 150
                 }}>
                     <View>
@@ -115,7 +115,7 @@ export default class SelectRoute extends Component {
                         />
                     </View>
                 </View>
-                <View style={{flexDirection: 'row', height: 38, padding: 12}}>
+                <View style={{flexDirection: 'row', height: 38, padding: 12,backgroundColor:'#f7f7f7'}}>
                     <View style={{flex: 1}}>
                         <AppText size={FONT_SIZE.large}>Próximas llegadas</AppText>
                     </View>
@@ -124,7 +124,7 @@ export default class SelectRoute extends Component {
                     </View>
                 </View>
                 {this.renderSeparator()}
-                <FlatList
+                <FlatList style={{backgroundColor:'#f7f7f7'}}
                     data={params.routesList.routes}
                     renderItem={this._renderItem}
                     ItemSeparatorComponent={this.renderSeparator}

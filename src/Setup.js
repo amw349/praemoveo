@@ -15,12 +15,14 @@ import {
 import Map from "./components/Map";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {FONT_WEIGHT, FONT_SIZE} from './styles/AppStyles';
+import {NavigationActions} from "react-navigation";
 
 export default class Setup extends Component {
 
     constructor(props) {
         super(props);
     }
+
 
     render() {
         return (
@@ -34,7 +36,7 @@ export default class Setup extends Component {
                 <View style={styles.destination}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
-                                        onPress={() => this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})}>
+                                        onPress={this.openRouteList}>
                         <Text style={{...styles.map, fontFamily: FONT_WEIGHT.light, fontSize: FONT_SIZE.xLarge, color:'#EAEAEA'}}>¿A dónde vamos hoy?</Text>
                     </TouchableHighlight>
                 </View>
@@ -49,6 +51,19 @@ export default class Setup extends Component {
                 </Modal>*/}
             </View>
         )
+    }
+
+
+    openRouteList=()=>{
+        // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'InitialRouteSelect',
+            params: {routesList:require("./json/routesFormat.json")},
+        });
+
+        this.props.navigation.dispatch(navigateAction);
+
+
     }
 }
 
