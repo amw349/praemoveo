@@ -41,31 +41,6 @@ const routeNavigation = StackNavigator({
     {
         mode: 'card',
         headerMode: 'none',
-       /* transitionConfig: () => ({
-            transitionSpec: {
-                duration: 1650,
-                easing: Easing.out(Easing.poly(4)),
-                timing: Animated.timing,
-            },
-            screenInterpolator: sceneProps => {
-                const { layout, position, scene } = sceneProps;
-                const { index } = scene;
-                // debugger;
-                const height = layout.initHeight;
-                const translateY = position.interpolate({
-                    inputRange: [index - 1, index, index + 1],
-                    outputRange: [height, 0, 0],
-                });
-
-                const opacity = position.interpolate({
-                    inputRange: [index - 1, index - 0.09, index],
-                    outputRange: [0, .7, .7],
-                });
-
-
-                return { opacity, transform: [{ translateY }] }
-            },
-        })*/
         transitionConfig: () => ({
             transitionSpec: {
                 duration: 1000,
@@ -79,7 +54,7 @@ const routeNavigation = StackNavigator({
                 const height = layout.initHeight;
                 const translateY = position.interpolate({
                     inputRange: [index - 1, index, index + 1],
-                    outputRange: [height, 0, 0],
+                    outputRange: [0, 0, 0],
                 });
                 // debugger
                 /*const opacity = position.interpolate({

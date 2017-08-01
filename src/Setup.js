@@ -50,32 +50,43 @@ export default class Setup extends Component {
         opacity: new Animated.Value(1)
     };
 
-    setModalVisible = (visible) => {
-        if (visible) {
+    toggleModal = () => {
+        if (!this.state.modalVisible) {
             this.fadeOut.start();
         } else {
             this.fadeIn.start();
         }
-        this.setState({modalVisible: visible});
+        this.setState({modalVisible: !this.state.modalVisible});
     };
 
     render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 <TouchableHighlight accessibilityTraits="button"
                                     underlayColor='transparent'
-                                    style={{...StyleSheet.absoluteFillObject,top:22,left:16,height:30,zIndex:1002,}}
+                                    style={{
+                                        ...StyleSheet.absoluteFillObject,
+                                        top: 22,
+                                        left: 16,
+                                        height: 30,
+                                        zIndex: 1002,
+                                    }}
                                     onPress={() => this.props.navigation.navigate('DrawerOpen')}>
                     <Animated.View style={{opacity: this.state.opacity}}>
-                        <Ionicons name="ios-menu" size={30}></Ionicons>
+                        <Ionicons name="ios-menu" size={30}/>
                     </Animated.View>
                 </TouchableHighlight>
                 <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
-                                        onPress={this.openRouteList}>
+                                        onPress={() => this.openRouteList()}>
                         <Text
-                            style={{...styles.map, fontFamily: FONT_WEIGHT.light, fontSize: FONT_SIZE.xLarge, color:'#EAEAEA'}}>¿A dónde vamos hoy?</Text>
+                            style={{
+                                ...styles.map,
+                                fontFamily: FONT_WEIGHT.light,
+                                fontSize: FONT_SIZE.xLarge,
+                                color: '#EAEAEA'
+                            }}>¿A dónde vamos hoy?</Text>
                     </TouchableHighlight>
                 </Animated.View>
                 <Map />
@@ -97,12 +108,15 @@ export default class Setup extends Component {
         // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
         const navigateAction = NavigationActions.navigate({
             routeName: 'InitialRouteSelect',
-            params: {routesList: require("./json/routesFormat.json")},
+            params: {
+                routesList: require("./json/routesFormat.json"),
+                toggleModal: this.toggleModal
+            },
         });
 
         this.props.navigation.dispatch(navigateAction);
 
-
+        this.toggleModal()
     }
 }
 

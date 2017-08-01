@@ -13,8 +13,8 @@ import {
     Animated,
     Dimensions,
     Easing,
-    BackHandler,
-    TextInput} from "react-native";
+    TextInput
+} from "react-native";
 import PropTypes from "prop-types";
 import {FONT_SIZE, FONT_WEIGHT} from "../styles/AppStyles";
 import AppText from "../components/text/AppText";
@@ -25,9 +25,8 @@ import Svg, {Circle} from "react-native-svg";
 export default class SelectRoute extends Component {
 
     props: {
-        routes: PropTypes.object,
         borderWidth: 3,
-        borderRadius: 1
+        borderRadius: 1,
     };
 
     constructor(props) {
@@ -36,7 +35,6 @@ export default class SelectRoute extends Component {
             text: ''
         };
         let {height, width} = Dimensions.get('window');
-
 
         this.state = {
             slide: new Animated.Value(height),
@@ -50,17 +48,26 @@ export default class SelectRoute extends Component {
         this.slideIn = Animated.timing(
             this.state.slide, {
                 toValue: 0,
-                duration: 500,
+                duration: 800,
                 delay: 0,
                 easing: Easing.in(Easing.easing)
             }
         );
 
-        this.textSlide = Animated.timing(
+        this.textSlideUp = Animated.timing(
             this.state.textTranslate, {
                 toValue: -50,
-                duration: 600,
+                duration: 900,
                 delay: 600,
+                easing: Easing.in(Easing.easing)
+            }
+        );
+
+        this.textSlideDown = Animated.timing(
+            this.state.textTranslate, {
+                toValue: 0,
+                duration: 600,
+                delay: 0,
                 easing: Easing.in(Easing.easing)
             }
         );
@@ -68,7 +75,7 @@ export default class SelectRoute extends Component {
         this.fadeIn = Animated.timing(
             this.state.opacity, {
                 toValue: 0.8,
-                duration: 1000,
+                duration: 1300,
                 delay: 0
             }
         );
@@ -76,7 +83,7 @@ export default class SelectRoute extends Component {
         this.expand = Animated.timing(
             this.state.width, {
                 toValue: width,
-                duration: 500,
+                duration: 800,
                 delay: 0
             }
         );
@@ -84,8 +91,8 @@ export default class SelectRoute extends Component {
         this.slideOut = Animated.timing(
             this.state.slide, {
                 toValue: height,
-                duration: 300,
-                delay: 0,
+                duration: 500,
+                delay: 600,
                 easing: Easing.in(Easing.easing)
             }
         );
@@ -93,22 +100,22 @@ export default class SelectRoute extends Component {
         this.fadeOut = Animated.timing(
             this.state.opacity, {
                 toValue: 0,
-                duration: 300,
-                delay: 0
+                duration: 500,
+                delay: 600
             }
         );
 
         this.inputFade = Animated.timing(
             this.state.inputOpacity, {
                 toValue: 1,
-                duration: 600,
+                duration: 800,
                 delay: 600
             }
         );
     };
 
     _renderItem = ({item}) => (
-        <View style={{flexDirection: 'row', height: 53,backgroundColor:'white'}}>
+        <View style={{flexDirection: 'row', height: 53, backgroundColor: 'white'}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
                     <Svg height="30" width="30">
@@ -126,11 +133,11 @@ export default class SelectRoute extends Component {
             </View>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
                 <View style={{flexDirection: 'row', flex: 1}}>
-                    <View style={{flex: 4/5, alignItems: 'center'}}>
+                    <View style={{flex: 4 / 5, alignItems: 'center'}}>
                         <AppText size={FONT_SIZE.small} style={{marginTop: 12}}>Próxima llegada</AppText>
                         <AppText style={{marginBottom: 12}}>{item.eta} (en {item.interval})</AppText>
                     </View>
-                    <View style={{flex: 1/5, justifyContent: 'center', alignItems: 'flex-end'}}>
+                    <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'flex-end'}}>
                         <TouchableHighlight accessibilityTraits="button"
                                             underlayColor='transparent'
                                             onPress={() => this.props.navigation.navigate('SelectTime')}>
@@ -153,6 +160,30 @@ export default class SelectRoute extends Component {
         );
     };
 
+
+    componentDidMount() {
+        Animated.parallel([
+            this.slideIn,
+            this.fadeIn,
+            this.expand,
+            this.textSlideUp,
+            this.inputFade
+        ]).start();
+    }
+
+    closer(navigation){
+        navigation.state.params.toggleModal();
+        navigation.goBack();
+    }
+
+    closeWindow(navigation) {
+            Animated.parallel([
+                this.slideOut,
+                this.fadeOut,
+                this.textSlideDown
+            ]).start(() => this.closer(navigation));
+    }
+
     render() {
         const {params} = this.props.navigation.state;
         return (
@@ -161,38 +192,45 @@ export default class SelectRoute extends Component {
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
                                         style={{
-                                        ...StyleSheet.absoluteFillObject,
-                                        top: 22,
-                                        left: 16,
-                                        height: 30,
-                                        zIndex: 1002,
-                                    }}
-                                        onPress={() => this.props.navigation.goBack()}>
-                        <Ionicons name="ios-arrow-round-back" size={40}></Ionicons>
+                                            ...StyleSheet.absoluteFillObject,
+                                            top: 22,
+                                            left: 16,
+                                            height: 30,
+                                            zIndex: 1002,
+                                        }}
+                                        onPress={() => this.closeWindow(this.props.navigation)}>
+                        <Ionicons name="ios-arrow-round-back" size={40}/>
                     </TouchableHighlight>
                     <View style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(255, 255, 255, .8)',
-                    height: 150
-                }}>
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(255, 255, 255, .8)',
+                        height: 150
+                    }}>
                         <Animated.View
-                            style={[styles.destination, {marginTop: 75, transform: [{translateY: this.state.textTranslate}]}]}>
+                            style={[styles.destination, {
+                                transform: [{translateY: this.state.textTranslate}]
+                            }]}>
                             <View>
                                 <AppText size={FONT_SIZE.xLarge}>¿A dónde vamos hoy?</AppText>
                             </View>
                         </Animated.View>
                         <View style={{borderBottomWidth: 1, marginTop: 10}}>
                             <TextInput
-                                style={{width: 200, textAlign: 'center', fontFamily: FONT_WEIGHT.light, fontSize: FONT_SIZE.xLarge}}
+                                style={{
+                                    width: 200,
+                                    textAlign: 'center',
+                                    fontFamily: FONT_WEIGHT.light,
+                                    fontSize: FONT_SIZE.xLarge
+                                }}
                                 onChangeText={(text) => this.setState({text})}
                                 value={this.state.text}
                                 maxLength={20}
                             />
                         </View>
                     </View>
-                    <View style={{flexDirection: 'row', height: 38, padding: 12,backgroundColor:'#f7f7f7'}}>
+                    <View style={{flexDirection: 'row', height: 38, padding: 12, backgroundColor: '#f7f7f7'}}>
                         <View style={{flex: 1}}>
                             <AppText size={FONT_SIZE.large}>Próximas llegadas</AppText>
                         </View>
@@ -214,7 +252,7 @@ export default class SelectRoute extends Component {
                             transform: [{translateY: this.state.slide}]
                         }]}>
                         {this.renderSeparator()}
-                        <FlatList style={{backgroundColor:'#f7f7f7'}}
+                        <FlatList style={{backgroundColor: '#f7f7f7'}}
                                   data={params.routesList.routes}
                                   renderItem={this._renderItem}
                                   ItemSeparatorComponent={this.renderSeparator}
@@ -228,7 +266,7 @@ export default class SelectRoute extends Component {
 const styles = StyleSheet.create({
     destination: {
         height: 52,
-        backgroundColor: 'rgba(42, 54, 59, 0.7)',
+        backgroundColor: 'transparent',
         zIndex: 1003,
         marginLeft: 21,
         marginRight: 21,

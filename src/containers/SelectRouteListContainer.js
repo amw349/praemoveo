@@ -156,11 +156,7 @@ export default class SelectRouteListContainer extends Component {
         );
     };
 
-
     componentDidMount() {
-
-        BackHandler.addEventListener('hardwareBackPress', this.closeWindow);
-
         Animated.parallel([
             this.slideIn,
             this.fadeIn,
@@ -168,10 +164,6 @@ export default class SelectRouteListContainer extends Component {
             this.textSlide,
             this.inputFade
         ]).start();
-    }
-
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.closeWindow)
     }
 
     closeWindow() {
@@ -207,7 +199,7 @@ export default class SelectRouteListContainer extends Component {
                         backgroundColor: 'rgba(255, 255, 255, .2)',
                         height: 150
                     }}>
-                        <Animated.View style={[styles.destination, {marginTop: 75, transform: [{translateY: this.state.textTranslate}]}]}>
+                        <Animated.View style={[styles.destination, {marginTop: 25, transform: [{translateY: this.state.textTranslate}]}]}>
                             <TouchableHighlight accessibilityTraits="button"
                                                 underlayColor='transparent'
                             >
