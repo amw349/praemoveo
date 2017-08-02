@@ -30,7 +30,6 @@ function forVertical(props) {
 
 const TransporteUrbano = DrawerNavigator({
     Init: { screen: Init},
-    InitialRouteSelect: { screen: SelectRoute},
     About: { screen: About},
     InRouteToDestination: {screen: InRouteToDestination},
 

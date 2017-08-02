@@ -8,6 +8,7 @@ import {
     View,
     Text,
     Dimensions,
+    Alert
 } from 'react-native';
 import MapView from 'react-native-maps';
 
@@ -362,6 +363,10 @@ export default class Map extends Component {
         })
     }
 
+    onRegionChange(region) {
+        this.setState({initialPosition: region})
+    }
+
     // clearing the watch
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID)
@@ -373,7 +378,8 @@ export default class Map extends Component {
                 <MapView style={styles.map}
                          customMapStyle={this.mapStyle}
                          provider={MapView.PROVIDER_GOOGLE}
-                         region={this.state.initialPosition}>
+                         region={this.state.initialPosition}
+                         onRegionChange={() => this.onRegionChange()}>
                     <MapView.Marker coordinate={this.state.markerPosition}>
                         <View style={styles.radius}>
                             <View style={styles.marker}/>
