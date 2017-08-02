@@ -6,10 +6,10 @@ import {
     AppRegistry,
     StyleSheet,
     View,
+    Text,
     Dimensions,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import AllRoutesContainer from '../containers/AllRoutesContainer';
 
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
@@ -378,9 +378,13 @@ export default class Map extends Component {
                         <View style={styles.radius}>
                             <View style={styles.marker}></View>
                         </View>
+                        <MapView.Callout style={styles.plainView}>
+                            <View>
+                                <Text>Here</Text>
+                            </View>
+                        </MapView.Callout>
                     </MapView.Marker>
-                    <AllRoutesContainer routes={require("../json/routesCaguas/routesCaguas")} />
-                    <AllRoutesContainer routes={require("../json/routesMetro/routesMetro")} />
+                    {this.props.children}
                 </MapView>
             </View>
         );
@@ -392,7 +396,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex:1001
+        zIndex: 1001
     },
     map: {
         flex: 1,
@@ -419,6 +423,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#007AFF'
     }
 });
-
 
 AppRegistry.registerComponent('Map', () => Map);

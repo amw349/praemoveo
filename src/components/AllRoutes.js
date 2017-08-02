@@ -14,7 +14,9 @@ export default class AllRoutes extends Component {
 
     render() {
         return (
-            <View>{this.props.renderRoutes}</View>
+            <View>
+                {this.props.renderRoutes}
+            </View>
         );
     }
 }

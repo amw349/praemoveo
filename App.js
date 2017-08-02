@@ -1,14 +1,13 @@
 /**
  * Created by Edxe on 7/21/17.
  */
-import React, {Component} from "react";
-import {AppRegistry, StyleSheet, Text, View, Button,Easing,Animated} from "react-native";
-import {DrawerNavigator, StackNavigator} from "react-navigation";
-import Setup from "./src/Setup";
-// import * as screen from './src/screens';
+import React, {Component} from 'react';
+import {AppRegistry, StyleSheet, Text, View, Button,Easing,Animated} from 'react-native';
+import {DrawerNavigator, StackNavigator} from 'react-navigation';
+import Init from './src/Init';
 import SelectRoute from './src/screens/SelectRoute';
 import About from './src/screens/About';
-
+import InRouteToDestination from './src/components/InRouteToDestination';
 
 function forVertical(props) {
     const {layout, position, scene} = props;
@@ -30,8 +29,11 @@ function forVertical(props) {
 
 
 const TransporteUrbano = DrawerNavigator({
-    Map: {screen: Setup,},
-    About: {screen: About}
+    Init: { screen: Init},
+    InitialRouteSelect: { screen: SelectRoute},
+    About: { screen: About},
+    InRouteToDestination: {screen: InRouteToDestination},
+
 });
 
 const routeNavigation = StackNavigator({
