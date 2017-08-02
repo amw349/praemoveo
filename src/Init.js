@@ -26,14 +26,14 @@ export default class Init extends Component {
         this.fadeIn = Animated.timing(
             this.state.opacity, {
                 toValue: 1,
-                duration: 1000,
+                duration: 500,
                 delay: 0
             }
         );
         this.fadeOut = Animated.timing(
             this.state.opacity, {
                 toValue: 0,
-                duration: 1000,
+                duration: 500,
                 delay: 600
             }
         );
@@ -71,22 +71,24 @@ export default class Init extends Component {
         return (
             <TouchableWithoutFeedback onPressIn={() => this.opacity(true)} onPressOut={() => this.opacity(false)}>
                 <View style={{flex: 1}}>
-                <TouchableHighlight accessibilityTraits="button"
-                                    underlayColor='transparent'
-                                    style={{
+                    {/*<!-- burger menu -->*/}
+                    <TouchableHighlight accessibilityTraits="button"
+                                        underlayColor='transparent'
+                                        style={{
                                         ...StyleSheet.absoluteFillObject,
                                         top: 22,
                                         left: 16,
                                         height: 30,
                                         zIndex: 1002,
                                     }}
-                                    onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                    <Animated.View style={{opacity: this.state.opacity}}>
-                        <Ionicons name="ios-menu" size={30}/>
-                    </Animated.View>
-                </TouchableHighlight>
-                <TouchableWithoutFeedback onPress={() => this.openRouteList()}>
-                    <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
+                                        onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+                        <Animated.View style={{opacity: this.state.opacity}}>
+                            <Ionicons name="ios-menu" size={30}/>
+                        </Animated.View>
+                    </TouchableHighlight>
+                    {/*<!-- end burger menu -->*/}
+                    <TouchableWithoutFeedback onPress={() => this.openRouteList()}>
+                        <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
                             <Text
                                 style={{
                                     ...styles.map,
@@ -94,14 +96,14 @@ export default class Init extends Component {
                                     fontSize: FONT_SIZE.xLarge,
                                     color: '#EAEAEA'
                                 }}>¿A dónde vamos hoy?</Text>
-                    </Animated.View>
-                </TouchableWithoutFeedback>
-                {/*</View>*/}
-                <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
-                                    caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
-            </View>
-    </TouchableWithoutFeedback>
-    )
+                        </Animated.View>
+                    </TouchableWithoutFeedback>
+                    {/*</View>*/}
+                    <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
+                                        caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
+                </View>
+            </TouchableWithoutFeedback>
+        )
     }
 
     openRouteList = () => {

@@ -14,7 +14,6 @@ import {
     Easing,
     TextInput
 } from "react-native";
-import PropTypes from "prop-types";
 import {FONT_SIZE, FONT_WEIGHT} from "../styles/AppStyles";
 import AppText from "../components/text/AppText";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -39,7 +38,7 @@ export default class SelectRoute extends Component {
         //Posivite to add animation time
         //Max negative number is -500
 
-        let animationTimer = -100;
+        let animationTimer = -600;
 
         this.state = {
             slide: new Animated.Value(height),
@@ -200,6 +199,32 @@ export default class SelectRoute extends Component {
         const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
+           {/*     <View style={{flex:1,
+                        marginLeft: 16,
+                        marginRight: 16,
+                         zIndex: 1003,
+                        justifyContent: 'center',
+                        ...StyleSheet.absoluteFillObject,
+                        top:98,
+                        flexDirection: 'row',}}>
+                    <TextInput
+                        style={{
+                                    height: 30,
+                                    flex:1,
+                                    borderRadius: 2,
+                                    backgroundColor:'#fff',
+                                    borderWidth:2,
+                                    borderColor:'#F4F4F4',
+                                    textAlign: 'left',
+                                    paddingLeft:70,
+                                    fontFamily: FONT_WEIGHT.light,
+                                    fontSize: FONT_SIZE.large
+                                }}
+                        onChangeText={(text) => this.setState({text})}
+                        value={this.state.text}
+                        maxLength={20}
+                    />
+                </View>*/}
                 <Animated.View style={{opacity: this.state.opacity, backgroundColor: "#FFF"}}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
@@ -228,19 +253,7 @@ export default class SelectRoute extends Component {
                                 <AppText size={FONT_SIZE.xLarge}>¿A dónde vamos hoy?</AppText>
                             </View>
                         </Animated.View>
-                        <View style={{borderBottomWidth: 1, marginTop: 10}}>
-                            <TextInput
-                                style={{
-                                    width: 200,
-                                    textAlign: 'center',
-                                    fontFamily: FONT_WEIGHT.light,
-                                    fontSize: FONT_SIZE.xLarge
-                                }}
-                                onChangeText={(text) => this.setState({text})}
-                                value={this.state.text}
-                                maxLength={20}
-                            />
-                        </View>
+
                     </View>
                     <View style={{flexDirection: 'row', height: 38, padding: 12, backgroundColor: '#f7f7f7'}}>
                         <View style={{flex: 1}}>
