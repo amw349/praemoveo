@@ -324,15 +324,15 @@ export default class Map extends Component {
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition((position) => {
-                var lat = parseFloat(position.coords.latitude)
-                var long = parseFloat(position.coords.longitude)
+                let lat = parseFloat(position.coords.latitude);
+                let long = parseFloat(position.coords.longitude);
 
-                var initialRegion = {
+                let initialRegion = {
                     latitude: lat,
                     longitude: long,
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA
-                }
+                };
 
                 this.setState({
                     initialPosition: initialRegion,
@@ -346,15 +346,15 @@ export default class Map extends Component {
                 maximumAge: 1000
             })
         this.watchID = navigator.geolocation.watchPosition((position) => {
-            var lat = parseFloat(position.coords.latitude)
-            var long = parseFloat(position.coords.longitude)
+            let lat = parseFloat(position.coords.latitude);
+            let long = parseFloat(position.coords.longitude);
 
-            var lastRegion = {
+            let lastRegion = {
                 latitude: lat,
                 longitude: long,
                 longitudeDelta: LONGITUDE_DELTA,
                 latitudeDelta: LATITUDE_DELTA
-            }
+            };
             this.setState({
                 initialPosition: lastRegion,
                 markerPosition: lastRegion
@@ -376,7 +376,7 @@ export default class Map extends Component {
                          region={this.state.initialPosition}>
                     <MapView.Marker coordinate={this.state.markerPosition}>
                         <View style={styles.radius}>
-                            <View style={styles.marker}></View>
+                            <View style={styles.marker}/>
                         </View>
                         <MapView.Callout style={styles.plainView}>
                             <View>
