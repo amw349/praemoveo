@@ -7,6 +7,7 @@ import {
     StyleSheet,
     View,
     Dimensions,
+    Alert
 } from 'react-native';
 import MapView from 'react-native-maps';
 import AllRoutesContainer from '../containers/AllRoutesContainer';
@@ -37,15 +38,15 @@ export default class Map extends Component {
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition((position) => {
-                var lat = parseFloat(position.coords.latitude)
-                var long = parseFloat(position.coords.longitude)
+                var lat = parseFloat(position.coords.latitude);
+                var long = parseFloat(position.coords.longitude);
 
                 var initialRegion = {
                     latitude: lat,
                     longitude: long,
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA
-                }
+                };
 
                 this.setState({
                     initialPosition: initialRegion,
@@ -59,20 +60,24 @@ export default class Map extends Component {
                 maximumAge: 1000
             })
         this.watchID = navigator.geolocation.watchPosition((position) => {
-            var lat = parseFloat(position.coords.latitude)
-            var long = parseFloat(position.coords.longitude)
+            var lat = parseFloat(position.coords.latitude);
+            var long = parseFloat(position.coords.longitude);
 
             var lastRegion = {
                 latitude: lat,
                 longitude: long,
                 longitudeDelta: LONGITUDE_DELTA,
                 latitudeDelta: LATITUDE_DELTA
-            }
+            };
             this.setState({
                 initialPosition: lastRegion,
                 markerPosition: lastRegion
             })
         })
+    }
+
+    onRegionChange(region) {
+        this.setState({initialPosition: region})
     }
 
     // clearing the watch
@@ -85,14 +90,15 @@ export default class Map extends Component {
             <View style={styles.container}>
                 <MapView style={styles.map}
                          provider={MapView.PROVIDER_GOOGLE}
-                         region={this.state.initialPosition}>
+                         region={this.state.initialPosition}
+                         onRegionChange={() => this.onRegionChange()}>
                     <MapView.Marker coordinate={this.state.markerPosition}>
                         <View style={styles.radius}>
                             <View style={styles.marker}></View>
                         </View>
                     </MapView.Marker>
-                    <AllRoutesContainer routes={require("../json/routesCaguas/routesCaguas")} />
-                    <AllRoutesContainer routes={require("../json/routesMetro/routesMetro")} />
+                    <AllRoutesContainer routes={require("../json/routesCaguas/routesCaguas")}/>
+                    <AllRoutesContainer routes={require("../json/routesMetro/routesMetro")}/>
                 </MapView>
             </View>
         );
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex:1001
+        zIndex: 1001
     },
     map: {
         flex: 1,

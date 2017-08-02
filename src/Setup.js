@@ -10,7 +10,8 @@ import {
     TouchableHighlight,
     TouchableWithoutFeedback,
     Animated,
-    Modal
+    Modal,
+    Alert
 } from "react-native";
 import Map from "./components/Map";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,24 +22,20 @@ export default class Setup extends Component {
 
     constructor(props) {
         super(props);
-        // this.setAnim = this.setAnim.bind(this);
-
         this.fadeIn = Animated.timing(
             this.state.opacity, {
                 toValue: 1,
-                duration: 800,
-                delay: 0
-            }
-        );
-
-        this.fadeOut = Animated.timing(
-            this.state.opacity, {
-                toValue: 0,
                 duration: 1000,
                 delay: 0
             }
         );
-
+        this.fadeOut = Animated.timing(
+            this.state.opacity, {
+                toValue: 0,
+                duration: 1000,
+                delay: 600
+            }
+        );
     }
 
     componentDidMount() {
@@ -47,7 +44,8 @@ export default class Setup extends Component {
 
     state = {
         modalVisible: false,
-        opacity: new Animated.Value(1)
+        opacity: new Animated.Value(1),
+        searchBarOpacity: 1
     };
 
     toggleModal = () => {
@@ -59,47 +57,57 @@ export default class Setup extends Component {
         this.setState({modalVisible: !this.state.modalVisible});
     };
 
+    opacity(pressed) {
+        if (pressed) {
+            this.state.opacity.setValue(0.2);
+        } else {
+            this.state.opacity.setValue(1);
+        }
+    };
+
     render() {
         return (
-            <View style={{flex: 1}}>
-                <TouchableHighlight accessibilityTraits="button"
-                                    underlayColor='transparent'
-                                    style={{
-                                        ...StyleSheet.absoluteFillObject,
-                                        top: 22,
-                                        left: 16,
-                                        height: 30,
-                                        zIndex: 1002,
-                                    }}
-                                    onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                    <Animated.View style={{opacity: this.state.opacity}}>
-                        <Ionicons name="ios-menu" size={30}/>
-                    </Animated.View>
-                </TouchableHighlight>
-                <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
+            <TouchableWithoutFeedback onPressIn={() => this.opacity(true)} onPressOut={() => this.opacity(false)}>
+                <View style={{flex: 1}}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
-                                        onPress={() => this.openRouteList()}>
-                        <Text
-                            style={{
-                                ...styles.map,
-                                fontFamily: FONT_WEIGHT.light,
-                                fontSize: FONT_SIZE.xLarge,
-                                color: '#EAEAEA'
-                            }}>¿A dónde vamos hoy?</Text>
+                                        style={{
+                                            ...StyleSheet.absoluteFillObject,
+                                            top: 22,
+                                            left: 16,
+                                            height: 30,
+                                            zIndex: 1002,
+                                        }}
+                                        onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+                        <Animated.View style={{opacity: this.state.opacity}}>
+                            <Ionicons name="ios-menu" size={30}/>
+                        </Animated.View>
                     </TouchableHighlight>
-                </Animated.View>
-                <Map />
-                {/*<Modal animationType={"none"}
-                 transparent={true}
-                 visible={this.state.modalVisible}
-                 onRequestClose={() => {
-                 alert("Modal has been closed.")
-                 }}>
-                 <SelectRouteListContainer routes={require("./json/routesFormat.json")}
-                 setState={this.setModalVisible}/>
-                 </Modal>*/}
-            </View>
+                    <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
+                        <TouchableHighlight accessibilityTraits="button"
+                                            underlayColor='transparent'
+                                            onPress={() => this.openRouteList()}>
+                            <Text
+                                style={{
+                                    ...styles.map,
+                                    fontFamily: FONT_WEIGHT.light,
+                                    fontSize: FONT_SIZE.xLarge,
+                                    color: '#EAEAEA'
+                                }}>¿A dónde vamos hoy?</Text>
+                        </TouchableHighlight>
+                    </Animated.View>
+                    <Map />
+                    {/*<Modal animationType={"none"}
+                     transparent={true}
+                     visible={this.state.modalVisible}
+                     onRequestClose={() => {
+                     alert("Modal has been closed.")
+                     }}>
+                     <SelectRouteListContainer routes={require("./json/routesFormat.json")}
+                     setState={this.setModalVisible}/>
+                     </Modal>*/}
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 

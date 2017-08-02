@@ -6,7 +6,6 @@ import React, {Component} from "react";
 import {
     AppRegistry,
     View,
-    Text,
     FlatList,
     TouchableHighlight,
     StyleSheet,
@@ -36,11 +35,18 @@ export default class SelectRoute extends Component {
         };
         let {height, width} = Dimensions.get('window');
 
+        //Negative to reduce animation time
+        //Posivite to add animation time
+        //Max negative number is -500
+
+        let animationTimer = -100;
+
         this.state = {
             slide: new Animated.Value(height),
             opacity: new Animated.Value(0),
             inputOpacity: new Animated.Value(0),
-            width: new Animated.Value(width * 0.50),
+            //width: new Animated.Value(width * 0.5),
+            width: new Animated.Value(width),
             textTranslate: new Animated.Value(0)
         };
 
@@ -48,7 +54,7 @@ export default class SelectRoute extends Component {
         this.slideIn = Animated.timing(
             this.state.slide, {
                 toValue: 0,
-                duration: 800,
+                duration: 800 + animationTimer,
                 delay: 0,
                 easing: Easing.in(Easing.easing)
             }
@@ -57,7 +63,7 @@ export default class SelectRoute extends Component {
         this.textSlideUp = Animated.timing(
             this.state.textTranslate, {
                 toValue: -50,
-                duration: 900,
+                duration: 900 + animationTimer,
                 delay: 600,
                 easing: Easing.in(Easing.easing)
             }
@@ -66,7 +72,7 @@ export default class SelectRoute extends Component {
         this.textSlideDown = Animated.timing(
             this.state.textTranslate, {
                 toValue: 0,
-                duration: 600,
+                duration: 600 + animationTimer,
                 delay: 0,
                 easing: Easing.in(Easing.easing)
             }
@@ -75,7 +81,7 @@ export default class SelectRoute extends Component {
         this.fadeIn = Animated.timing(
             this.state.opacity, {
                 toValue: 0.8,
-                duration: 1300,
+                duration: 1300 + animationTimer,
                 delay: 0
             }
         );
@@ -83,7 +89,7 @@ export default class SelectRoute extends Component {
         this.expand = Animated.timing(
             this.state.width, {
                 toValue: width,
-                duration: 800,
+                duration: 800 + animationTimer,
                 delay: 0
             }
         );
@@ -91,7 +97,7 @@ export default class SelectRoute extends Component {
         this.slideOut = Animated.timing(
             this.state.slide, {
                 toValue: height,
-                duration: 500,
+                duration: 500 + animationTimer,
                 delay: 600,
                 easing: Easing.in(Easing.easing)
             }
@@ -100,7 +106,7 @@ export default class SelectRoute extends Component {
         this.fadeOut = Animated.timing(
             this.state.opacity, {
                 toValue: 0,
-                duration: 500,
+                duration: 500 + animationTimer,
                 delay: 600
             }
         );
@@ -108,7 +114,7 @@ export default class SelectRoute extends Component {
         this.inputFade = Animated.timing(
             this.state.inputOpacity, {
                 toValue: 1,
-                duration: 800,
+                duration: 800 + animationTimer,
                 delay: 600
             }
         );
@@ -165,9 +171,9 @@ export default class SelectRoute extends Component {
         Animated.parallel([
             this.slideIn,
             this.fadeIn,
-            this.expand,
+            //this.expand,
             this.textSlideUp,
-            this.inputFade
+            //this.inputFade
         ]).start();
     }
 
