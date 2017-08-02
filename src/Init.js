@@ -12,7 +12,6 @@ import {
     Animated,
     Modal
 } from "react-native";
-import Map from "./components/Map";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {FONT_WEIGHT, FONT_SIZE} from "./styles/AppStyles";
 import AllRoutesContainer from "./containers/AllRoutesContainer";
@@ -90,9 +89,10 @@ export default class Init extends Component {
                                 color: '#EAEAEA'
                             }}>¿A dónde vamos hoy?</Text>
                     </TouchableHighlight>
-                </View>
-            </Animated.View>
-                <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")} caguasRoutes={require("./json/routesCaguas/routesCaguas")} />
+                </Animated.View>
+                {/*</View>*/}
+                <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
+                                    caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
             </View>
         )
     }
@@ -101,8 +101,10 @@ export default class Init extends Component {
         // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
         const navigateAction = NavigationActions.navigate({
             routeName: 'InitialRouteSelect',
-            params: {routes:require("./json/routesFormat.json"),
-                toggleModal: this.toggleModal},
+            params: {
+                routes: require("./json/routesFormat.json"),
+                toggleModal: this.toggleModal
+            },
         });
 
         this.props.navigation.dispatch(navigateAction);
