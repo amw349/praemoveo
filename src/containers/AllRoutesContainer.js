@@ -22,7 +22,7 @@ export default class AllRoutesContainer extends Component {
 
     state = {
         routes: this.props.metroRoutes.concat(this.props.caguasRoutes)
-    }
+    };
 
     constructor(props) {
         super(props);

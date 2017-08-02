@@ -63,7 +63,7 @@ export default class SelectRoute extends Component {
 
         this.textSlideUp = Animated.timing(
             this.state.textTranslate, {
-                toValue: -50,
+                toValue: -70,
                 duration: 900 + animationTimer,
                 delay: 600,
                 easing: Easing.in(Easing.easing)
@@ -181,13 +181,13 @@ export default class SelectRoute extends Component {
     }
 
     closer(navigation) {
-        navigation.state.params.toggleModal();
         navigation.goBack();
     }
 
     closeWindow(navigation) {
         if (!this.state.closed) {
             this.setState({closed: !this.state.closed});
+            navigation.state.params.toggleModal();
             Animated.parallel([
                 this.slideOut,
                 this.fadeOut,

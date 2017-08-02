@@ -85,30 +85,29 @@ export default class Init extends Component {
                         <Ionicons name="ios-menu" size={30}/>
                     </Animated.View>
                 </TouchableHighlight>
-                <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
-                    <TouchableHighlight accessibilityTraits="button"
-                                        underlayColor='transparent'
-                                        onPress={() => this.openRouteList()}>
-                        <Text
-                            style={{
-                                ...styles.map,
-                                fontFamily: FONT_WEIGHT.light,
-                                fontSize: FONT_SIZE.xLarge,
-                                color: '#EAEAEA'
-                            }}>¿A dónde vamos hoy?</Text>
-                    </TouchableHighlight>
-                </Animated.View>
+                <TouchableWithoutFeedback onPress={() => this.openRouteList()}>
+                    <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
+                            <Text
+                                style={{
+                                    ...styles.map,
+                                    fontFamily: FONT_WEIGHT.light,
+                                    fontSize: FONT_SIZE.xLarge,
+                                    color: '#EAEAEA'
+                                }}>¿A dónde vamos hoy?</Text>
+                    </Animated.View>
+                </TouchableWithoutFeedback>
                 {/*</View>*/}
                 <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
-                 caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
-            </View></TouchableWithoutFeedback>
-        )
+                                    caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
+            </View>
+    </TouchableWithoutFeedback>
+    )
     }
 
     openRouteList = () => {
         // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
 
-        if(!this.state.modalVisible) {
+        if (!this.state.modalVisible) {
             this.toggleModal();
 
             const navigateAction = NavigationActions.navigate({
