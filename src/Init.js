@@ -15,9 +15,11 @@ import {
 import Map from "./components/Map";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {FONT_WEIGHT, FONT_SIZE} from './styles/AppStyles';
+import AllRoutesContainer from "./containers/AllRoutesContainer";
 import {NavigationActions} from "react-navigation";
 
-export default class Setup extends Component {
+
+export default class Init extends Component {
 
     constructor(props) {
         super(props);
@@ -40,29 +42,19 @@ export default class Setup extends Component {
                         <Text style={{...styles.map, fontFamily: FONT_WEIGHT.light, fontSize: FONT_SIZE.xLarge, color:'#EAEAEA'}}>¿A dónde vamos hoy?</Text>
                     </TouchableHighlight>
                 </View>
-
-                <Map />
-                {/*onPress={() => this.setModalVisible(true)}>*/}
-                {/*<Modal animationType={"slide"}
-                       transparent={true}
-                       visible={this.state.modalVisible}
-                       onRequestClose={() => {alert("Modal has been closed.")}}>
-                    <SelectRouteListContainer routes={require("./json/routesFormat.json")}/>
-                </Modal>*/}
+                <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")} caguasRoutes={require("./json/routesCaguas/routesCaguas")} />
             </View>
         )
     }
-
 
     openRouteList=()=>{
         // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
         const navigateAction = NavigationActions.navigate({
             routeName: 'InitialRouteSelect',
-            params: {routesList:require("./json/routesFormat.json")},
+            params: {routes: require("./json/routesFormat.json")},
         });
 
         this.props.navigation.dispatch(navigateAction);
-
 
     }
 }
@@ -84,4 +76,4 @@ const styles = StyleSheet.create({
 
 });
 
-AppRegistry.registerComponent('Setup', () => Setup);
+AppRegistry.registerComponent('Init', () => Init);
