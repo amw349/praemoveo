@@ -8,10 +8,13 @@ import {
     View,
     Text,
     Dimensions,
-    Alert
+    TouchableWithoutFeedback,
+    Alert,
+
 } from 'react-native';
 import MapView from 'react-native-maps';
-
+import TouchableItem from "../../node_modules/react-navigation/lib/views/TouchableItem";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
@@ -21,6 +24,12 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userPosition: {
+                latitude: 0,
+                longitude: 0,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA
+            },
             initialPosition: {
                 latitude: 0,
                 longitude: 0,
@@ -36,7 +45,7 @@ export default class Map extends Component {
 
     watchID: ?number = null;
 
-    mapStyle =[
+    mapStyle = [
         {
             "featureType": "administrative",
             "elementType": "all",
@@ -144,7 +153,7 @@ export default class Map extends Component {
         }
     ];
 
-    dark=[
+    dark = [
         {
             "elementType": "geometry",
             "stylers": [
@@ -337,6 +346,7 @@ export default class Map extends Component {
 
                 this.setState({
                     initialPosition: initialRegion,
+                    userPosition: initialRegion,
                     markerPosition: initialRegion
                 })
             },
@@ -358,6 +368,7 @@ export default class Map extends Component {
             };
             this.setState({
                 initialPosition: lastRegion,
+                userPosition: lastRegion,
                 markerPosition: lastRegion
             })
         })
@@ -372,10 +383,18 @@ export default class Map extends Component {
         navigator.geolocation.clearWatch(this.watchID)
     }
 
+    locationButton() {
+        this.refs.map.animateToRegion(this.state.userPosition,
+            500);
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <MapView style={styles.map}
+                         ref="map"
+                         onMapReady={() => this.locationButton}
+                         showsUserLocation={true}
                          customMapStyle={this.mapStyle}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.initialPosition}
@@ -392,6 +411,12 @@ export default class Map extends Component {
                     </MapView.Marker>
                     {this.props.children}
                 </MapView>
+                <TouchableWithoutFeedback
+                    onPress={() => this.locationButton()}>
+                    <View style={styles.locationButton}>
+                        <FontAwesome name="location-arrow" size={25}/>
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
         );
     }
@@ -400,7 +425,7 @@ export default class Map extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         zIndex: 1001
     },
@@ -427,6 +452,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
         backgroundColor: '#007AFF'
+    },
+    locationButton: {
+        width: 45,
+        height: 45,
+        margin: 10,
+        borderRadius: 22.5,
+        backgroundColor:'#FFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        zIndex: 1004,
+        opacity: 0.7
     }
 });
 
