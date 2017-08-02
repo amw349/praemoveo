@@ -9,12 +9,9 @@ export default  class About extends Component{
         title: 'Sobre Nosotros',
     };
 
-
     render(){
-
         const { navigate } = this.props.navigation;
         return (
-
             <View>
                 <Text>Hello</Text>
             </View>

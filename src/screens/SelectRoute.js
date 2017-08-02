@@ -120,8 +120,10 @@ export default class SelectRoute extends Component {
         );
     };
 
+    _keyExtractor = (item, index) => item.id;
+
     _renderItem = ({item}) => (
-        <View style={{flexDirection: 'row', height: 53, backgroundColor: 'white'}}>
+        <View style={{flexDirection: 'row', height: 53, backgroundColor: 'white'}} id={item.id}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
                     <Svg height="30" width="30">
@@ -146,7 +148,7 @@ export default class SelectRoute extends Component {
                     <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'flex-end'}}>
                         <TouchableHighlight accessibilityTraits="button"
                                             underlayColor='transparent'
-                                            onPress={() => this.props.navigation.navigate('SelectTime')}>
+                                            onPress={() => this.props.navigation.navigate('InRouteToDestination', {selectedRoute: item})}>
                             <Entypo name="chevron-thin-right" size={18} style={{marginRight: 10}}/>
                         </TouchableHighlight>
                     </View>
@@ -242,7 +244,7 @@ export default class SelectRoute extends Component {
                         </View>
                         <View style={{flex: 1}}>
                             <AppText size={FONT_SIZE.small}
-                                     style={{textAlign: 'right'}}>{params.routesList.routes.length} resultados</AppText>
+                                     style={{textAlign: 'right'}}>{params.routes.length} resultados</AppText>
                         </View>
                     </View>
                 </Animated.View>
@@ -259,7 +261,8 @@ export default class SelectRoute extends Component {
                         }]}>
                         {this.renderSeparator()}
                         <FlatList style={{backgroundColor: '#f7f7f7'}}
-                                  data={params.routesList.routes}
+                                  data={params.routes}
+                    keyExtractor={this._keyExtractor}
                                   renderItem={this._renderItem}
                                   ItemSeparatorComponent={this.renderSeparator}
                         />
