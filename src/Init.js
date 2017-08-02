@@ -52,10 +52,11 @@ export default class Init extends Component {
     toggleModal = () => {
         if (!this.state.modalVisible) {
             this.fadeOut.start();
+            this.setState({modalVisible: !this.state.modalVisible});
         } else {
             this.fadeIn.start();
+            this.setState({modalVisible: !this.state.modalVisible});
         }
-        this.setState({modalVisible: !this.state.modalVisible});
     };
 
     opacity(pressed) {
@@ -106,17 +107,20 @@ export default class Init extends Component {
 
     openRouteList = () => {
         // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
-        const navigateAction = NavigationActions.navigate({
-            routeName: 'InitialRouteSelect',
-            params: {
-                routes: require("./json/routesFormat.json"),
-                toggleModal: this.toggleModal
-            },
-        });
 
-        this.props.navigation.dispatch(navigateAction);
+        if(!this.state.modalVisible) {
+            this.toggleModal();
 
-        this.toggleModal()
+            const navigateAction = NavigationActions.navigate({
+                routeName: 'InitialRouteSelect',
+                params: {
+                    routes: require("./json/routesFormat.json"),
+                    toggleModal: this.toggleModal
+                },
+            });
+
+            this.props.navigation.dispatch(navigateAction);
+        }
     }
 }
 

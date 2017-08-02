@@ -47,7 +47,8 @@ export default class SelectRoute extends Component {
             inputOpacity: new Animated.Value(0),
             //width: new Animated.Value(width * 0.5),
             width: new Animated.Value(width),
-            textTranslate: new Animated.Value(0)
+            textTranslate: new Animated.Value(0),
+            closed: false
         };
 
 
@@ -179,17 +180,20 @@ export default class SelectRoute extends Component {
         ]).start();
     }
 
-    closer(navigation){
+    closer(navigation) {
         navigation.state.params.toggleModal();
         navigation.goBack();
     }
 
     closeWindow(navigation) {
+        if (!this.state.closed) {
+            this.setState({closed: !this.state.closed});
             Animated.parallel([
                 this.slideOut,
                 this.fadeOut,
                 this.textSlideDown
             ]).start(() => this.closer(navigation));
+        }
     }
 
     render() {
@@ -262,7 +266,7 @@ export default class SelectRoute extends Component {
                         {this.renderSeparator()}
                         <FlatList style={{backgroundColor: '#f7f7f7'}}
                                   data={params.routes}
-                    keyExtractor={this._keyExtractor}
+                                  keyExtractor={this._keyExtractor}
                                   renderItem={this._renderItem}
                                   ItemSeparatorComponent={this.renderSeparator}
                         />
