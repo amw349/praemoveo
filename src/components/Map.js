@@ -2,7 +2,7 @@
  * Created by alexandraward on 7/11/17.
  */
 import React, {Component} from "react";
-import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert} from "react-native";
+import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert,TextInput} from "react-native";
 import MapView from "react-native-maps";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const screen = Dimensions.get('window'); // returns a {width, height}
@@ -379,6 +379,10 @@ export default class Map extends Component {
         this.refs.map.animateToRegion(this.state.userPosition,500);
     }
 
+    onRegionChange(region){
+        this.setState({currentPosition:region});
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -391,7 +395,7 @@ export default class Map extends Component {
                          customMapStyle={this.mapStyle}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.currentPosition}
-                         onRegionChange={region => this.setState({currentPosition:region})}>
+                         onRegionChange={region => this.onRegionChange(region)}>
                     {this.props.children}
 
                 </MapView>
