@@ -1,6 +1,7 @@
 /**
  * Created by alexandraward on 7/11/17.
  */
+'use strict';
 import React, {Component} from "react";
 import {
     AppRegistry,
@@ -40,9 +41,6 @@ export default class Init extends Component {
         );
     }
 
-    componentDidMount() {
-
-    }
 
     state = {
         modalVisible: false,

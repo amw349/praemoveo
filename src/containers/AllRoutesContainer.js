@@ -34,11 +34,6 @@ export default class AllRoutesContainer extends Component {
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
                 strokeWidth={3}>
-                <MapView.Callout tooltip onPress={(value) => {
-                    tooltip = !tooltip
-                }}>
-                    <Text>{element.fullName}</Text>
-                </MapView.Callout>
             </MapView.Polyline>
         );
     }

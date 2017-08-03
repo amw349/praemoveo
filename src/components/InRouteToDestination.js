@@ -1,6 +1,7 @@
 /**
  * Created by alexandraward on 7/28/17.
  */
+'use strict';
 import React, {Component} from 'react';
 import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';

@@ -1,6 +1,7 @@
 /**
  * Created by alexandraward on 7/11/17.
  */
+'use strict';
 import React, {Component} from "react";
 import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert,TextInput} from "react-native";
 import MapView from "react-native-maps";
@@ -14,12 +15,6 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userPosition: {
-                latitude: 0,
-                longitude: 0,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA
-            },
             initialPosition: {
                 latitude: 0,
                 longitude: 0,
@@ -34,7 +29,7 @@ export default class Map extends Component {
                 latitude: 0,
                 longitude: 0
             }
-        }
+        };
     }
 
     watchID: ?number = null;
@@ -341,7 +336,6 @@ export default class Map extends Component {
 
                 this.setState({
                     initialPosition: initialRegion,
-                    userPosition: initialRegion,
                     markerPosition: initialRegion
                 })
             },
@@ -386,6 +380,8 @@ export default class Map extends Component {
     render() {
         return (
             <View style={styles.container}>
+                {console.log("map props", this.props.children.props.routeRegion)}
+                {/*{console.log("bruh", this.mapView.fitToCoordinates(this.props.route.coordinates, { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, animated: false }))}*/}
                 <MapView style={styles.map}
                          ref="map"
                          onMapReady={() => this.locationButton}
@@ -393,11 +389,11 @@ export default class Map extends Component {
                          showsMyLocationButton={false}
                          showsCompass={false}
                          customMapStyle={this.mapStyle}
+                         // ref={ref => this.mapView = ref}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.currentPosition}
                          onRegionChange={region => this.onRegionChange(region)}>
-                    {this.props.children}
-
+                        {this.props.children}
                 </MapView>
                 <View>
                     <Text>{this.state.currentPosition.latitude}, {this.state.currentPosition.longitude}</Text>
@@ -412,7 +408,6 @@ export default class Map extends Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
