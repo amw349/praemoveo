@@ -1,6 +1,7 @@
 /**
  * Created by alexandraward on 7/31/17.
  */
+'use strict';
 import React, {Component} from 'react';
 import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
@@ -14,36 +15,38 @@ export default class RenderSelectedRoute extends Component {
     props: {
         route: PropTypes.object;
         busData: PropTypes.object;
+    };
+
+    constructor(props) {
+        super(props);
     }
 
-    boundingBox() {
-        var coords = this.props.route.geometry.coordinates;
+    boundingBoxCenter() {
+        let coords = this.props.route.geometry.coordinates;
 
-        var lats = [];
-        var lngs = [];
+        let lats = [];
+        let lngs = [];
 
-        for (var i = 0; i < coords[0].length; i++) {
+        for (let i = 0; i < coords.length; i++) {
             lats.push(coords[i].latitude);
             lngs.push(coords[i].longitude);
         }
 
         // calc the min and max lng and lat
-        var minlat = Math.min.apply(null, lats),
+        let minlat = Math.min.apply(null, lats),
             maxlat = Math.max.apply(null, lats);
-        var minlng = Math.min.apply(null, lngs),
+        let minlng = Math.min.apply(null, lngs),
             maxlng = Math.max.apply(null, lngs);
+        let clat = minlat + ((maxlat - minlat) / 2);
+        let clng = minlng + ((maxlng - minlng) / 2);
 
-        // create a bounding rectangle that can be used in leaflet
-        bbox = [[minlat, minlng], [maxlat, maxlng]];
+        // create a bounding rectangle that can be used to create a polygon on react-native-maps
+        let bbox = [{latitude: minlat, longitude: minlng}, {latitude: maxlat, longitude: maxlng}];
 
-        // add the bounding box to the map, and set the map extent to it
-        L.rectangle(bbox).addTo(map);
-        map.fitBounds(bbox);
-    }
+        // bounding box center
+        let cbbox = {latitude: clat , longitude: clng}
 
-    constructor(props) {
-        super(props);
-        console.log("bbox", this.props.route.geometry.coordinates)
+        return cbbox;
     }
 
     renderRoutes() {
@@ -53,14 +56,14 @@ export default class RenderSelectedRoute extends Component {
                 strokeColor={this.props.route.color}
                 strokeWidth={2}>
             </MapView.Polyline>
-    )
-        ;
+        );
     }
 
     render() {
+        let routeRegion = this.boundingBoxCenter();
         let renderRoutes = this.renderRoutes();
         return (
-            <Map>
+            <Map region={routeRegion} route={this.props.route}>
                 <AllRoutes renderRoutes={renderRoutes}/>
             </Map>
         );

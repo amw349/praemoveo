@@ -28,10 +28,11 @@ export default class SelectRoute extends Component {
         borderRadius: 1,
     };
 
+
     constructor(props) {
         super(props);
         this.state = {
-            text: ''
+            text: '',
         };
         let {height, width} = Dimensions.get('window');
 
@@ -117,7 +118,7 @@ export default class SelectRoute extends Component {
         this.filterInputFade = Animated.timing(
             this.state.filterInputOpacity, {
                 toValue: .7,
-                duration: 300 ,
+                duration: 300,
                 delay: 500
             }
         );
@@ -125,7 +126,7 @@ export default class SelectRoute extends Component {
         this.filterInputFadeOut = Animated.timing(
             this.state.filterInputOpacity, {
                 toValue: 0,
-                duration: 200 ,
+                duration: 200,
                 delay: 100
             }
         );
@@ -146,8 +147,18 @@ export default class SelectRoute extends Component {
                     <AppText size={FONT_SIZE.small}>Sale cada {item.interval}</AppText>
                 </View>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
-                    {item.favorite ? <Ionicons name='ios-star' size={18}/> :
-                        <Ionicons name='ios-star-outline' size={18}/>}
+                    {item.favorite ? (
+                        <TouchableHighlight accessibilityTraits="button"
+                        underlayColor='transparent'
+                        onPress={() => item.favorite = !item.favorite}>
+                        <Ionicons name='ios-star' size={18}/>
+                        </TouchableHighlight>) : (
+                        <TouchableHighlight accessibilityTraits="button"
+                        underlayColor='transparent'
+                        onPress={() => item.favorite = !item.favorite}>
+                        <Ionicons name='ios-star-outline' size={18}/>
+                        </TouchableHighlight>)
+                    }
                 </View>
             </View>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
@@ -214,29 +225,29 @@ export default class SelectRoute extends Component {
         const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
-
-                <Animated.View style={{flex:1,
-                 marginLeft: 16,
-                 marginRight: 16,
-                 zIndex: 1003,
-                 opacity: this.state.filterInputOpacity,
-                 justifyContent: 'center',
-                 ...StyleSheet.absoluteFillObject,
-                 top:98,
-                 flexDirection: 'row',}}>
+                <Animated.View style={{
+                    flex: 1,
+                    marginLeft: 16,
+                    marginRight: 16,
+                    zIndex: 1003,
+                    opacity: this.state.filterInputOpacity, justifyContent: 'center',
+                    ...StyleSheet.absoluteFillObject,
+                    top: 98,
+                    flexDirection: 'row',
+                }}>
                     <TextInput
                         style={{
-                 height: 30,
-                 flex:1,
-                 textAlign: 'center',
-                 borderBottom:'black',
-                 backgroundColor:'white',
-                 borderWidth:2,
-                 borderRadius: 2,
+                            height: 30,
+                            flex: 1,
+                            textAlign: 'center',
+                            borderBottom: 'black',
+                            backgroundColor: 'white',
+                            borderWidth: 2,
+                            borderRadius: 2,
 
-                 fontFamily: FONT_WEIGHT.light,
-                 fontSize: FONT_SIZE.large
-                 }}
+                            fontFamily: FONT_WEIGHT.light,
+                            fontSize: FONT_SIZE.large
+                        }}
                         onChangeText={(text) => this.setState({text})}
                         value={this.state.text}
                         maxLength={20}
@@ -270,7 +281,6 @@ export default class SelectRoute extends Component {
                                 <AppText size={FONT_SIZE.xLarge}>¿A dónde vamos hoy?</AppText>
                             </View>
                         </Animated.View>
-
                     </View>
 
                 </Animated.View>
