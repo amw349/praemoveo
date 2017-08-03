@@ -44,7 +44,7 @@ const routeNavigation = StackNavigator({
         headerMode: 'none',
         transitionConfig: () => ({
             transitionSpec: {
-                duration: 1000,
+                duration: 0,
                 easing: Easing.out(Easing.poly(4)),
                 timing: Animated.timing,
             },

@@ -2,7 +2,7 @@
  * Created by alexandraward on 7/31/17.
  */
 import React, {Component} from 'react';
-import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
+import {AppRegistry, Alert, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 import Map from './Map';
 import AllRoutes from './AllRoutes';
@@ -18,27 +18,24 @@ export default class RenderSelectedRoute extends Component {
 
     boundingBox() {
         var coords = this.props.route.geometry.coordinates;
-
-        var lats = [];
-        var lngs = [];
-
-        for (var i = 0; i < coords[0].length; i++) {
-            lats.push(coords[i].latitude);
-            lngs.push(coords[i].longitude);
+        var formatedCoords = [];
+        for (var i = 0; i < coords.length; i++) {
+            formatedCoords.push(
+                latLng = {
+                    latitude: coords[i].latitude,
+                    longitude: coords[i].longitude
+                }
+            )
         }
+        return formatedCoords;
 
-        // calc the min and max lng and lat
-        var minlat = Math.min.apply(null, lats),
-            maxlat = Math.max.apply(null, lats);
-        var minlng = Math.min.apply(null, lngs),
-            maxlng = Math.max.apply(null, lngs);
 
         // create a bounding rectangle that can be used in leaflet
-        bbox = [[minlat, minlng], [maxlat, maxlng]];
-
-        // add the bounding box to the map, and set the map extent to it
-        L.rectangle(bbox).addTo(map);
-        map.fitBounds(bbox);
+        // bbox = [[minlat, minlng], [maxlat, maxlng]];
+        //
+        // // add the bounding box to the map, and set the map extent to it
+        // L.rectangle(bbox).addTo(map);
+        // map.fitBounds(bbox);
     }
 
     constructor(props) {
@@ -53,14 +50,15 @@ export default class RenderSelectedRoute extends Component {
                 strokeColor={this.props.route.color}
                 strokeWidth={2}>
             </MapView.Polyline>
-    )
-        ;
+        )
+            ;
     }
 
     render() {
         let renderRoutes = this.renderRoutes();
+        let boundingBoxCoordinates = this.boundingBox();
         return (
-            <Map>
+            <Map boundingBoxC={boundingBoxCoordinates}>
                 <AllRoutes renderRoutes={renderRoutes}/>
             </Map>
         );

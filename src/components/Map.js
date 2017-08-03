@@ -8,13 +8,14 @@ import {
     View,
     Text,
     Dimensions,
-    TouchableWithoutFeedback,
+    TouchableOpacity,
     Alert,
 
 } from 'react-native';
 import MapView from 'react-native-maps';
 import TouchableItem from "../../node_modules/react-navigation/lib/views/TouchableItem";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
@@ -39,7 +40,8 @@ export default class Map extends Component {
             markerPosition: {
                 latitude: 0,
                 longitude: 0
-            }
+            },
+            onRoute: true
         }
     }
 
@@ -343,16 +345,28 @@ export default class Map extends Component {
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA
                 };
-
-                this.setState({
-                    initialPosition: initialRegion,
-                    userPosition: initialRegion,
-                    markerPosition: initialRegion
-                })
+                //Check if boundingBox prop has been passed
+                //If it has been passed then we want our initial location
+                //To be the bounding box, if not then get the user's current position
+                if (this.props.boundingBoxC) {
+                    this.setState({
+                        initialPosition: this.refs.map.fitToCoordinates(this.props.boundingBoxC,
+                            {
+                                animated: false
+                            }),
+                        userPosition: initialRegion,
+                        markerPosition: initialRegion
+                    })
+                }else {
+                    this.setState({
+                        initialPosition: initialRegion,
+                        userPosition: initialRegion,
+                        markerPosition: initialRegion
+                    })
+                }
             },
             (error) => alert(JSON.stringify(error)),
             {
-                enableHighAccuracy: true,
                 timeout: 20000,
                 maximumAge: 1000
             });
@@ -371,11 +385,12 @@ export default class Map extends Component {
                 userPosition: lastRegion,
                 markerPosition: lastRegion
             })
-        })
+        });
+
     }
 
     onRegionChange(region) {
-        this.setState({initialPosition: region})
+        this.setState({initialPosition: region});
     }
 
     // clearing the watch
@@ -384,16 +399,32 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        this.refs.map.animateToRegion(this.state.userPosition,
-            500);
+        if (!this.state.onRoute && this.props.boundingBoxC) {
+            this.refs.map.fitToCoordinates(this.props.boundingBoxC,{
+                animated: true
+            });
+        } else {
+            this.refs.map.animateToRegion(this.state.userPosition,
+                500);
+        }
+        this.setState({onRoute: !this.state.onRoute});
+    }
+    icon(){
+        if (!this.state.onRoute && this.props.boundingBoxC) {
+            return <FontAwesome name="road" size={25} color="#FFF"/>
+        } else {
+            return <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
+        }
     }
 
     render() {
+
+        let icon = this.icon();
+
         return (
             <View style={styles.container}>
                 <MapView style={styles.map}
                          ref="map"
-                         onMapReady={() => this.locationButton}
                          showsUserLocation={true}
                          showsMyLocationButton={false}
                          showsCompass={false}
@@ -403,12 +434,12 @@ export default class Map extends Component {
                          onRegionChange={() => this.onRegionChange()}>
                     {this.props.children}
                 </MapView>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                     onPress={() => this.locationButton()}>
                     <View style={styles.locationButton}>
-                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
+                        {icon}
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -450,7 +481,7 @@ const styles = StyleSheet.create({
         height: 50,
         margin: 20,
         borderRadius: 15,
-        backgroundColor:'rgba(42, 54, 59, 0.7)',
+        backgroundColor: 'rgba(42, 54, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end',

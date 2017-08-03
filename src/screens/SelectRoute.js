@@ -45,7 +45,6 @@ export default class SelectRoute extends Component {
             slide: new Animated.Value(height),
             opacity: new Animated.Value(0),
             inputOpacity: new Animated.Value(0),
-            //width: new Animated.Value(width * 0.5),
             width: new Animated.Value(width),
             textTranslate: new Animated.Value(0),
             closed: false
