@@ -1,19 +1,9 @@
 /**
  * Created by alexandraward on 7/11/17.
  */
-import React, {Component} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    View,
-    Text,
-    Dimensions,
-    TouchableWithoutFeedback,
-    Alert,
-
-} from 'react-native';
-import MapView from 'react-native-maps';
-import TouchableItem from "../../node_modules/react-navigation/lib/views/TouchableItem";
+import React, {Component} from "react";
+import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert} from "react-native";
+import MapView from "react-native-maps";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
@@ -37,6 +27,10 @@ export default class Map extends Component {
                 longitudeDelta: LONGITUDE_DELTA
             },
             markerPosition: {
+                latitude: 0,
+                longitude: 0
+            },
+            currentPosition: {
                 latitude: 0,
                 longitude: 0
             }
@@ -332,6 +326,7 @@ export default class Map extends Component {
         }
     ];
 
+
     componentDidMount() {
         navigator.geolocation.getCurrentPosition((position) => {
                 let lat = parseFloat(position.coords.latitude);
@@ -367,16 +362,13 @@ export default class Map extends Component {
                 latitudeDelta: LATITUDE_DELTA
             };
             this.setState({
-                initialPosition: lastRegion,
+                currentPosition: lastRegion,
                 userPosition: lastRegion,
                 markerPosition: lastRegion
             })
         })
     }
 
-    onRegionChange(region) {
-        this.setState({initialPosition: region})
-    }
 
     // clearing the watch
     componentWillUnmount() {
@@ -384,8 +376,7 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        this.refs.map.animateToRegion(this.state.userPosition,
-            500);
+        this.refs.map.animateToRegion(this.state.userPosition,500);
     }
 
     render() {
@@ -399,10 +390,14 @@ export default class Map extends Component {
                          showsCompass={false}
                          customMapStyle={this.mapStyle}
                          provider={MapView.PROVIDER_GOOGLE}
-                         region={this.state.initialPosition}
-                         onRegionChange={() => this.onRegionChange()}>
+                         region={this.state.currentPosition}
+                         onRegionChange={region => this.setState({currentPosition:region})}>
                     {this.props.children}
+
                 </MapView>
+                <View>
+                    <Text>{this.state.currentPosition.latitude}, {this.state.currentPosition.longitude}</Text>
+                </View>
                 <TouchableWithoutFeedback
                     onPress={() => this.locationButton()}>
                     <View style={styles.locationButton}>
@@ -450,7 +445,7 @@ const styles = StyleSheet.create({
         height: 50,
         margin: 20,
         borderRadius: 15,
-        backgroundColor:'rgba(42, 54, 59, 0.7)',
+        backgroundColor: 'rgba(42, 54, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end',

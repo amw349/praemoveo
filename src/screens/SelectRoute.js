@@ -44,7 +44,7 @@ export default class SelectRoute extends Component {
         this.state = {
             slide: new Animated.Value(height),
             opacity: new Animated.Value(0),
-            inputOpacity: new Animated.Value(0),
+            filterInputOpacity: new Animated.Value(0),
             //width: new Animated.Value(width * 0.5),
             width: new Animated.Value(width),
             textTranslate: new Animated.Value(0),
@@ -55,17 +55,27 @@ export default class SelectRoute extends Component {
         this.slideIn = Animated.timing(
             this.state.slide, {
                 toValue: 0,
-                duration: 800 + animationTimer,
+                duration: 400,
                 delay: 0,
                 easing: Easing.in(Easing.easing)
             }
         );
 
+        this.slideOut = Animated.timing(
+            this.state.slide, {
+                toValue: height,
+                duration: 400,
+                delay: 200,
+                easing: Easing.in(Easing.easing)
+            }
+        );
+
+
         this.textSlideUp = Animated.timing(
             this.state.textTranslate, {
-                toValue: -70,
-                duration: 900 + animationTimer,
-                delay: 600,
+                toValue: -40,
+                duration: 250,
+                delay: 400,
                 easing: Easing.in(Easing.easing)
             }
         );
@@ -73,15 +83,15 @@ export default class SelectRoute extends Component {
         this.textSlideDown = Animated.timing(
             this.state.textTranslate, {
                 toValue: 0,
-                duration: 600 + animationTimer,
-                delay: 0,
+                duration: 250,
+                delay: 200,
                 easing: Easing.in(Easing.easing)
             }
         );
 
         this.fadeIn = Animated.timing(
             this.state.opacity, {
-                toValue: 0.8,
+                toValue: 0.7,
                 duration: 1300 + animationTimer,
                 delay: 0
             }
@@ -95,14 +105,6 @@ export default class SelectRoute extends Component {
             }
         );
 
-        this.slideOut = Animated.timing(
-            this.state.slide, {
-                toValue: height,
-                duration: 500 + animationTimer,
-                delay: 100,
-                easing: Easing.in(Easing.easing)
-            }
-        );
 
         this.fadeOut = Animated.timing(
             this.state.opacity, {
@@ -112,11 +114,19 @@ export default class SelectRoute extends Component {
             }
         );
 
-        this.inputFade = Animated.timing(
-            this.state.inputOpacity, {
-                toValue: 1,
-                duration: 800 + animationTimer,
-                delay: 600
+        this.filterInputFade = Animated.timing(
+            this.state.filterInputOpacity, {
+                toValue: .7,
+                duration: 300 ,
+                delay: 500
+            }
+        );
+
+        this.filterInputFadeOut = Animated.timing(
+            this.state.filterInputOpacity, {
+                toValue: 0,
+                duration: 200 ,
+                delay: 100
             }
         );
     };
@@ -169,9 +179,10 @@ export default class SelectRoute extends Component {
         );
     };
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress');
     }
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', () => {
             this.closeWindow(this.props.navigation);
@@ -181,7 +192,8 @@ export default class SelectRoute extends Component {
             this.fadeIn,
             //this.expand,
             this.textSlideUp,
-            //this.inputFade
+            this.filterInputFade,
+
         ]).start();
     }
 
@@ -192,7 +204,8 @@ export default class SelectRoute extends Component {
             Animated.parallel([
                 this.slideOut,
                 this.fadeOut,
-                this.textSlideDown
+                this.textSlideDown,
+                this.filterInputFadeOut
             ]).start(() => navigation.goBack());
         }
     }
@@ -201,32 +214,34 @@ export default class SelectRoute extends Component {
         const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
-           {/*     <View style={{flex:1,
-                        marginLeft: 16,
-                        marginRight: 16,
-                         zIndex: 1003,
-                        justifyContent: 'center',
-                        ...StyleSheet.absoluteFillObject,
-                        top:98,
-                        flexDirection: 'row',}}>
+
+                <Animated.View style={{flex:1,
+                 marginLeft: 16,
+                 marginRight: 16,
+                 zIndex: 1003,
+                 opacity: this.state.filterInputOpacity,
+                 justifyContent: 'center',
+                 ...StyleSheet.absoluteFillObject,
+                 top:98,
+                 flexDirection: 'row',}}>
                     <TextInput
                         style={{
-                                    height: 30,
-                                    flex:1,
-                                    borderRadius: 2,
-                                    backgroundColor:'#fff',
-                                    borderWidth:2,
-                                    borderColor:'#F4F4F4',
-                                    textAlign: 'left',
-                                    paddingLeft:70,
-                                    fontFamily: FONT_WEIGHT.light,
-                                    fontSize: FONT_SIZE.large
-                                }}
+                 height: 30,
+                 flex:1,
+                 textAlign: 'center',
+                 borderBottom:'black',
+                 backgroundColor:'white',
+                 borderWidth:2,
+                 borderRadius: 2,
+
+                 fontFamily: FONT_WEIGHT.light,
+                 fontSize: FONT_SIZE.large
+                 }}
                         onChangeText={(text) => this.setState({text})}
                         value={this.state.text}
                         maxLength={20}
                     />
-                </View>*/}
+                </Animated.View>
                 <Animated.View style={{opacity: this.state.opacity, backgroundColor: "#FFF"}}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
@@ -257,16 +272,9 @@ export default class SelectRoute extends Component {
                         </Animated.View>
 
                     </View>
-                    <View style={{flexDirection: 'row', height: 38, padding: 12, backgroundColor: '#f7f7f7'}}>
-                        <View style={{flex: 1}}>
-                            <AppText size={FONT_SIZE.large}>Próximas llegadas</AppText>
-                        </View>
-                        <View style={{flex: 1}}>
-                            <AppText size={FONT_SIZE.small}
-                                     style={{textAlign: 'right'}}>{params.routes.length} resultados</AppText>
-                        </View>
-                    </View>
+
                 </Animated.View>
+
                 <View style={{
                     flex: 1,
                     alignItems: 'center'
@@ -278,6 +286,15 @@ export default class SelectRoute extends Component {
                             backgroundColor: '#FFF',
                             transform: [{translateY: this.state.slide}]
                         }]}>
+                        <View style={{flexDirection: 'row', height: 38, padding: 12, backgroundColor: '#f7f7f7'}}>
+                            <View style={{flex: 1}}>
+                                <AppText size={FONT_SIZE.large}>Total de Rutas</AppText>
+                            </View>
+                            <View style={{flex: 1}}>
+                                <AppText size={FONT_SIZE.small}
+                                         style={{textAlign: 'right'}}>{params.routes.length} resultados</AppText>
+                            </View>
+                        </View>
                         {this.renderSeparator()}
                         <FlatList style={{backgroundColor: '#f7f7f7'}}
                                   data={params.routes}

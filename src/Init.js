@@ -14,6 +14,7 @@ import {
     Alert
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {FONT_WEIGHT, FONT_SIZE} from "./styles/AppStyles";
 import AllRoutesContainer from "./containers/AllRoutesContainer";
 import {NavigationActions} from "react-navigation";
@@ -33,8 +34,8 @@ export default class Init extends Component {
         this.fadeOut = Animated.timing(
             this.state.opacity, {
                 toValue: 0,
-                duration: 500,
-                delay: 600
+                duration: 600,
+                delay: 300
             }
         );
     }
@@ -101,6 +102,10 @@ export default class Init extends Component {
                     {/*</View>*/}
                     <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
                                         caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
+                    <View pointerEvents="none" style={{...StyleSheet.absoluteFillObject,zIndex:1004, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
+                        {/*<Image pointerEvents="none" source={markerImage}/>*/}
+                        <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         )
