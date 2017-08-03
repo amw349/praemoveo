@@ -12,6 +12,7 @@ import {
     Animated,
     Dimensions,
     Easing,
+    BackHandler,
     TextInput
 } from "react-native";
 import {FONT_SIZE, FONT_WEIGHT} from "../styles/AppStyles";
@@ -38,7 +39,7 @@ export default class SelectRoute extends Component {
         //Posivite to add animation time
         //Max negative number is -500
 
-        let animationTimer = -600;
+        let animationTimer = -350;
 
         this.state = {
             slide: new Animated.Value(height),
@@ -98,7 +99,7 @@ export default class SelectRoute extends Component {
             this.state.slide, {
                 toValue: height,
                 duration: 500 + animationTimer,
-                delay: 600,
+                delay: 100,
                 easing: Easing.in(Easing.easing)
             }
         );
@@ -107,7 +108,7 @@ export default class SelectRoute extends Component {
             this.state.opacity, {
                 toValue: 0,
                 duration: 500 + animationTimer,
-                delay: 600
+                delay: 100
             }
         );
 
@@ -168,8 +169,13 @@ export default class SelectRoute extends Component {
         );
     };
 
-
+    componentWillUnmount(){
+        BackHandler.removeEventListener('hardwareBackPress');
+    }
     componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            this.closeWindow(this.props.navigation);
+        });
         Animated.parallel([
             this.slideIn,
             this.fadeIn,
@@ -177,10 +183,6 @@ export default class SelectRoute extends Component {
             this.textSlideUp,
             //this.inputFade
         ]).start();
-    }
-
-    closer(navigation) {
-        navigation.goBack();
     }
 
     closeWindow(navigation) {
@@ -191,7 +193,7 @@ export default class SelectRoute extends Component {
                 this.slideOut,
                 this.fadeOut,
                 this.textSlideDown
-            ]).start(() => this.closer(navigation));
+            ]).start(() => navigation.goBack());
         }
     }
 

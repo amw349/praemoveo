@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import TouchableItem from "../../node_modules/react-navigation/lib/views/TouchableItem";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
@@ -355,7 +355,7 @@ export default class Map extends Component {
                 enableHighAccuracy: true,
                 timeout: 20000,
                 maximumAge: 1000
-            })
+            });
         this.watchID = navigator.geolocation.watchPosition((position) => {
             let lat = parseFloat(position.coords.latitude);
             let long = parseFloat(position.coords.longitude);
@@ -395,26 +395,18 @@ export default class Map extends Component {
                          ref="map"
                          onMapReady={() => this.locationButton}
                          showsUserLocation={true}
+                         showsMyLocationButton={false}
+                         showsCompass={false}
                          customMapStyle={this.mapStyle}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.initialPosition}
                          onRegionChange={() => this.onRegionChange()}>
-                    <MapView.Marker coordinate={this.state.markerPosition}>
-                        <View style={styles.radius}>
-                            <View style={styles.marker}/>
-                        </View>
-                        <MapView.Callout style={styles.plainView}>
-                            <View>
-                                <Text>Here</Text>
-                            </View>
-                        </MapView.Callout>
-                    </MapView.Marker>
                     {this.props.children}
                 </MapView>
                 <TouchableWithoutFeedback
                     onPress={() => this.locationButton()}>
                     <View style={styles.locationButton}>
-                        <FontAwesome name="location-arrow" size={25}/>
+                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -454,16 +446,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#007AFF'
     },
     locationButton: {
-        width: 45,
-        height: 45,
-        margin: 10,
-        borderRadius: 22.5,
-        backgroundColor:'#FFF',
+        width: 50,
+        height: 50,
+        margin: 20,
+        borderRadius: 15,
+        backgroundColor:'rgba(42, 54, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end',
-        zIndex: 1004,
-        opacity: 0.7
+        zIndex: 1004
     }
 });
 
