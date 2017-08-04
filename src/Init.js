@@ -16,16 +16,18 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {FONT_WEIGHT, FONT_SIZE} from "./styles/AppStyles";
+
 import AllRoutesContainer from "./containers/AllRoutesContainer";
 import {NavigationActions} from "react-navigation";
+import InitiatorBar from "./components/InitiatorBar";
+import PropTypes from "prop-types";
 
 
 export default class Init extends Component {
 
     constructor(props) {
         super(props);
-        this.fadeIn = Animated.timing(
+        /*this.fadeIn = Animated.timing(
             this.state.opacity, {
                 toValue: 1,
                 duration: 500,
@@ -38,32 +40,24 @@ export default class Init extends Component {
                 duration: 600,
                 delay: 300
             }
-        );
+        );*/
     }
 
 
     state = {
         modalVisible: false,
+        searchBarOpacity: 1,
+        barRef: PropTypes.object,
         opacity: new Animated.Value(1),
-        searchBarOpacity: 1
     };
 
     toggleModal = () => {
-        if (!this.state.modalVisible) {
-            this.fadeOut.start();
-            this.setState({modalVisible: !this.state.modalVisible});
-        } else {
-            this.fadeIn.start();
-            this.setState({modalVisible: !this.state.modalVisible});
-        }
+        this.state.barRef.toggleVisible();
+        this.setState({modalVisible: this.state.modalVisible});
     };
 
     opacity(pressed) {
-        if (pressed) {
-            this.state.opacity.setValue(0.2);
-        } else {
-            this.state.opacity.setValue(1);
-        }
+        this.state.barRef.doFade(pressed)
     };
 
     render() {
@@ -81,27 +75,15 @@ export default class Init extends Component {
                                         zIndex: 1002,
                                     }}
                                         onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                        <Animated.View style={{opacity: this.state.opacity}}>
+                        <Animated.View >
                             <Ionicons name="ios-menu" size={30}/>
                         </Animated.View>
                     </TouchableHighlight>
                     {/*<!-- end burger menu -->*/}
-                    <TouchableWithoutFeedback onPress={() => this.openRouteList()}>
-                        <Animated.View style={[styles.destination, {opacity: this.state.opacity}]}>
-                            <Text
-                                style={{
-                                    ...styles.map,
-                                    fontFamily: FONT_WEIGHT.light,
-                                    fontSize: FONT_SIZE.xLarge,
-                                    color: '#EAEAEA'
-                                }}>¿A dónde vamos hoy?</Text>
-                        </Animated.View>
-                    </TouchableWithoutFeedback>
-                    {/*</View>*/}
-                    <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro")}
+                    <InitiatorBar onPress={()=>this.openRouteList()} ref={ref=>this.state.barRef = ref}/>
+                    <AllRoutesContainer metroRoutes={[require("./json/routesMetro/C22.json")]} routeSelected={route=>console.log(route)}
                                         caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
                     <View pointerEvents="none" style={{...StyleSheet.absoluteFillObject,zIndex:1004, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
-                        {/*<Image pointerEvents="none" source={markerImage}/>*/}
                         <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
                     </View>
                 </View>
@@ -110,7 +92,6 @@ export default class Init extends Component {
     }
 
     openRouteList = () => {
-        // this.props.navigation.navigate('InitialRouteSelect',{routesList:require("./json/routesFormat.json")})
 
         if (!this.state.modalVisible) {
             this.toggleModal();
@@ -128,21 +109,5 @@ export default class Init extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    destination: {
-        height: 52,
-        backgroundColor: 'rgba(42, 54, 59, 0.7)',
-        zIndex: 1003,
-        marginLeft: 16,
-        marginRight: 16,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 2,
-        ...StyleSheet.absoluteFillObject,
-        top: 88
-    }
-
-});
 
 AppRegistry.registerComponent('Init', () => Init);

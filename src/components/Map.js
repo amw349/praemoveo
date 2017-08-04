@@ -380,7 +380,6 @@ export default class Map extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {console.log("map props", this.props.children.props.routeRegion)}
                 {/*{console.log("bruh", this.mapView.fitToCoordinates(this.props.route.coordinates, { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, animated: false }))}*/}
                 <MapView style={styles.map}
                          ref="map"
