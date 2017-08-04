@@ -1,14 +1,19 @@
 /**
  * Created by alexandraward on 7/11/17.
  */
-'use strict';
-import React, {Component} from "react";
-import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert,TextInput} from "react-native";
-import MapView from "react-native-maps";
+import React, {Component} from 'react';
+import {
+    AppRegistry,
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    TouchableWithoutFeedback,
+
+} from 'react-native';
+import PropTypes from 'prop-types';
+import MapView from 'react-native-maps';
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import PropTypes from "prop-types";
-
-
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
@@ -385,7 +390,23 @@ export default class Map extends Component {
         });
     }
 
+    showButton(){
+        if(!this.props.disableLocationButton){
+            return(
+                <TouchableWithoutFeedback
+                    onPress={() => this.locationButton()}>
+                    <View style={styles.locationButton}>
+                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
+                    </View>
+                </TouchableWithoutFeedback>
+            )
+        }
+    }
+
     render() {
+
+        let icon = this.showButton();
+
         return (
             <View style={styles.container}>
                 {/*{console.log("bruh", this.mapView.fitToCoordinates(this.props.route.coordinates, { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, animated: false }))}*/}
@@ -404,12 +425,7 @@ export default class Map extends Component {
                 <View>
                     <Text>{this.state.currentPosition.latitude}, {this.state.currentPosition.longitude}</Text>
                 </View>
-                <TouchableWithoutFeedback
-                    onPress={() => this.locationButton()}>
-                    <View style={styles.locationButton}>
-                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
-                    </View>
-                </TouchableWithoutFeedback>
+                {icon}
             </View>
         );
     }

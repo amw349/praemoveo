@@ -28,19 +28,19 @@ export default class Init extends Component {
     constructor(props) {
         super(props);
         /*this.fadeIn = Animated.timing(
-            this.state.opacity, {
-                toValue: 1,
-                duration: 500,
-                delay: 0
-            }
-        );
-        this.fadeOut = Animated.timing(
-            this.state.opacity, {
-                toValue: 0,
-                duration: 600,
-                delay: 300
-            }
-        );*/
+         this.state.opacity, {
+         toValue: 1,
+         duration: 500,
+         delay: 0
+         }
+         );
+         this.fadeOut = Animated.timing(
+         this.state.opacity, {
+         toValue: 0,
+         duration: 600,
+         delay: 300
+         }
+         );*/
     }
 
 
@@ -68,22 +68,30 @@ export default class Init extends Component {
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
                                         style={{
-                                        ...StyleSheet.absoluteFillObject,
-                                        top: 22,
-                                        left: 16,
-                                        height: 30,
-                                        zIndex: 1002,
-                                    }}
+                                            ...StyleSheet.absoluteFillObject,
+                                            top: 22,
+                                            left: 16,
+                                            height: 30,
+                                            width: 30,
+                                            zIndex: 1002,
+                                        }}
                                         onPress={() => this.props.navigation.navigate('DrawerOpen')}>
                         <Animated.View >
                             <Ionicons name="ios-menu" size={30}/>
                         </Animated.View>
                     </TouchableHighlight>
                     {/*<!-- end burger menu -->*/}
-                    <InitiatorBar onPress={()=>this.openRouteList()} ref={ref=>this.state.barRef = ref}/>
-                    <AllRoutesContainer metroRoutes={[require("./json/routesMetro/C22.json")]} routeSelected={route=>console.log(route)}
+                    <InitiatorBar onPress={() => this.openRouteList()} ref={ref => this.state.barRef = ref}/>
+                    <AllRoutesContainer metroRoutes={[require("./json/routesMetro/C22.json")]}
+                                        routeSelected={route => console.log(route)}
                                         caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
-                    <View pointerEvents="none" style={{...StyleSheet.absoluteFillObject,zIndex:1004, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
+                    <View pointerEvents="none" style={{
+                        ...StyleSheet.absoluteFillObject,
+                        zIndex: 1004,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent'
+                    }}>
                         <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
                     </View>
                 </View>
