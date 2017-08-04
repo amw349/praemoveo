@@ -11,9 +11,9 @@ import {
     TouchableWithoutFeedback,
 
 } from 'react-native';
-import PropTypes from 'prop-types';
 import MapView from 'react-native-maps';
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import PropTypes from "prop-types";
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
@@ -22,8 +22,8 @@ const DEFAULT_PADDING = { top: 40, right: 40, bottom: 40, left: 40 };
 
 export default class Map extends Component {
 
-    state={
-        mapRef:PropTypes.object
+    state = {
+        mapRef: PropTypes.object
     };
 
     constructor(props) {
@@ -38,7 +38,8 @@ export default class Map extends Component {
             currentPosition: {
                 latitude: 0,
                 longitude: 0
-            }
+            },
+
         };
     }
 
@@ -369,7 +370,6 @@ export default class Map extends Component {
         })
     }
 
-
     // clearing the watch
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID)
@@ -381,11 +381,19 @@ export default class Map extends Component {
 
     onRegionChange(region){
         this.setState({currentPosition: region});
+        // if (this.props.route) {
+        //     this.state.mapRef.fitToCoordinates(this.props.route.geometry.coordinates, {
+        //         edgePadding: DEFAULT_PADDING,
+        //         animated: true,
+        //     });
+        // }
     }
 
-    fitToRoute(coordinates) {
+    fitToRoute(coordinates: PropTypes.object) {
+        console.log("llegue a fit to route");
+        console.log("fit to route coords: ", coordinates);
         this.state.mapRef.fitToCoordinates(coordinates, {
-            edgePadding: DEFAULT_PADDING,
+            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
             animated: true,
         });
     }
@@ -409,9 +417,8 @@ export default class Map extends Component {
 
         return (
             <View style={styles.container}>
-                {/*{console.log("bruh", this.mapView.fitToCoordinates(this.props.route.coordinates, { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, animated: false }))}*/}
-                <MapView style={styles.map}
-                         ref={ref => { this.state.mapRef = ref; }}
+                <MapView ref={ref=>this.state.mapRef = ref}
+                         style={styles.map}
                          onMapReady={() => this.locationButton}
                          showsUserLocation={true}
                          showsMyLocationButton={false}

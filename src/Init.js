@@ -43,7 +43,6 @@ export default class Init extends Component {
          );*/
     }
 
-
     state = {
         modalVisible: false,
         searchBarOpacity: 1,

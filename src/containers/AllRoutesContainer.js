@@ -24,13 +24,15 @@ export default class AllRoutesContainer extends Component {
     props: {
         metroRoutes: PropTypes.object,
         caguasRoutes: PropTypes.object,
-        routeSelected: PropTypes.func
+        routeSelected: PropTypes.func,
+        strokeWidth: PropTypes.number
     };
 
     state = {
         routes: this.props.metroRoutes,
         routeDesc: PropTypes.string,
         mapRef:PropTypes.object,
+        strokeWidth: this.props.strokeWidth || 3,
         yPosition: new Animated.Value(Dimensions.get('window').height),
         routeName: "",
         disableLocationButton: false
@@ -78,7 +80,7 @@ export default class AllRoutesContainer extends Component {
                 onPress={() => this.openInfo(element)}
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
-                strokeWidth={5}>
+                strokeWidth={this.state.strokeWidth}>
             </MapView.Polyline>
         );
     }
