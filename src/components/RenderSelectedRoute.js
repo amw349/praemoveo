@@ -3,7 +3,7 @@
  */
 'use strict';
 import React, {Component} from 'react';
-import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
+import {AppRegistry, Text, TouchableHighlight, TouchableOpacity, View, Modal, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 import Map from './Map';
 import AllRoutes from './AllRoutes';
@@ -17,57 +17,59 @@ export default class RenderSelectedRoute extends Component {
         busData: PropTypes.object;
     };
 
+    state = {
+        mapRef2: PropTypes.object
+    };
+
     constructor(props) {
         super(props);
-    }
-
-    boundingBoxCenter() {
-        let coords = this.props.route.geometry.coordinates;
-
-        let lats = [];
-        let lngs = [];
-
-        for (let i = 0; i < coords.length; i++) {
-            lats.push(coords[i].latitude);
-            lngs.push(coords[i].longitude);
+        this.state = {
+            route: this.props.route
         }
-
-        // calc the min and max lng and lat
-        let minlat = Math.min.apply(null, lats),
-            maxlat = Math.max.apply(null, lats);
-        let minlng = Math.min.apply(null, lngs),
-            maxlng = Math.max.apply(null, lngs);
-        let clat = minlat + ((maxlat - minlat) / 2);
-        let clng = minlng + ((maxlng - minlng) / 2);
-
-        // create a bounding rectangle that can be used to create a polygon on react-native-maps
-        let bbox = [{latitude: minlat, longitude: minlng}, {latitude: maxlat, longitude: maxlng}];
-
-        // bounding box center
-        let cbbox = {latitude: clat , longitude: clng}
-
-        return cbbox;
     }
 
     renderRoutes() {
         return (
             <MapView.Polyline
-                coordinates={this.props.route.geometry.coordinates}
-                strokeColor={this.props.route.color}
+                coordinates={this.state.route.geometry.coordinates}
+                strokeColor={this.state.route.color}
                 strokeWidth={2}>
             </MapView.Polyline>
         );
     }
 
     render() {
-        let routeRegion = this.boundingBoxCenter();
         let renderRoutes = this.renderRoutes();
         return (
-            <Map region={routeRegion} route={this.props.route}>
+            <Map route={this.state.route} ref={ref => { this.state.mapRef2 = ref; }}>
                 <AllRoutes renderRoutes={renderRoutes}/>
+                {/*<View style={[...StyleSheet.absoluteFillObject]}>*/}
+                <View style={[...StyleSheet.absoluteFillObject, styles.buttonContainer]}>
+                    <TouchableOpacity
+                        onPress={() => this.state.mapRef2.fitToRoute(this.state.route.geometry.coordinates)}
+                        style={styles.button}
+                    >
+                        <Text>Fit To Route</Text>
+                    </TouchableOpacity>
+                </View>
             </Map>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    button: {
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        borderRadius: 20,
+        paddingHorizontal: 12,
+        alignItems: 'center',
+        marginHorizontal: 10,
+    },
+    buttonContainer: {
+        flexDirection: 'column',
+        // backgroundColor: 'blue',
+        top: 150
+    },
+});
 
 AppRegistry.registerComponent('RenderSelectedRoute', () => RenderSelectedRoute);

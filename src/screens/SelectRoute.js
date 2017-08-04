@@ -305,7 +305,6 @@ export default class SelectRoute extends Component {
                                          style={{textAlign: 'right'}}>{params.routes.length} resultados</AppText>
                             </View>
                         </View>
-                        {this.renderSeparator()}
                         <FlatList style={{backgroundColor: '#f7f7f7'}}
                                   data={params.routes}
                                   keyExtractor={this._keyExtractor}

@@ -6,12 +6,21 @@ import React, {Component} from "react";
 import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert,TextInput} from "react-native";
 import MapView from "react-native-maps";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import PropTypes from "prop-types";
+
+
 const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const DEFAULT_PADDING = { top: 40, right: 40, bottom: 40, left: 40 };
 
 export default class Map extends Component {
+
+    state={
+        mapRef:PropTypes.object
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -20,10 +29,6 @@ export default class Map extends Component {
                 longitude: 0,
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA
-            },
-            markerPosition: {
-                latitude: 0,
-                longitude: 0
             },
             currentPosition: {
                 latitude: 0,
@@ -321,7 +326,6 @@ export default class Map extends Component {
         }
     ];
 
-
     componentDidMount() {
         navigator.geolocation.getCurrentPosition((position) => {
                 let lat = parseFloat(position.coords.latitude);
@@ -333,10 +337,8 @@ export default class Map extends Component {
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA
                 };
-
                 this.setState({
                     initialPosition: initialRegion,
-                    markerPosition: initialRegion
                 })
             },
             (error) => alert(JSON.stringify(error)),
@@ -358,7 +360,6 @@ export default class Map extends Component {
             this.setState({
                 currentPosition: lastRegion,
                 userPosition: lastRegion,
-                markerPosition: lastRegion
             })
         })
     }
@@ -370,26 +371,30 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        this.refs.map.animateToRegion(this.state.userPosition,500);
+        this.state.mapRef.animateToRegion(this.state.userPosition,500);
     }
 
     onRegionChange(region){
-        this.setState({currentPosition:region});
+        this.setState({currentPosition: region});
+    }
+
+    fitToRoute(coordinates) {
+        this.state.mapRef.fitToCoordinates(coordinates, {
+            edgePadding: DEFAULT_PADDING,
+            animated: true,
+        });
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {console.log("map props", this.props.children.props.routeRegion)}
-                {/*{console.log("bruh", this.mapView.fitToCoordinates(this.props.route.coordinates, { edgePadding: { top: 10, right: 10, bottom: 10, left: 10 }, animated: false }))}*/}
                 <MapView style={styles.map}
-                         ref="map"
+                         ref={ref => { this.state.mapRef = ref; }}
                          onMapReady={() => this.locationButton}
                          showsUserLocation={true}
                          showsMyLocationButton={false}
                          showsCompass={false}
                          customMapStyle={this.mapStyle}
-                         // ref={ref => this.mapView = ref}
                          provider={MapView.PROVIDER_GOOGLE}
                          region={this.state.currentPosition}
                          onRegionChange={region => this.onRegionChange(region)}>
@@ -430,15 +435,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    marker: {
-        height: 20,
-        width: 20,
-        borderWidth: 3,
-        borderColor: 'white',
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: '#007AFF'
-    },
     locationButton: {
         width: 50,
         height: 50,
@@ -449,7 +445,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'flex-end',
         zIndex: 1004
-    }
+    },
 });
 
 AppRegistry.registerComponent('Map', () => Map);
