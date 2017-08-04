@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 import Svg, {Circle} from 'react-native-svg';
 import Map from './Map';
-import RenderSelectedRoute from './RenderSelectedRoute';
+import RenderRoutes from './RenderRoutes';
 import AppText from './text/AppText';
 import {FONT_WEIGHT, FONT_SIZE} from '../styles/AppStyles';
 
@@ -18,15 +18,24 @@ const {width, height} = Dimensions.get('window');
 export default class InRouteToDestination extends Component {
 
     props: {
-        selectedRoute: PropTypes.object
-    }
+        route: PropTypes.object
+    };
+
+    state = {
+        mapRef2: PropTypes.object,
+        route: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
-            selectedRoute: this.props.navigation.state.params.selectedRoute
+            route: this.props.navigation.state.params.route
         };
+    }
+
+    componentDidMount() {
+        this.state.mapRef2.fitToRoute(this.state.route.geometry.coordinates);
     }
 
     setModalVisible(visible) {
@@ -48,7 +57,9 @@ export default class InRouteToDestination extends Component {
                                     onPress={() => this.props.navigation.navigate('InitialRouteSelect')}>
                     <Ionicons name="ios-arrow-round-back" size={40}></Ionicons>
                 </TouchableHighlight>
-                <RenderSelectedRoute busData={require("../json/ROUTE_33_GO")} route={this.state.selectedRoute} />
+                <Map ref={ ref=>this.state.mapRef2 = ref}>
+                    <RenderRoutes routes={this.state.route} strokeWidth={5}/>
+                </Map>
                 {/* \/\/\/ Everything about the modal view.*/}
                 {/*<View style={{*/}
                     {/*position: 'absolute',*/}

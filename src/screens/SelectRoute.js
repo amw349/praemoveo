@@ -170,7 +170,7 @@ export default class SelectRoute extends Component {
                     <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'flex-end'}}>
                         <TouchableHighlight accessibilityTraits="button"
                                             underlayColor='transparent'
-                                            onPress={() => this.props.navigation.navigate('InRouteToDestination', {selectedRoute: item})}>
+                                            onPress={() => this.props.navigation.navigate('InRouteToDestination', {route: item})}>
                             <Entypo name="chevron-thin-right" size={18} style={{marginRight: 10}}/>
                         </TouchableHighlight>
                     </View>

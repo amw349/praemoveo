@@ -14,13 +14,15 @@ export default class AllRoutesContainer extends Component {
     props: {
         metroRoutes: PropTypes.object,
         caguasRoutes: PropTypes.object,
-        routeSelected: PropTypes.func
+        routeSelected: PropTypes.func,
+        strokeWidth: PropTypes.number
     };
 
     state = {
         routes: this.props.metroRoutes,
         routeDesc: PropTypes.string,
-        mapRef:PropTypes.object
+        mapRef:PropTypes.object,
+        strokeWidth: this.props.strokeWidth || 3
     };
 
     constructor(props) {
@@ -32,9 +34,6 @@ export default class AllRoutesContainer extends Component {
         // this.route.onPress(){
             // debugger;
             console.log(">>>>"+route);
-
-
-
     };
 
     renderRoutes() {
@@ -43,8 +42,7 @@ export default class AllRoutesContainer extends Component {
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
                 onPress={() => this.onPress( element)}
-                strokeWidth={5}>
-
+                strokeWidth={this.state.strokeWidth}>
             </MapView.Polyline>
         );
     }
