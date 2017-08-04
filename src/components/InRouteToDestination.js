@@ -21,14 +21,12 @@ export default class InRouteToDestination extends Component {
         selectedRoute: PropTypes.object
     }
 
-    state = {
-        modalVisible: false,
-        selectedRoute: this.props.navigation.state.params.selectedRoute
-    }
-
     constructor(props) {
         super(props);
-        console.log("selected route transferred correctly", props)
+        this.state = {
+            modalVisible: false,
+            selectedRoute: this.props.navigation.state.params.selectedRoute
+        };
     }
 
     setModalVisible(visible) {
@@ -38,12 +36,6 @@ export default class InRouteToDestination extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                {/*<TouchableHighlight accessibilityTraits="button"*/}
-                {/*underlayColor='transparent'*/}
-                {/*style={{...StyleSheet.absoluteFillObject,top:22,left:16,height:30,zIndex:1002,}}*/}
-                {/*onPress={() => this.props.navigation.navigate('DrawerOpen')}>*/}
-                {/*<Ionicons name="ios-menu" size={30}></Ionicons>*/}
-                {/*</TouchableHighlight>*/}
                 <TouchableHighlight accessibilityTraits="button"
                                     underlayColor='transparent'
                                     style={{
