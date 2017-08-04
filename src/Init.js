@@ -75,12 +75,13 @@ export default class Init extends Component {
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
                                         style={{
-                                        ...StyleSheet.absoluteFillObject,
-                                        top: 22,
-                                        left: 16,
-                                        height: 30,
-                                        zIndex: 1002,
-                                    }}
+                                            ...StyleSheet.absoluteFillObject,
+                                            top: 22,
+                                            left: 16,
+                                            height: 30,
+                                            width: 30,
+                                            zIndex: 1002,
+                                        }}
                                         onPress={() => this.props.navigation.navigate('DrawerOpen')}>
                         <Animated.View style={{opacity: this.state.opacity}}>
                             <Ionicons name="ios-menu" size={30}/>

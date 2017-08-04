@@ -417,9 +417,22 @@ export default class Map extends Component {
         }
     }
 
+    showButton(){
+        if(!this.props.disableLocationButton){
+            return(
+                <TouchableOpacity
+                    onPress={() => this.locationButton()}>
+                    <View style={styles.locationButton}>
+                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+    }
+
     render() {
 
-        let icon = this.icon();
+        let icon = this.showButton();
 
         return (
             <View style={styles.container}>
@@ -434,12 +447,7 @@ export default class Map extends Component {
                          onRegionChange={() => this.onRegionChange()}>
                     {this.props.children}
                 </MapView>
-                <TouchableOpacity
-                    onPress={() => this.locationButton()}>
-                    <View style={styles.locationButton}>
-                        {icon}
-                    </View>
-                </TouchableOpacity>
+                {icon}
             </View>
         );
     }
@@ -486,6 +494,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'flex-end',
         zIndex: 1004
+    },
+    infoBar:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'flex-end',
+        zIndex: 1004,
+        width: '100%',
+        height: '25%',
+        backgroundColor:'#FFF',
+        marginBottom: 30,
     }
 });
 
