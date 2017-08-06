@@ -25,13 +25,14 @@ export default class AllRoutesContainer extends Component {
         metroRoutes: PropTypes.object,
         caguasRoutes: PropTypes.object,
         routeSelected: PropTypes.func,
-        strokeWidth: PropTypes.number
+        strokeWidth: PropTypes.number,
+        mapOpacity: PropTypes.func
     };
 
     state = {
         routes: this.props.metroRoutes,
         routeDesc: PropTypes.string,
-        mapRef:PropTypes.object,
+        mapRef: PropTypes.object,
         strokeWidth: this.props.strokeWidth || 3,
         yPosition: new Animated.Value(Dimensions.get('window').height),
         routeName: "",
@@ -89,7 +90,8 @@ export default class AllRoutesContainer extends Component {
         let renderRoutes = this.renderRoutes();
         return (
             <View style={{flex: 1}}>
-                <Map disableLocationButton={this.state.disableLocationButton}>
+                <Map mapOpacity={pressed => this.props.mapOpacity(pressed)}
+                     disableLocationButton={this.state.disableLocationButton}>
                     <AllRoutes renderRoutes={renderRoutes}/>
                 </Map>
                 <Animated.View style={[styles.infoBox,
@@ -112,26 +114,26 @@ export default class AllRoutesContainer extends Component {
 
 
 const styles = new StyleSheet.create({
-   infoBox:{
-       padding: 20,
-       height: '25%',
-       alignItems: 'center',
-       zIndex: 1005,
-       borderRadius: 2,
-       backgroundColor: '#FFF',
-       marginBottom: 30,
-       marginLeft: 16,
-       marginRight: 16,
-       position: 'absolute',
-       left: 0,
-       right: 0,
-       bottom: 0,
-   },
-    infoText:{
-       fontSize: 25,
+    infoBox: {
+        padding: 20,
+        height: '25%',
+        alignItems: 'center',
+        zIndex: 1005,
+        borderRadius: 2,
+        backgroundColor: '#FFF',
+        marginBottom: 30,
+        marginLeft: 16,
+        marginRight: 16,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
-    backButton:{
-       alignSelf:'flex-start'
+    infoText: {
+        fontSize: 25,
+    },
+    backButton: {
+        alignSelf: 'flex-start'
     }
 });
 
