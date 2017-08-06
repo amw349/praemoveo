@@ -6,11 +6,10 @@ import {
     AppRegistry,
     StyleSheet,
     View,
-    Text,
     Dimensions,
     TouchableOpacity,
-    Alert,
-
+    TouchableWithoutFeedback,
+    Alert
 } from 'react-native';
 import MapView from 'react-native-maps';
 import TouchableItem from "../../node_modules/react-navigation/lib/views/TouchableItem";
@@ -25,6 +24,7 @@ export default class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            icon: undefined,
             userPosition: {
                 latitude: 0,
                 longitude: 0,
@@ -357,7 +357,7 @@ export default class Map extends Component {
                         userPosition: initialRegion,
                         markerPosition: initialRegion
                     })
-                }else {
+                } else {
                     this.setState({
                         initialPosition: initialRegion,
                         userPosition: initialRegion,
@@ -381,7 +381,7 @@ export default class Map extends Component {
                 latitudeDelta: LATITUDE_DELTA
             };
             this.setState({
-                initialPosition: lastRegion,
+                //initialPosition: lastRegion,
                 userPosition: lastRegion,
                 markerPosition: lastRegion
             })
@@ -399,27 +399,22 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        if (!this.state.onRoute && this.props.boundingBoxC) {
-            this.refs.map.fitToCoordinates(this.props.boundingBoxC,{
-                animated: true
-            });
-        } else {
-            this.refs.map.animateToRegion(this.state.userPosition,
-                500);
-        }
+        // if (!this.state.onRoute && this.props.boundingBoxC) {
+        //     this.refs.map.fitToCoordinates(this.props.boundingBoxC, {
+        //         animated: true
+        //     });
+        // } else {
+        //     this.refs.map.animateToRegion(this.state.userPosition,
+        //         500);
+        // }
+        this.refs.map.animateToRegion(this.state.userPosition,
+            500);
         this.setState({onRoute: !this.state.onRoute});
     }
-    icon(){
-        if (!this.state.onRoute && this.props.boundingBoxC) {
-            return <FontAwesome name="road" size={25} color="#FFF"/>
-        } else {
-            return <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
-        }
-    }
 
-    showButton(){
-        if(!this.props.disableLocationButton){
-            return(
+    showButton() {
+        if (this.props.showLocationButton) {
+            return (
                 <TouchableOpacity
                     onPress={() => this.locationButton()}>
                     <View style={styles.locationButton}>
@@ -495,14 +490,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         zIndex: 1004
     },
-    infoBar:{
+    infoBar: {
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end',
         zIndex: 1004,
         width: '100%',
         height: '25%',
-        backgroundColor:'#FFF',
+        backgroundColor: '#FFF',
         marginBottom: 30,
     }
 });

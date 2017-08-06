@@ -30,7 +30,7 @@ export default class AllRoutesContainer extends Component {
         routes: this.props.metroRoutes.concat(this.props.caguasRoutes),
         yPosition: new Animated.Value(Dimensions.get('window').height),
         routeName: "",
-        disableLocationButton: false
+        showLocationButton: true
     };
 
     constructor(props) {
@@ -58,14 +58,14 @@ export default class AllRoutesContainer extends Component {
         this.slideUp.start();
         this.setState({
             routeName: route.properties.fullName,
-            disableLocationButton: true
+            showLocationButton: false
         });
     }
 
     closeInfo() {
         this.slideDown.start();
         this.setState({
-            disableLocationButton: false
+            showLocationButton: true
         });
     }
 
@@ -75,7 +75,7 @@ export default class AllRoutesContainer extends Component {
                 onPress={() => this.openInfo(element)}
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
-                strokeWidth={2}>
+                strokeWidth={3}>
             </MapView.Polyline>
         );
     }
@@ -84,12 +84,11 @@ export default class AllRoutesContainer extends Component {
         let renderRoutes = this.renderRoutes();
         return (
             <View style={{flex: 1}}>
-                <Map disableLocationButton={this.state.disableLocationButton}>
+                <Map showLocationButton={this.state.showLocationButton}>
                     <AllRoutes renderRoutes={renderRoutes}/>
                 </Map>
                 <Animated.View style={[styles.infoBox,
                     {transform: [{translateY: this.state.yPosition}]}]}>
-
                     <TouchableWithoutFeedback onPress={() => this.closeInfo()}>
                         <Ionicons
                             name="ios-arrow-round-back"
@@ -97,8 +96,7 @@ export default class AllRoutesContainer extends Component {
                             style={styles.backButton}
                         />
                     </TouchableWithoutFeedback>
-                    <Text style={styles.infoText}>Ruta {this.state.routeName}</Text>
-
+                    <Text style={styles.routeName}>Ruta {this.state.routeName}</Text>
                 </Animated.View>
             </View>
         );
@@ -107,26 +105,29 @@ export default class AllRoutesContainer extends Component {
 
 
 const styles = new StyleSheet.create({
-   infoBox:{
-       padding: 20,
-       height: '25%',
-       alignItems: 'center',
-       zIndex: 1005,
-       borderRadius: 2,
-       backgroundColor: '#FFF',
-       marginBottom: 30,
-       marginLeft: 16,
-       marginRight: 16,
-       position: 'absolute',
-       left: 0,
-       right: 0,
-       bottom: 0,
-   },
-    infoText:{
-       fontSize: 25,
+    infoBox: {
+        padding: 20,
+        height: '25%',
+        alignItems: 'center',
+        zIndex: 1005,
+        borderRadius: 2,
+        backgroundColor: '#FFF',
+        marginBottom: 30,
+        marginLeft: 16,
+        marginRight: 16,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
-    backButton:{
-       alignSelf:'flex-start'
+    routeName: {
+        fontSize: 25,
+        position: 'absolute',
+        textAlign:'center',
+        top: 0,
+    },
+    backButton: {
+        alignSelf: 'flex-start'
     }
 });
 
