@@ -431,17 +431,20 @@ export default class Map extends Component {
 
         return (
             <View style={styles.container}>
-                <MapView style={styles.map}
-                         ref="map"
-                         showsUserLocation={true}
-                         showsMyLocationButton={false}
-                         showsCompass={false}
-                         customMapStyle={this.mapStyle}
-                         provider={MapView.PROVIDER_GOOGLE}
-                         region={this.state.initialPosition}
-                         onRegionChange={() => this.onRegionChange()}>
-                    {this.props.children}
-                </MapView>
+                <TouchableWithoutFeedback onPressIn={()=>this.props.mapOpacity(true)}
+                                          onPressOut={()=>this.props.mapOpacity(false)}>
+                    <MapView style={styles.map}
+                             ref="map"
+                             showsUserLocation={true}
+                             showsMyLocationButton={false}
+                             showsCompass={false}
+                             customMapStyle={this.mapStyle}
+                             provider={MapView.PROVIDER_GOOGLE}
+                             region={this.state.initialPosition}
+                             onRegionChange={() => this.onRegionChange()}>
+                        {this.props.children}
+                    </MapView>
+                </TouchableWithoutFeedback>
                 {icon}
             </View>
         );

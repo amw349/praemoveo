@@ -23,7 +23,8 @@ export default class AllRoutesContainer extends Component {
 
     props: {
         metroRoutes: PropTypes.object,
-        caguasRoutes: PropTypes.object
+        caguasRoutes: PropTypes.object,
+        mapOpacity: PropTypes.func
     };
 
     state = {
@@ -84,7 +85,8 @@ export default class AllRoutesContainer extends Component {
         let renderRoutes = this.renderRoutes();
         return (
             <View style={{flex: 1}}>
-                <Map showLocationButton={this.state.showLocationButton}>
+                <Map showLocationButton={this.state.showLocationButton}
+                     mapOpacity={pressed => this.props.mapOpacity(pressed)}>
                     <AllRoutes renderRoutes={renderRoutes}/>
                 </Map>
                 <Animated.View style={[styles.infoBox,
@@ -123,7 +125,7 @@ const styles = new StyleSheet.create({
     routeName: {
         fontSize: 25,
         position: 'absolute',
-        textAlign:'center',
+        textAlign: 'center',
         top: 0,
     },
     backButton: {
