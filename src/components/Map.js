@@ -1,10 +1,17 @@
 /**
  * Created by alexandraward on 7/11/17.
  */
-'use strict';
-import React, {Component} from "react";
-import {AppRegistry, StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback, Alert,TextInput} from "react-native";
-import MapView from "react-native-maps";
+import React, {Component} from 'react';
+import {
+    AppRegistry,
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    TouchableWithoutFeedback,
+
+} from 'react-native';
+import MapView from 'react-native-maps';
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import PropTypes from "prop-types";
 import * as mapStyles from "../styles/MapStyles";
@@ -13,7 +20,7 @@ const screen = Dimensions.get('window'); // returns a {width, height}
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const DEFAULT_PADDING = { top: 40, right: 40, bottom: 40, left: 40 };
+const DEFAULT_PADDING = {top: 40, right: 40, bottom: 40, left: 40};
 
 export default class Map extends Component {
 
@@ -90,10 +97,10 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        this.state.mapRef.animateToRegion(this.state.userPosition,500);
+        this.state.mapRef.animateToRegion(this.state.userPosition, 500);
     }
 
-    onRegionChange(region){
+    onRegionChange(region) {
         this.setState({currentPosition: region});
         // if (this.props.route) {
         //     this.state.mapRef.fitToCoordinates(this.props.route.geometry.coordinates, {
@@ -107,37 +114,49 @@ export default class Map extends Component {
         console.log("llegue a fit to route");
         console.log("fit to route coords: ", coordinates);
         this.state.mapRef.fitToCoordinates(coordinates, {
-            edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+            edgePadding: {top: 100, right: 100, bottom: 100, left: 100},
             animated: true,
         });
     }
 
-
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <MapView ref={ref=>this.state.mapRef = ref}
-                         style={styles.map}
-                         onMapReady={() => this.locationButton}
-                         showsUserLocation={true}
-                         showsMyLocationButton={false}
-                         showsCompass={false}
-                         customMapStyle={mapStyles.LIGHT}
-                         provider={MapView.PROVIDER_GOOGLE}
-                         region={this.state.currentPosition}
-                         onRegionChange={region => this.onRegionChange(region)}>
-                        {this.props.children}
-                </MapView>
-                <View>
-                    <Text>{this.state.currentPosition.latitude}, {this.state.currentPosition.longitude}</Text>
-                </View>
+    showButton() {
+        if (!this.props.disableLocationButton) {
+            return (
                 <TouchableWithoutFeedback
                     onPress={() => this.locationButton()}>
                     <View style={styles.locationButton}>
                         <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
                     </View>
                 </TouchableWithoutFeedback>
+            )
+        }
+    }
+
+    render() {
+
+        let icon = this.showButton();
+
+        return (
+            <View style={styles.container}>
+                <TouchableWithoutFeedback onPressIn={() => this.props.mapOpacity(true)}
+                                          onPressOut={() => this.props.mapOpacity(false)}>
+                    <MapView ref={ref => this.state.mapRef = ref}
+                             style={styles.map}
+                             onMapReady={() => this.locationButton}
+                             showsUserLocation={true}
+                             showsMyLocationButton={false}
+                             showsCompass={false}
+                             customMapStyle={mapStyles.LIGHT}
+                             provider={MapView.PROVIDER_GOOGLE}
+                             region={this.state.currentPosition}
+                             onRegionChange={region => this.onRegionChange(region)}>
+                        {this.props.children}
+                    </MapView>
+                </TouchableWithoutFeedback>
+                <View>
+                    <Text>{this.state.currentPosition.latitude}, {this.state.currentPosition.longitude}</Text>
+                </View>
+                {icon}
             </View>
         );
     }

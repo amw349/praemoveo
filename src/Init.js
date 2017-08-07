@@ -21,6 +21,7 @@ import AllRoutesContainer from "./containers/AllRoutesContainer";
 import {NavigationActions} from "react-navigation";
 import InitiatorBar from "./components/InitiatorBar";
 import PropTypes from "prop-types";
+import DrawerIcon from './components/DrawerIcon'
 
 
 export default class Init extends Component {
@@ -28,65 +29,59 @@ export default class Init extends Component {
     constructor(props) {
         super(props);
         /*this.fadeIn = Animated.timing(
-            this.state.opacity, {
-                toValue: 1,
-                duration: 500,
-                delay: 0
-            }
-        );
-        this.fadeOut = Animated.timing(
-            this.state.opacity, {
-                toValue: 0,
-                duration: 600,
-                delay: 300
-            }
-        );*/
+         this.state.opacity, {
+         toValue: 1,
+         duration: 500,
+         delay: 0
+         }
+         );
+         this.fadeOut = Animated.timing(
+         this.state.opacity, {
+         toValue: 0,
+         duration: 600,
+         delay: 300
+         }
+         );*/
     }
 
     state = {
         modalVisible: false,
         searchBarOpacity: 1,
         barRef: PropTypes.object,
+        drawerRef: PropTypes.object,
         opacity: new Animated.Value(1),
     };
 
     toggleModal = () => {
         this.state.barRef.toggleVisible();
+        this.state.drawerRef.toggleVisible();
         this.setState({modalVisible: this.state.modalVisible});
     };
 
     opacity(pressed) {
-        this.state.barRef.doFade(pressed)
+        this.state.barRef.doFade(pressed);
+        this.state.drawerRef.doFade(pressed);
     };
 
     render() {
         return (
-            <TouchableWithoutFeedback onPressIn={() => this.opacity(true)} onPressOut={() => this.opacity(false)}>
-                <View style={{flex: 1}}>
-                    {/*<!-- burger menu -->*/}
-                    <TouchableHighlight accessibilityTraits="button"
-                                        underlayColor='transparent'
-                                        style={{
-                                        ...StyleSheet.absoluteFillObject,
-                                        top: 22,
-                                        left: 16,
-                                        height: 30,
-                                        zIndex: 1002,
-                                    }}
-                                        onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-                        <Animated.View >
-                            <Ionicons name="ios-menu" size={30}/>
-                        </Animated.View>
-                    </TouchableHighlight>
-                    {/*<!-- end burger menu -->*/}
-                    <InitiatorBar onPress={()=>this.openRouteList()} ref={ref=>this.state.barRef = ref}/>
-                    <AllRoutesContainer metroRoutes={[require("./json/routesMetro/C22.json")]} routeSelected={route=>console.log(route)}
-                                        caguasRoutes={require("./json/routesCaguas/routesCaguas")}/>
-                    <View pointerEvents="none" style={{...StyleSheet.absoluteFillObject,zIndex:1004, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
-                        <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
-                    </View>
+            <View style={{flex: 1}}>
+                <DrawerIcon onPress={()=>this.props.navigation.navigate('DrawerOpen')} ref={ref => this.state.drawerRef = ref}/>
+                <InitiatorBar onPress={() => this.openRouteList()} ref={ref => this.state.barRef = ref}/>
+                <AllRoutesContainer metroRoutes={[require("./json/routesMetro/C22.json")]}
+                                    routeSelected={route => console.log(route)}
+                                    caguasRoutes={require("./json/routesCaguas/routesCaguas")}
+                                    mapOpacity={pressed => this.opacity(pressed)}/>
+                <View pointerEvents="none" style={{
+                    ...StyleSheet.absoluteFillObject,
+                    zIndex: 1004,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent'
+                }}>
+                    <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
         )
     }
 
