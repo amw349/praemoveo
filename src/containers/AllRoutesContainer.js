@@ -37,6 +37,7 @@ export default class AllRoutesContainer extends Component {
     };
 
     renderRoutes() {
+
         return this.state.routes.map((element) =>
             <MapView.Polyline
                 coordinates={element.geometry.coordinates}
@@ -50,7 +51,7 @@ export default class AllRoutesContainer extends Component {
     render() {
         let renderRoutes = this.renderRoutes();
         return (
-            <Map>
+            <Map >
                 <AllRoutes renderRoutes={renderRoutes}/>
             </Map>
         );
