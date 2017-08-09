@@ -47,7 +47,7 @@ export default class InRouteToDestination extends Component {
                                         height: 30,
                                         zIndex: 1002,
                                     }}
-                                    onPress={() => this.props.navigation.navigate('InitialRouteSelect')}>
+                                    onPress={() => this.props.navigation.goBack()}>
                     <Ionicons name="ios-arrow-round-back" size={40}></Ionicons>
                 </TouchableHighlight>
                 <RenderSelectedRoute busData={require("../json/ROUTE_33_GO")} route={this.state.selectedRoute} />

@@ -164,7 +164,7 @@ export default class Map extends Component {
                                  showsUserLocation={true}
                                  showsMyLocationButton={false}
                                  showsCompass={false}
-                                 customMapStyle={this.mapStyle}
+                                 customMapStyle={mapStyles.LIGHT}
                                  provider={MapView.PROVIDER_GOOGLE}
                                  region={this.state.initialPosition}
                                  onRegionChange={() => this.onRegionChange()}

@@ -51,7 +51,6 @@ export default class RenderSelectedRoute extends Component {
                 strokeWidth={2}>
             </MapView.Polyline>
         )
-            ;
     }
 
     render() {
