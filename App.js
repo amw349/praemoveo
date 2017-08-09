@@ -31,13 +31,13 @@ function forVertical(props) {
 const TransporteUrbano = DrawerNavigator({
     Init: { screen: Init},
     About: { screen: About},
-    InRouteToDestination: {screen: InRouteToDestination},
 
 });
 
 const routeNavigation = StackNavigator({
         Home: {screen: TransporteUrbano,},
         InitialRouteSelect: {screen: SelectRoute, mode: 'Modal',},
+        InRouteToDestination: {screen: InRouteToDestination},
     },
     {
         mode: 'card',
