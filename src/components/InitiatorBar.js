@@ -95,5 +95,4 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZE.xLarge,
         color: '#EAEAEA'
     }
-
 });
