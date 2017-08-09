@@ -22,18 +22,23 @@ import Map from '../components/Map';
 import AllRoutes from '../components/AllRoutes';
 import PropTypes from 'prop-types';
 import RouteIdentifier from '../components/RouteIdentifier'
-import Swipable from 'react-native-swipeable'
 export default class AllRoutesContainer extends Component {
 
     props: {
         metroRoutes: PropTypes.object,
+        mapOpacity: PropTypes.func
         caguasRoutes: PropTypes.object,
+        routeSelected: PropTypes.func,
+        strokeWidth: PropTypes.number,
         mapOpacity: PropTypes.func
     };
 
     state = {
         routes: this.props.metroRoutes.concat(this.props.caguasRoutes),
         routeNameColor: '#000',
+        routeDesc: PropTypes.string,
+        mapRef: PropTypes.object,
+        strokeWidth: this.props.strokeWidth || 3,
         yPosition: new Animated.Value(Dimensions.get('window').height),
         xPosition: new Animated.Value(0),
         routeName: "",
@@ -145,7 +150,7 @@ export default class AllRoutesContainer extends Component {
                 onPress={() => this.openInfo(element)}
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
-                strokeWidth={3}>
+                strokeWidth={this.state.strokeWidth}>
             </MapView.Polyline>
         );
     }
@@ -285,4 +290,3 @@ const styles = new StyleSheet.create({
 });
 
 AppRegistry.registerComponent('AllRoutesContainer', () => AllRoutesContainer);
-

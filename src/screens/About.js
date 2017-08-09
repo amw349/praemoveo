@@ -1,6 +1,7 @@
 /**
  * Created by Edxe on 7/14/17.
  */
+'use strict';
 import React, {Component} from "react";
 
 export default  class About extends Component{

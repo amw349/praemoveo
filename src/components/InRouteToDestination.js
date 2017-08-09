@@ -1,6 +1,7 @@
 /**
  * Created by alexandraward on 7/28/17.
  */
+'use strict';
 import React, {Component} from 'react';
 import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -8,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 import Svg, {Circle} from 'react-native-svg';
 import Map from './Map';
-import RenderSelectedRoute from './RenderSelectedRoute';
+import RenderRoutes from './RenderRoutes';
 import AppText from './text/AppText';
 import {FONT_WEIGHT, FONT_SIZE} from '../styles/AppStyles';
 
@@ -17,17 +18,24 @@ const {width, height} = Dimensions.get('window');
 export default class InRouteToDestination extends Component {
 
     props: {
-        selectedRoute: PropTypes.object
-    }
+        route: PropTypes.object
+    };
 
     state = {
-        modalVisible: false,
-        selectedRoute: this.props.navigation.state.params.selectedRoute
-    }
+        mapRef2: PropTypes.object,
+        route: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
-        console.log("selected route transferred correctly", props)
+        this.state = {
+            modalVisible: false,
+            route: this.props.navigation.state.params.route
+        };
+    }
+
+    componentDidMount() {
+        this.state.mapRef2.fitToRoute(this.state.route.geometry.coordinates);
     }
 
     setModalVisible(visible) {
@@ -37,12 +45,6 @@ export default class InRouteToDestination extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                {/*<TouchableHighlight accessibilityTraits="button"*/}
-                {/*underlayColor='transparent'*/}
-                {/*style={{...StyleSheet.absoluteFillObject,top:22,left:16,height:30,zIndex:1002,}}*/}
-                {/*onPress={() => this.props.navigation.navigate('DrawerOpen')}>*/}
-                {/*<Ionicons name="ios-menu" size={30}></Ionicons>*/}
-                {/*</TouchableHighlight>*/}
                 <TouchableHighlight accessibilityTraits="button"
                                     underlayColor='transparent'
                                     style={{
@@ -55,7 +57,9 @@ export default class InRouteToDestination extends Component {
                                     onPress={() => this.props.navigation.navigate('InitialRouteSelect')}>
                     <Ionicons name="ios-arrow-round-back" size={40}></Ionicons>
                 </TouchableHighlight>
-                <RenderSelectedRoute busData={require("../json/ROUTE_33_GO")} route={this.state.selectedRoute} />
+                <Map ref={ ref=>this.state.mapRef2 = ref}>
+                    <RenderRoutes routes={this.state.route} strokeWidth={5}/>
+                </Map>
                 {/* \/\/\/ Everything about the modal view.*/}
                 {/*<View style={{*/}
                     {/*position: 'absolute',*/}
