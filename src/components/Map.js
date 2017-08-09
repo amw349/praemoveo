@@ -389,6 +389,13 @@ export default class Map extends Component {
 
     }
 
+    checkIfOnUserPosition(region) {
+        if (JSON.stringify(region) ===
+            JSON.stringify(this.state.userPosition)) {
+            Alert.alert('HELLO');
+        }
+    }
+
     onRegionChange(region) {
         this.setState({initialPosition: region});
     }
@@ -425,14 +432,35 @@ export default class Map extends Component {
         }
     }
 
-    render() {
 
+    content() {
         let icon = this.showButton();
-
-        return (
-            <View style={styles.container}>
-                <TouchableWithoutFeedback onPressIn={()=>this.props.mapOpacity(true)}
-                                          onPressOut={()=>this.props.mapOpacity(false)}>
+        if (this.props.mapOpacity) {
+            return (
+                <View style={styles.container}>
+                    <TouchableWithoutFeedback delayPressIn={150}
+                                              onPressIn={() => this.props.mapOpacity(true)}
+                                              onPressOut={() => this.props.mapOpacity(false)}>
+                        <MapView style={styles.map}
+                                 ref="map"
+                                 showsUserLocation={true}
+                                 showsMyLocationButton={false}
+                                 showsCompass={false}
+                                 customMapStyle={this.mapStyle}
+                                 provider={MapView.PROVIDER_GOOGLE}
+                                 region={this.state.initialPosition}
+                                 onRegionChange={() => this.onRegionChange()}
+                                 onRegionChangeComplete={(region) => this.checkIfOnUserPosition(region)}
+                        >
+                            {this.props.children}
+                        </MapView>
+                    </TouchableWithoutFeedback>
+                    {icon}
+                </View>
+            )
+        } else {
+            return (
+                <View style={styles.container}>
                     <MapView style={styles.map}
                              ref="map"
                              showsUserLocation={true}
@@ -441,11 +469,23 @@ export default class Map extends Component {
                              customMapStyle={this.mapStyle}
                              provider={MapView.PROVIDER_GOOGLE}
                              region={this.state.initialPosition}
-                             onRegionChange={() => this.onRegionChange()}>
+                             onRegionChange={() => this.onRegionChange()}
+                             onRegionChangeComplete={(region) => this.checkIfOnUserPosition(region)}
+                    >
                         {this.props.children}
                     </MapView>
-                </TouchableWithoutFeedback>
-                {icon}
+                    {icon}
+                </View>
+            )
+        }
+    }
+
+
+    render() {
+        let content = this.content();
+        return (
+            <View style={{flex: 1}}>
+                {content}
             </View>
         );
     }

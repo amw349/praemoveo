@@ -17,9 +17,9 @@ export default class RenderSelectedRoute extends Component {
     }
 
     boundingBox() {
-        var coords = this.props.route.geometry.coordinates;
-        var formatedCoords = [];
-        for (var i = 0; i < coords.length; i++) {
+        let coords = this.props.route.geometry.coordinates;
+        let formatedCoords = [];
+        for (let i = 0; i < coords.length; i++) {
             formatedCoords.push(
                 latLng = {
                     latitude: coords[i].latitude,
@@ -58,7 +58,7 @@ export default class RenderSelectedRoute extends Component {
         let renderRoutes = this.renderRoutes();
         let boundingBoxCoordinates = this.boundingBox();
         return (
-            <Map boundingBoxC={boundingBoxCoordinates}>
+            <Map boundingBoxC={boundingBoxCoordinates} showLocationButton={true}>
                 <AllRoutes renderRoutes={renderRoutes}/>
             </Map>
         );

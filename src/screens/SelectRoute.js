@@ -11,8 +11,10 @@ import {
     StyleSheet,
     Animated,
     Dimensions,
+    Alert,
     Easing,
     BackHandler,
+    TouchableWithoutFeedback,
     TextInput
 } from "react-native";
 import {FONT_SIZE, FONT_WEIGHT} from "../styles/AppStyles";
@@ -20,6 +22,7 @@ import AppText from "../components/text/AppText";
 import Entypo from "react-native-vector-icons/Entypo";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Svg, {Circle} from "react-native-svg";
+import RouteIdentifier from "../components/RouteIdentifier"
 
 export default class SelectRoute extends Component {
 
@@ -28,12 +31,21 @@ export default class SelectRoute extends Component {
         borderRadius: 1,
     };
 
+    stateArray = [];
+
     constructor(props) {
         super(props);
         this.state = {
             text: ''
         };
         let {height, width} = Dimensions.get('window');
+
+        const {params} = this.props.navigation.state;
+
+        for (let i = 0; i < params.routes.length; i++) {
+            this.stateArray[params.routes[i].id] = params.routes[i].favorite;
+        }
+
 
         //Negative to reduce animation time
         //Posivite to add animation time
@@ -47,7 +59,7 @@ export default class SelectRoute extends Component {
             inputOpacity: new Animated.Value(0),
             width: new Animated.Value(width),
             textTranslate: new Animated.Value(0),
-            closed: false
+            closed: false,
         };
 
 
@@ -120,24 +132,31 @@ export default class SelectRoute extends Component {
         );
     };
 
+
+    reRenderPage(itemId) {
+        this.stateArray[itemId] = !this.stateArray[itemId];
+        this.forceUpdate();
+    }
+
+
     _keyExtractor = (item, index) => item.id;
 
     _renderItem = ({item}) => (
         <View style={{flexDirection: 'row', height: 53, backgroundColor: 'white'}} id={item.id}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
-                    <Svg height="30" width="30">
-                        <Circle cx="15" cy="15" r="7.5" fill="none" stroke={item.color} strokeWidth="5"/>
-                    </Svg>
+                    <RouteIdentifier color={item.color}/>
                 </View>
                 <View style={{flex: 3 / 5, flexDirection: 'column', justifyContent: 'center'}}>
                     <AppText size={FONT_SIZE.large}>{item.fullName}</AppText>
                     <AppText size={FONT_SIZE.small}>Sale cada {item.interval}</AppText>
                 </View>
-                <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
-                    {item.favorite ? <Ionicons name='ios-star' size={18}/> :
-                        <Ionicons name='ios-star-outline' size={18}/>}
-                </View>
+                <TouchableWithoutFeedback onPress={() => this.reRenderPage(item.id)}>
+                    <View style={{flex: 1 / 5, justifyContent: 'center', alignItems: 'center'}}>
+                        {this.stateArray[item.id] ? <Ionicons name='ios-star' size={18}/> :
+                            <Ionicons name='ios-star-outline' size={18}/>}
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
             <View style={{flex: 1, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
                 <View style={{flexDirection: 'row', flex: 1}}>
@@ -168,9 +187,10 @@ export default class SelectRoute extends Component {
         );
     };
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress');
     }
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', () => {
             this.closeWindow(this.props.navigation);
@@ -200,32 +220,32 @@ export default class SelectRoute extends Component {
         const {params} = this.props.navigation.state;
         return (
             <View style={{flex: 1}}>
-           {/*     <View style={{flex:1,
-                        marginLeft: 16,
-                        marginRight: 16,
-                         zIndex: 1003,
-                        justifyContent: 'center',
-                        ...StyleSheet.absoluteFillObject,
-                        top:98,
-                        flexDirection: 'row',}}>
-                    <TextInput
-                        style={{
-                                    height: 30,
-                                    flex:1,
-                                    borderRadius: 2,
-                                    backgroundColor:'#fff',
-                                    borderWidth:2,
-                                    borderColor:'#F4F4F4',
-                                    textAlign: 'left',
-                                    paddingLeft:70,
-                                    fontFamily: FONT_WEIGHT.light,
-                                    fontSize: FONT_SIZE.large
-                                }}
-                        onChangeText={(text) => this.setState({text})}
-                        value={this.state.text}
-                        maxLength={20}
-                    />
-                </View>*/}
+                {/*     <View style={{flex:1,
+                 marginLeft: 16,
+                 marginRight: 16,
+                 zIndex: 1003,
+                 justifyContent: 'center',
+                 ...StyleSheet.absoluteFillObject,
+                 top:98,
+                 flexDirection: 'row',}}>
+                 <TextInput
+                 style={{
+                 height: 30,
+                 flex:1,
+                 borderRadius: 2,
+                 backgroundColor:'#fff',
+                 borderWidth:2,
+                 borderColor:'#F4F4F4',
+                 textAlign: 'left',
+                 paddingLeft:70,
+                 fontFamily: FONT_WEIGHT.light,
+                 fontSize: FONT_SIZE.large
+                 }}
+                 onChangeText={(text) => this.setState({text})}
+                 value={this.state.text}
+                 maxLength={20}
+                 />
+                 </View>*/}
                 <Animated.View style={{opacity: this.state.opacity, backgroundColor: "#FFF"}}>
                     <TouchableHighlight accessibilityTraits="button"
                                         underlayColor='transparent'
