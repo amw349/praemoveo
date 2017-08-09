@@ -75,6 +75,15 @@ export default class Init extends Component {
                 <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro.json")}
                                     caguasRoutes={require("./json/routesCaguas/routesCaguas")}
                                     mapOpacity={pressed => this.opacity(pressed)}/>
+                <View pointerEvents="none" style={{
+                    ...StyleSheet.absoluteFillObject,
+                    zIndex: 1004,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent'
+                }}>
+                    <FontAwesome pointerEvents="none" name="map-pin" size={30}/>
+                </View>
             </View>
         )
     }
