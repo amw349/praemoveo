@@ -26,7 +26,6 @@ export default class AllRoutesContainer extends Component {
 
     props: {
         metroRoutes: PropTypes.object,
-        mapOpacity: PropTypes.func
         caguasRoutes: PropTypes.object,
         routeSelected: PropTypes.func,
         strokeWidth: PropTypes.number,

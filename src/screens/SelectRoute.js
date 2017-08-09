@@ -56,7 +56,8 @@ export default class SelectRoute extends Component {
         this.state = {
             slide: new Animated.Value(height),
             opacity: new Animated.Value(0),
-            inputOpacity: new Animated.Value(0),
+            filterInputOpacity: new Animated.Value(0),
+            //width: new Animated.Value(width * 0.5),
             width: new Animated.Value(width),
             textTranslate: new Animated.Value(0),
             closed: false,
@@ -106,14 +107,6 @@ export default class SelectRoute extends Component {
             }
         );
 
-        this.slideOut = Animated.timing(
-            this.state.slide, {
-                toValue: height,
-                duration: 500 + animationTimer,
-                delay: 100,
-                easing: Easing.in(Easing.easing)
-            }
-        );
 
         this.fadeOut = Animated.timing(
             this.state.opacity, {
