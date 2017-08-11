@@ -78,10 +78,9 @@ export default class AllRoutesContainer extends Component {
     }
 
     closeInfo() {
-        this.slideDown.start();
+        this.state.yPosition.setValue((Dimensions.get('window').height));
         this.setState({
             showLocationButton: true,
-            translateY: new Animated.Value(0)
         });
     }
 
@@ -121,7 +120,7 @@ export default class AllRoutesContainer extends Component {
                         toValue: {x: Dimensions.get('window').width, y: 0},
                         delay: 0,
                         easing: Easing.in(Easing.ease),
-                        duration: 50,
+                        duration: 100,
                     }).start(this.closeInfo());
                 }
                 else if (gestureState.dx < -Dimensions.get('window').width * 0.5) {
@@ -129,7 +128,7 @@ export default class AllRoutesContainer extends Component {
                         toValue: {x: -Dimensions.get('window').width, y: 0},
                         delay: 0,
                         easing: Easing.in(Easing.ease),
-                        duration: 50,
+                        duration: 100,
                     }).start(this.closeInfo());
                 } else {
                     Animated.timing(this.animatedValue, {
@@ -148,6 +147,7 @@ export default class AllRoutesContainer extends Component {
             <MapView.Polyline
                 onPress={() => this.openInfo(element)}
                 coordinates={element.geometry.coordinates}
+                tappable={true}
                 strokeColor={element.properties.color}
                 strokeWidth={this.state.strokeWidth}>
             </MapView.Polyline>

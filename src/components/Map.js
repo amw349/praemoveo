@@ -161,9 +161,11 @@ export default class Map extends Component {
                                               onPressOut={() => this.props.mapOpacity(false)}>
                         <MapView style={styles.map}
                                  ref="map"
+                                 rotateEnabled={false}
                                  showsUserLocation={true}
                                  showsMyLocationButton={false}
                                  showsCompass={false}
+                                 loadingEnabled={true}
                                  customMapStyle={mapStyles.LIGHT}
                                  provider={MapView.PROVIDER_GOOGLE}
                                  region={this.state.initialPosition}
