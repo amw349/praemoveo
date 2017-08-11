@@ -7,7 +7,9 @@ import {DrawerNavigator, StackNavigator} from 'react-navigation';
 import Init from './src/Init';
 import SelectRoute from './src/screens/SelectRoute';
 import About from './src/screens/About';
+import RouteInfo from './src/screens/RouteInfo'
 import InRouteToDestination from './src/components/InRouteToDestination';
+import Pay from './src/screens/Pay'
 
 function forVertical(props) {
     const {layout, position, scene} = props;
@@ -38,6 +40,8 @@ const routeNavigation = StackNavigator({
         Home: {screen: TransporteUrbano,},
         InitialRouteSelect: {screen: SelectRoute, mode: 'Modal',},
         InRouteToDestination: {screen: InRouteToDestination},
+        RouteInfo: {screen: RouteInfo},
+        Pay: {screen: Pay}
     },
     {
         mode: 'card',
