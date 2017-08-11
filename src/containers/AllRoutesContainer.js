@@ -149,7 +149,6 @@ export default class AllRoutesContainer extends Component {
             <MapView.Polyline
                 onPress={() => this.openInfo(element)}
                 coordinates={element.geometry.coordinates}
-                tappable={true}
                 strokeColor={element.properties.color}
                 tappable={true}
                 strokeWidth={this.state.strokeWidth}>
