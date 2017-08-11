@@ -42,7 +42,8 @@ export default class AllRoutesContainer extends Component {
         xPosition: new Animated.Value(0),
         routeName: "",
         showLocationButton: true,
-        busCode: ""
+        busCode: "",
+        focusedRoute: undefined
     };
 
     constructor(props) {
@@ -73,6 +74,7 @@ export default class AllRoutesContainer extends Component {
             routeName: route.properties.fullName,
             routeNameColor: route.properties.color,
             busCode: route.id,
+            focusedRoute: route,
             showLocationButton: false
         });
     }
@@ -192,8 +194,27 @@ export default class AllRoutesContainer extends Component {
                         <View/>
                         <View/>
                     </View>
-
-
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('RouteInfo',
+                        {route: this.state.focusedRoute})}>
+                        <View style={{
+                            position:'absolute',
+                            right:0,
+                            bottom:'45%',
+                            width: 50,
+                            height: 50,
+                            borderRadius: 25,
+                            backgroundColor: this.state.routeNameColor,
+                            marginRight: 52,
+                            justifyContent: 'center',
+                        }}>
+                            <Text style={{
+                                textAlign: 'center',
+                                backgroundColor:'transparent',
+                                textAlignVertical: 'center',
+                                fontSize: 14
+                            }}>Test</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                     <Text style={styles.addFundsText}>Debe agregar mas fondos para este viaje</Text>
                     <View style={styles.buttons}>
                         <TouchableWithoutFeedback onPress={() => this.recargar()}>
@@ -208,7 +229,7 @@ export default class AllRoutesContainer extends Component {
 
                         <View style={{width: 2}}/>
 
-                        <TouchableWithoutFeedback onPress={() => this.pagar()}>
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Pay')}>
                             <View style={{flex: 4 / 3}}>
                                 <Text style={styles.buttonsText}>Pagar</Text>
                             </View>

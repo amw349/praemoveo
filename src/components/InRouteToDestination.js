@@ -3,12 +3,9 @@
  */
 'use strict';
 import React, {Component} from 'react';
-import {AppRegistry, Text, TouchableHighlight, View, Modal, StyleSheet, Dimensions} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {AppRegistry, Text, TouchableHighlight, View, StyleSheet, Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
-import Svg, {Circle} from 'react-native-svg';
-import Map from './Map';
 import RenderSelectedRoute from './RenderSelectedRoute';
 import AppText from './text/AppText';
 import {FONT_WEIGHT, FONT_SIZE} from '../styles/AppStyles';

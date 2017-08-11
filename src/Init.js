@@ -8,6 +8,8 @@ import {
     View,
     TouchableWithoutFeedback,
     Animated,
+    Platform,
+    Text,
     Dimensions,
     Alert
 } from "react-native";
@@ -26,7 +28,23 @@ export default class Init extends Component {
 
     constructor(props) {
         super(props);
-        this.offSet = 0;
+        this.slideInNearestLocation = Animated.timing(
+            this.state.pinSlide, {
+                toValue: 0,
+                duration: 500,
+                delay: 0
+            }
+        );
+        this.slideOutNearestLocation = Animated.timing(
+            this.state.pinSlide, {
+                toValue: Dimensions.get('window').width,
+                duration: 500,
+                delay: 0
+            }
+        );
+        this.padding = 0;
+        if(Platform.OS === 'ios') this.padding = 10;
+
     }
 
     componentDidMount() {
@@ -38,7 +56,7 @@ export default class Init extends Component {
         barRef: PropTypes.object,
         drawerRef: PropTypes.object,
         pinRef: PropTypes.object,
-        opacity: new Animated.Value(1),
+        pinSlide: new Animated.Value(Dimensions.get('window').width),
         pinLocation: new Animated.ValueXY(0),
         searchBarOpacity: 1,
         toggledPin: false
@@ -58,10 +76,16 @@ export default class Init extends Component {
     pinAnimation() {
         if (this.state.toggledPin) {
             this.slideToTop.start();
+            this.slideOutNearestLocation.start();
         } else {
             this.slideToMiddle.start();
+            this.slideInNearestLocation.start();
         }
         this.setState({toggledPin: !this.state.toggledPin})
+    }
+
+    routesNearButton() {
+        this.props.navigation.navigate('InRouteToDestination', {selectedRoute: require("./json/routesFormat.json")[0]});
     }
 
     measure() {
@@ -70,9 +94,12 @@ export default class Init extends Component {
             let aspectRatio = width / height;
             let transX = (width * 0.5) - px;
             let transY = (height * 0.5) - py;
+            this.pinWidth = width1;
+            this.pinHeight = height1;
             this.slideToMiddle = Animated.timing(
                 this.state.pinLocation, {
-                    toValue: {x: transX - (width1 / 2), y: transY - (height1 * aspectRatio)},
+                    toValue: {x: transX - (width1 / 2),
+                        y: transY - (height1 * aspectRatio) + this.padding - height1/3},
                     duration: 500,
                     delay: 0
                 }
@@ -89,13 +116,16 @@ export default class Init extends Component {
 
     render() {
         const AnimatedIcon = Animated.createAnimatedComponent(FontAwesome);
+        let height = Dimensions.get('window').height;
+        let width = Dimensions.get('window').width;
         return (
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent:'center'}}>
                 <DrawerIcon onPress={() => this.props.navigation.navigate('DrawerOpen')}
                             ref={ref => this.state.drawerRef = ref}/>
                 <InitiatorBar onPress={() => this.openRouteList()} ref={ref => this.state.barRef = ref}/>
                 <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro.json")}
                                     caguasRoutes={require("./json/routesCaguas/routesCaguas")}
+                                    navigation={this.props.navigation}
                                     mapOpacity={pressed => this.opacity(pressed)}/>
                 <TouchableWithoutFeedback onPress={() => this.pinAnimation()}>
                     <Animated.View
@@ -114,18 +144,68 @@ export default class Init extends Component {
                         }}>
                         <View onLayout={() => this.measure()}
                               ref={ref => this.state.pinRef = ref}
-                              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                              style={{flex: 1,
+                                  justifyContent: 'center',
+                                  alignSelf: 'center',
+                                  alignItems:'center'}}>
                             <AnimatedIcon
                                 name="map-pin"
                                 style={{
                                     fontSize: this.state.pinLocation.y.interpolate({
-                                        inputRange: [0, Dimensions.get('window').height/4],
+                                        inputRange: [0, height / 4],
                                         outputRange: [20, 25]
                                     })
                                 }}/>
                         </View>
                     </Animated.View>
                 </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={() => this.routesNearButton()}>
+                    <Animated.View style={{
+                        width: 118,
+                        height: 26,
+                        backgroundColor: '#F7F7F7',
+                        position: 'absolute',
+                        right: width / 2 - 118 - (this.pinWidth / 2) - 12,
+                        bottom: height / 2 - 21.5 - (this.pinHeight / 3) + this.padding,
+                        borderRadius: 5,
+                        elevation: 2,
+                        zIndex: 1004,
+                        transform:[{translateX: this.state.pinSlide}]
+                    }}>
+                        <Text style={{
+                            textAlign: 'center',
+                            textDecorationLine: 'underline',
+                            textAlignVertical: 'center',
+                        }}>Ver Rutas</Text>
+                    </Animated.View>
+                </TouchableWithoutFeedback>
+                {/*<Animated.View style={{*/}
+                    {/*width: 0,*/}
+                    {/*height: 0,*/}
+                    {/*backgroundColor: 'transparent',*/}
+                    {/*borderLeftColor: 'transparent',*/}
+                    {/*borderRightColor: 'transparent',*/}
+                    {/*borderBottomColor: '#F7F7F7',*/}
+                    {/*borderLeftWidth: 6,*/}
+                    {/*borderRightWidth: 6,*/}
+                    {/*borderBottomWidth: 12,*/}
+                    {/*position: 'absolute',*/}
+                    {/*right: width / 2 - (this.pinWidth / 2) - 12,*/}
+                    {/*bottom: height / 2 - 15 - (this.pinHeight / 3) + this.padding,*/}
+                    {/*transform:[{rotate: '-90deg'},{translateY: this.state.pinSlide}],*/}
+                    {/*zIndex: 1004,*/}
+                {/*}}/>*/}
+                {/*<View style={{width: 30,*/}
+                    {/*height: 30,*/}
+                    {/*zIndex: 1004,*/}
+                    {/*alignSelf:'center',*/}
+                    {/*alignItems:'center',*/}
+                    {/*justifyContent:'center',*/}
+                    {/*position:'absolute'*/}
+                {/*}}>*/}
+                    {/*<FontAwesome size={25} name="map-pin"/>*/}
+                {/*</View>*/}
             </View>
         )
     }
