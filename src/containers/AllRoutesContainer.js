@@ -16,7 +16,9 @@ import {
     StyleSheet,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import TimerMixin from 'react-timer-mixin';
+import geoLib from 'geolib';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Map from '../components/Map';
 import AllRoutes from '../components/AllRoutes';
@@ -29,7 +31,8 @@ export default class AllRoutesContainer extends Component {
         caguasRoutes: PropTypes.object,
         routeSelected: PropTypes.func,
         strokeWidth: PropTypes.number,
-        mapOpacity: PropTypes.func
+        mapOpacity: PropTypes.func,
+        vehiclePositionRoute: PropTypes.array
     };
 
     state = {
@@ -43,8 +46,11 @@ export default class AllRoutesContainer extends Component {
         routeName: "",
         showLocationButton: true,
         busCode: "",
-        focusedRoute: undefined
+        focusedRoute: undefined,
+        vehiclePosition:this.props.vehiclePositionRoute[0],
+        vehiclePositionDegree:0
     };
+
 
     constructor(props) {
         super(props);
@@ -64,7 +70,8 @@ export default class AllRoutesContainer extends Component {
                 delay: 0,
                 easing: Easing.in(Easing.ease)
             }
-        )
+        );
+
     }
 
     openInfo(route) {
@@ -92,6 +99,19 @@ export default class AllRoutesContainer extends Component {
 
     recargar() {
         Alert.alert('Recargar');
+    }
+
+    componentDidMount() {
+        let index = 1;
+        TimerMixin.setInterval(
+            () => {
+                let nextPosition = this.props.vehiclePositionRoute[index++];
+                let currentPos = Object.assign({}, this.state.vehiclePosition);
+                this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
+                },
+            900
+        );
+
     }
 
     componentWillMount() {
@@ -163,6 +183,11 @@ export default class AllRoutesContainer extends Component {
                 <Map showLocationButton={this.state.showLocationButton}
                      mapOpacity={pressed => this.props.mapOpacity(pressed)}>
                     <AllRoutes renderRoutes={renderRoutes}/>
+                    <MapView.Marker
+                        rotation={this.state.vehiclePositionDegree}
+                        coordinate= {this.state.vehiclePosition}
+                        image={require('../img/van-top-view.png')}
+                    />
                 </Map>
                 <Animated.View
                     {...this.panResponder.panHandlers}

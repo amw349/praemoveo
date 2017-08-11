@@ -126,6 +126,7 @@ export default class Init extends Component {
                 <AllRoutesContainer metroRoutes={require("./json/routesMetro/routesMetro.json")}
                                     caguasRoutes={require("./json/routesCaguas/routesCaguas")}
                                     navigation={this.props.navigation}
+                                    vehiclePositionRoute={ require("./json/routesMetro/L6226.json").geometry.coordinates}
                                     mapOpacity={pressed => this.opacity(pressed)}/>
                 <TouchableWithoutFeedback onPress={() => this.pinAnimation()}>
                     <Animated.View
@@ -180,32 +181,6 @@ export default class Init extends Component {
                         }}>Ver Rutas</Text>
                     </Animated.View>
                 </TouchableWithoutFeedback>
-                {/*<Animated.View style={{*/}
-                    {/*width: 0,*/}
-                    {/*height: 0,*/}
-                    {/*backgroundColor: 'transparent',*/}
-                    {/*borderLeftColor: 'transparent',*/}
-                    {/*borderRightColor: 'transparent',*/}
-                    {/*borderBottomColor: '#F7F7F7',*/}
-                    {/*borderLeftWidth: 6,*/}
-                    {/*borderRightWidth: 6,*/}
-                    {/*borderBottomWidth: 12,*/}
-                    {/*position: 'absolute',*/}
-                    {/*right: width / 2 - (this.pinWidth / 2) - 12,*/}
-                    {/*bottom: height / 2 - 15 - (this.pinHeight / 3) + this.padding,*/}
-                    {/*transform:[{rotate: '-90deg'},{translateY: this.state.pinSlide}],*/}
-                    {/*zIndex: 1004,*/}
-                {/*}}/>*/}
-                {/*<View style={{width: 30,*/}
-                    {/*height: 30,*/}
-                    {/*zIndex: 1004,*/}
-                    {/*alignSelf:'center',*/}
-                    {/*alignItems:'center',*/}
-                    {/*justifyContent:'center',*/}
-                    {/*position:'absolute'*/}
-                {/*}}>*/}
-                    {/*<FontAwesome size={25} name="map-pin"/>*/}
-                {/*</View>*/}
             </View>
         )
     }
