@@ -7,7 +7,8 @@ import {DrawerNavigator, StackNavigator} from 'react-navigation';
 import Init from './src/Init';
 import SelectRoute from './src/screens/SelectRoute';
 import About from './src/screens/About';
-import RouteInfo from './src/screens/RouteInfo'
+import RouteInfo from './src/screens/RouteInfo';
+import PayConfirmed from './src/screens/PayConfirmed';
 import InRouteToDestination from './src/components/InRouteToDestination';
 import Pay from './src/screens/Pay'
 
@@ -41,7 +42,8 @@ const routeNavigation = StackNavigator({
         InitialRouteSelect: {screen: SelectRoute, mode: 'Modal',},
         InRouteToDestination: {screen: InRouteToDestination},
         RouteInfo: {screen: RouteInfo},
-        Pay: {screen: Pay}
+        Pay: {screen: Pay},
+        PayConfirmed: {screen: PayConfirmed}
     },
     {
         mode: 'card',

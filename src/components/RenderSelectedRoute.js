@@ -7,14 +7,15 @@ import MapView from 'react-native-maps';
 import Map from './Map';
 import AllRoutes from './AllRoutes';
 import PropTypes from 'prop-types';
-
+import TimerMixin from 'react-timer-mixin';
+import geoLib from 'geolib';
 const {width, height} = Dimensions.get('window');
 
 export default class RenderSelectedRoute extends Component {
     props: {
         route: PropTypes.object;
         busData: PropTypes.object;
-    }
+    };
 
     boundingBox() {
         let coords = this.props.route.geometry.coordinates;
@@ -40,7 +41,27 @@ export default class RenderSelectedRoute extends Component {
 
     constructor(props) {
         super(props);
-        console.log("bbox", this.props.route.geometry.coordinates)
+        this.state = {
+            vehiclePosition: this.props.route.geometry.coordinates[0],
+            vehiclePositionDegree:0,
+        };
+    }
+
+    componentDidMount() {
+        let index = 1;
+         TimerMixin.setInterval(
+             () => {
+                 if(index === this.props.route.geometry.coordinates.length){
+                     index = 1;
+                     this.setState({vehiclePosition: this.props.route.geometry.coordinates[0]})
+                 }
+                 let nextPosition = Object.assign({}, this.props.route.geometry.coordinates[index++]);
+                 let currentPos = Object.assign({}, this.state.vehiclePosition);
+                 this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
+                 },
+             900
+         );
+
     }
 
     renderRoutes() {
@@ -59,6 +80,11 @@ export default class RenderSelectedRoute extends Component {
         return (
             <Map boundingBoxC={boundingBoxCoordinates} showLocationButton={true}>
                 <AllRoutes renderRoutes={renderRoutes}/>
+                <MapView.Marker
+                    rotation={this.state.vehiclePositionDegree}
+                    coordinate={this.state.vehiclePosition}
+                    image={require('../img/van-top-view.png')}
+                />
             </Map>
         );
     }

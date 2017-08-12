@@ -93,9 +93,6 @@ export default class AllRoutesContainer extends Component {
         });
     }
 
-    pagar() {
-        Alert.alert('Pagar');
-    }
 
     recargar() {
         Alert.alert('Recargar');
@@ -103,14 +100,18 @@ export default class AllRoutesContainer extends Component {
 
     componentDidMount() {
         let index = 1;
-        TimerMixin.setInterval(
-            () => {
-                let nextPosition = this.props.vehiclePositionRoute[index++];
-                let currentPos = Object.assign({}, this.state.vehiclePosition);
-                this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
-                },
-            900
-        );
+        // TimerMixin.setInterval(
+        //     () => {
+        //         if(index === this.props.vehiclePositionRoute.length){
+        //             index = 1;
+        //             this.setState({vehiclePosition: this.props.vehiclePositionRoute[0]})
+        //         }
+        //         let nextPosition = this.props.vehiclePositionRoute[index++];
+        //         let currentPos = Object.assign({}, this.state.vehiclePosition);
+        //         this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
+        //         },
+        //     900
+        // );
 
     }
 
@@ -183,11 +184,11 @@ export default class AllRoutesContainer extends Component {
                 <Map showLocationButton={this.state.showLocationButton}
                      mapOpacity={pressed => this.props.mapOpacity(pressed)}>
                     <AllRoutes renderRoutes={renderRoutes}/>
-                    <MapView.Marker
-                        rotation={this.state.vehiclePositionDegree}
-                        coordinate= {this.state.vehiclePosition}
-                        image={require('../img/van-top-view.png')}
-                    />
+                    {/*<MapView.Marker*/}
+                        {/*rotation={this.state.vehiclePositionDegree}*/}
+                        {/*coordinate= {this.state.vehiclePosition}*/}
+                        {/*image={require('../img/van-top-view.png')}*/}
+                    {/*/>*/}
                 </Map>
                 <Animated.View
                     {...this.panResponder.panHandlers}
