@@ -44,6 +44,7 @@ export default class RenderSelectedRoute extends Component {
         this.state = {
             vehiclePosition: this.props.route.geometry.coordinates[0],
             vehiclePositionDegree: 0,
+            vehicleSpeed: 0
         };
         this.timer = 'undefined';
         this.index = 0;
@@ -60,7 +61,7 @@ export default class RenderSelectedRoute extends Component {
         this.loopTimer = TimerMixin.setInterval(() => {
             if (points[index]) {
                 this.setState({vehiclePosition: points[index++]});
-            } else{
+            } else {
                 this.busScript();
             }
         }, 1000 / 60);
@@ -79,6 +80,7 @@ export default class RenderSelectedRoute extends Component {
 
 
         let busSpeed = Math.random() * 70;
+        this.setState({vehicleSpeed: busSpeed});
         //Miles per hour converted to Miles per second
         let busSpeedInSeconds = busSpeed / 3600;
 
@@ -145,14 +147,29 @@ export default class RenderSelectedRoute extends Component {
         let renderRoutes = this.renderRoutes();
         let boundingBoxCoordinates = this.boundingBox();
         return (
-            <Map boundingBoxC={boundingBoxCoordinates} showLocationButton={true}>
-                <AllRoutes renderRoutes={renderRoutes}/>
-                <MapView.Marker
-                    rotation={this.state.vehiclePositionDegree}
-                    coordinate={this.state.vehiclePosition}
-                    image={require('../img/van-top-view.png')}
-                />
-            </Map>
+            <View style={{flex:1}}>
+                <View style={{
+                    position:'absolute',
+                    left:0,
+                    right:0,
+                    top:0,
+                    marginTop: 30,
+                    zIndex: 1005
+                }}>
+                    <Text style={{
+                        textAlign:'center',
+                        fontSize: 20
+                    }}>Mph: {Math.round(this.state.vehicleSpeed)}</Text>
+                </View>
+                <Map boundingBoxC={boundingBoxCoordinates} showLocationButton={true}>
+                    <AllRoutes renderRoutes={renderRoutes}/>
+                    <MapView.Marker
+                        rotation={this.state.vehiclePositionDegree}
+                        coordinate={this.state.vehiclePosition}
+                        image={require('../img/van-top-view.png')}
+                    />
+                </Map>
+            </View>
         );
     }
 }
