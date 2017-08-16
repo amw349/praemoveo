@@ -78,7 +78,7 @@ export default class RenderSelectedRoute extends Component {
         this.totalTime = this.addedTime;
         if (this.index === this.props.route.geometry.coordinates.length) {
             this.index = 1;
-            // Alert.alert(`Trip time in minutes: ${this.totalTime/60}`);
+            // Alert.alert(`Trip time in minutes: ${this.minTommss(Math.round(this.totalTime/60 * 1000)/1000)}`);
             this.addedTime = 0;
             this.setState({vehiclePosition: this.props.route.geometry.coordinates[0]})
         }
@@ -132,7 +132,7 @@ export default class RenderSelectedRoute extends Component {
             } else {
                 this.busScript();
             }
-        }, 1000 / 60);
+        }, 0);
     }
 
     componentWillUnmount() {
