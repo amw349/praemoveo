@@ -153,8 +153,9 @@ export default class Init extends Component {
                                 name="map-pin"
                                 style={{
                                     fontSize: this.state.pinLocation.y.interpolate({
-                                        inputRange: [0, height / 4],
-                                        outputRange: [20, 25]
+                                        inputRange: [0, height/4],
+                                        outputRange: [20, 25],
+                                        extrapolate: 'clamp'
                                     })
                                 }}/>
                         </View>

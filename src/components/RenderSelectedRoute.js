@@ -43,25 +43,91 @@ export default class RenderSelectedRoute extends Component {
         super(props);
         this.state = {
             vehiclePosition: this.props.route.geometry.coordinates[0],
-            vehiclePositionDegree:0,
+            vehiclePositionDegree: 0,
         };
+        this.timer = 'undefined';
+        this.index = 0;
+        this.totalTime = 0;
     }
 
-    componentDidMount() {
-        let index = 1;
-         TimerMixin.setInterval(
-             () => {
-                 if(index === this.props.route.geometry.coordinates.length){
-                     index = 1;
-                     this.setState({vehiclePosition: this.props.route.geometry.coordinates[0]})
-                 }
-                 let nextPosition = Object.assign({}, this.props.route.geometry.coordinates[index++]);
-                 let currentPos = Object.assign({}, this.state.vehiclePosition);
-                 this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
-                 },
-             900
-         );
 
+    componentDidMount() {
+        this.busScript();
+    }
+
+    loop(points) {
+        let index = 0;
+        this.loopTimer = TimerMixin.setInterval(() => {
+            if (points[index]) {
+                this.setState({vehiclePosition: points[index++]});
+            } else{
+                this.busScript();
+            }
+        }, 1000 / 60);
+    }
+
+    busScript() {
+        TimerMixin.clearInterval(this.loopTimer);
+        if (this.index === this.props.route.geometry.coordinates.length) {
+            this.index = 1;
+            // Alert.alert(`${this.totalTime}`);
+            this.totalTime = 0;
+            this.setState({vehiclePosition: this.props.route.geometry.coordinates[0]})
+        }
+        let nextPosition = Object.assign({}, this.props.route.geometry.coordinates[this.index++]);
+        let currentPos = Object.assign({}, this.state.vehiclePosition);
+
+
+        let busSpeed = Math.random() * 70;
+        //Miles per hour converted to Miles per second
+        let busSpeedInSeconds = busSpeed / 3600;
+
+        const meterToMile = 1609.34;
+
+        let timeOfInterpolation = geoLib.getDistance(currentPos, nextPosition) / (busSpeedInSeconds * meterToMile);
+
+        let milliSecondsInterpolation = timeOfInterpolation * 1000;
+        this.interpolation = milliSecondsInterpolation;
+        //Number of points to make it 60fps smooth
+        let numberOfPoints = milliSecondsInterpolation / (1000 / 60);
+
+        this.numberOfPoints = numberOfPoints;
+
+        this.totalTime += milliSecondsInterpolation / 1000;
+        let points = this.generatePoints(currentPos, nextPosition, numberOfPoints);
+        console.log(`NumberOfPoints: ${Math.ceil(numberOfPoints)}`);
+        console.log(points);
+        console.log(`Milliseconds: ${milliSecondsInterpolation}`);
+        console.log(`TotalTimeSeconds: ${this.totalTime}`);
+        console.log('------------------------------------------');
+
+        this.loop(points);
+
+        // let points = this.generatePoints(currentPos, nextPosition, numberOfPoints);
+        // this.loop(currentPos, )
+
+        if (milliSecondsInterpolation !== 0)
+            this.setState({vehiclePositionDegree: geoLib.getBearing(currentPos, nextPosition)});
+    }
+
+    generatePoints(point1, point2, numberOfPoints) {
+        let deltLat = point2.latitude - point1.latitude;
+        let deltLon = point2.longitude - point1.longitude;
+        let stepLat = deltLat / (numberOfPoints + 1);
+        let stepLon = deltLon / (numberOfPoints + 1);
+        let listOfPoints = [];
+        for (let i = 1; i <= numberOfPoints; i++) {
+            listOfPoints.push({
+                latitude: point1.latitude + stepLat * i,
+                longitude: point1.longitude + stepLon * i
+            })
+        }
+        return listOfPoints;
+    }
+
+    componentWillUnmount() {
+        TimerMixin.clearInterval(this.timer);
+        TimerMixin.clearInterval(this.loopTimer);
     }
 
     renderRoutes() {
@@ -69,6 +135,7 @@ export default class RenderSelectedRoute extends Component {
             <MapView.Polyline
                 coordinates={this.props.route.geometry.coordinates}
                 strokeColor={this.props.route.color}
+                geodesic={true}
                 strokeWidth={2}>
             </MapView.Polyline>
         )

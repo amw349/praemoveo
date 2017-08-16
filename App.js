@@ -15,7 +15,7 @@ import Pay from './src/screens/Pay'
 function forVertical(props) {
     const {layout, position, scene} = props;
 
-    const index = scene.index;
+    const index = scene.counter;
     const height = layout.initHeight;
 
     const translateX = 0;
@@ -65,7 +65,7 @@ const routeNavigation = StackNavigator({
                 });
                 // debugger
                 /*const opacity = position.interpolate({
-                    outputRange: [index - 1, index - 0.99, index],
+                    outputRange: [counter - 1, counter - 0.99, counter],
                     inputRange: [0, 1, 1],
                 });*/
                 const opacity = position.interpolate({

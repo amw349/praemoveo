@@ -73,6 +73,15 @@ export default class SelectRoute extends Component {
             }
         );
 
+        this.slideOut = Animated.timing(
+            this.state.slide, {
+                toValue: height,
+                duration: 800 + animationTimer,
+                delay: 0,
+                easing: Easing.in(Easing.easing)
+            }
+        );
+
         this.textSlideUp = Animated.timing(
             this.state.textTranslate, {
                 toValue: -70,
@@ -257,6 +266,7 @@ export default class SelectRoute extends Component {
                                             top: 22,
                                             left: 16,
                                             height: 30,
+                                            width: 30,
                                             zIndex: 1002,
                                         }}
                                         onPress={() => this.closeWindow(this.props.navigation)}>

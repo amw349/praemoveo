@@ -102,11 +102,11 @@ export default class AllRoutesContainer extends Component {
         let index = 1;
         // TimerMixin.setInterval(
         //     () => {
-        //         if(index === this.props.vehiclePositionRoute.length){
-        //             index = 1;
+        //         if(counter === this.props.vehiclePositionRoute.length){
+        //             counter = 1;
         //             this.setState({vehiclePosition: this.props.vehiclePositionRoute[0]})
         //         }
-        //         let nextPosition = this.props.vehiclePositionRoute[index++];
+        //         let nextPosition = this.props.vehiclePositionRoute[counter++];
         //         let currentPos = Object.assign({}, this.state.vehiclePosition);
         //         this.setState({vehiclePosition: nextPosition,vehiclePositionDegree: geoLib.getBearing(currentPos,nextPosition)});
         //         },
@@ -117,6 +117,7 @@ export default class AllRoutesContainer extends Component {
 
     componentWillMount() {
         //WE DON'T USE THE Y VALUE OF THE TRANSFORM IN OUR COMPONENT
+        let context = this;
         this.animatedValue = new Animated.ValueXY();
         this._value = {x: 0, y: 0};
         this.animatedValue.addListener((value) => this._value = value);
@@ -144,7 +145,9 @@ export default class AllRoutesContainer extends Component {
                         delay: 0,
                         easing: Easing.in(Easing.ease),
                         duration: 100,
-                    }).start(this.closeInfo());
+                    }).start(function onComplete() {
+                        context.closeInfo();
+                    });
                 }
                 else if (gestureState.dx < -Dimensions.get('window').width * 0.5) {
                     Animated.timing(this.animatedValue, {
@@ -152,7 +155,9 @@ export default class AllRoutesContainer extends Component {
                         delay: 0,
                         easing: Easing.in(Easing.ease),
                         duration: 100,
-                    }).start(this.closeInfo());
+                    }).start(function onComplete() {
+                        context.closeInfo();
+                    });
                 } else {
                     Animated.timing(this.animatedValue, {
                         toValue: {x: 0, y: 0},
@@ -172,6 +177,7 @@ export default class AllRoutesContainer extends Component {
                 coordinates={element.geometry.coordinates}
                 strokeColor={element.properties.color}
                 tappable={true}
+                geodesic={true}
                 strokeWidth={this.state.strokeWidth}>
             </MapView.Polyline>
         );

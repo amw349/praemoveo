@@ -86,7 +86,7 @@ export default class PayConfirmed extends Component {
                     width: '100%',
                     height: 142,
                     backgroundColor: '#FFF',
-                    paddingVertical: 15
+                    paddingTop: 15
                 }}>
                     <View style={{
                         width: 91,
@@ -99,7 +99,8 @@ export default class PayConfirmed extends Component {
                     <Text style={{
                         textAlign:'center',
                         fontSize:30,
-                        color:'#6F6F6F'
+                        color:'#6F6F6F',
+                        marginBottom: 9
                     }}> Pago </Text>
                 </View>
 
@@ -117,7 +118,7 @@ export default class PayConfirmed extends Component {
                     <Text style={{
                         textAlign:'center',
                         fontSize: 20,
-                        color:'#CACACA'
+                        color:'#CACACA',
                     }}>
                         2 pasajes
                     </Text>
