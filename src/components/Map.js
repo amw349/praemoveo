@@ -26,6 +26,7 @@ const DEFAULT_PADDING = {top: 40, right: 40, bottom: 40, left: 40};
 export default class Map extends Component {
     constructor(props) {
         super(props);
+        this.busButtonPressed = false;
         this.state = {
             icon: undefined,
             userPosition: {
@@ -44,7 +45,7 @@ export default class Map extends Component {
                 latitude: 0,
                 longitude: 0
             },
-            onRoute: true
+            onRoute: true,
         }
     }
 
@@ -123,35 +124,39 @@ export default class Map extends Component {
     }
 
     locationButton() {
-        // if (!this.state.onRoute && this.props.boundingBoxC) {
-        //     this.refs.map.fitToCoordinates(this.props.boundingBoxC, {
-        //         animated: true
-        //     });
-        // } else {
-        //     this.refs.map.animateToRegion(this.state.userPosition,
-        //         500);
-        // }
         if (this.props.mapOpacity) {
             this.refs.map.animateToRegion(this.state.userPosition,
                 500);
             this.setState({onRoute: !this.state.onRoute});
-        } else{
-            this.refs.map.animateToCoordinate(this.props.busPosition,
-                500);
-            this.setState({onRoute: !this.state.onRoute});
+        } else if(this.busButtonPressed) {
+            this.busButtonPressed = false;
+        } else if(!this.busButtonPressed){
+            this.busButtonPressed = true;
         }
     }
 
     showButton() {
         if (this.props.showLocationButton) {
-            return (
-                <TouchableOpacity
-                    onPress={() => this.locationButton()}>
-                    <View style={styles.locationButton}>
-                        <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
-                    </View>
-                </TouchableOpacity>
-            )
+            if (this.props.busIcon) {
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.locationButton()}>
+                        <View style={styles.locationButton}>
+                            <FontAwesome name="bus" size={25} color="#FFF"/>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+            else {
+                return (
+                    <TouchableOpacity
+                        onPress={() => this.locationButton()}>
+                        <View style={styles.locationButton}>
+                            <SimpleLineIcons name="location-pin" size={25} color="#FFF"/>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
         }
     }
 
@@ -207,8 +212,17 @@ export default class Map extends Component {
     }
 
 
+    followBus(){
+        this.refs.map.animateToCoordinate(this.props.busPosition,
+            1);
+        // this.setState({onRoute: !this.state.onRoute});
+    }
+
     render() {
         let content = this.content();
+        if(this.props.busPosition && this.busButtonPressed){
+            this.followBus();
+        }
         return (
             <View style={{flex: 1}}>
                 {content}

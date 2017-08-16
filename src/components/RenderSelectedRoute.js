@@ -179,7 +179,7 @@ export default class RenderSelectedRoute extends Component {
                     }}>Trip Time(mins): {this.minTommss(Math.round(this.totalTime/60 * 1000)/1000)}</Text>
                 </View>
                 <Map boundingBoxC={boundingBoxCoordinates} showLocationButton={true}
-                busPosition={this.state.vehiclePosition}>
+                busPosition={this.state.vehiclePosition} busIcon={true}>
                     <AllRoutes renderRoutes={renderRoutes}/>
                     <MapView.Marker
                         rotation={this.state.vehiclePositionDegree}
