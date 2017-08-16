@@ -49,11 +49,13 @@ export default class PayConfirmed extends Component {
                     <View style={{flexDirection:'row'}}>
                         <Text style={{
                             fontSize:16,
-                            alignSelf:'center'
+                            alignSelf:'center',
+                            fontFamily:'HelveticaNeue'
                         }}>Ruta</Text>
                         <Text style={{
                             textAlign:'center',
                             fontSize:20,
+                            fontFamily:'HelveticaNeue',
                             paddingRight:10
                         }}>Caguas - Aguas Buenas</Text>
                     </View>
@@ -63,20 +65,31 @@ export default class PayConfirmed extends Component {
 
                 <View style={{
                     width: '100%',
-                    height: 100,
+                    height: 120,
                     backgroundColor: '#FFF',
                 }}>
                     <Text style={{
                         textAlign:'center',
-                        fontSize: 48
+                        fontSize: 48,
+                        fontFamily:'HelveticaNeue'
                     }}>
                         12:45 pm
                     </Text>
                     <Text style={{
                         textAlign:'center',
-                        fontSize: 28
+                        fontSize: 28,
+                        fontFamily:'HelveticaNeue'
                     }}>
                         Julio 27, 2017
+                    </Text>
+                    <Text style={{
+                        fontSize:10,
+                        paddingHorizontal: 29,
+                        color:'#454545',
+                        fontFamily:'HelveticaNeue'
+                    }}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus quis lectus metus, at posuere neque.
                     </Text>
                 </View>
 
@@ -100,8 +113,9 @@ export default class PayConfirmed extends Component {
                         textAlign:'center',
                         fontSize:30,
                         color:'#6F6F6F',
+                        fontFamily:'HelveticaNeue',
                         marginBottom: 9
-                    }}> Pago </Text>
+                    }}> Pagado </Text>
                 </View>
 
                 <View style={{width: '100%', height: 3}}/>
@@ -113,11 +127,13 @@ export default class PayConfirmed extends Component {
                 }}>
                     <Text style={{
                         textAlign:'center',
-                        fontSize: 60
+                        fontSize: 60,
+                        fontFamily:'HelveticaNeue'
                     }}>$3.00</Text>
                     <Text style={{
                         textAlign:'center',
                         fontSize: 20,
+                        fontFamily:'HelveticaNeue',
                         color:'#CACACA',
                     }}>
                         2 pasajes
@@ -126,6 +142,7 @@ export default class PayConfirmed extends Component {
                 <Text style={{
                     fontSize: 18,
                     paddingTop: 25,
+                    fontFamily:'HelveticaNeue',
                     textAlign: 'center'}}>
                     Muestre esta pantalla al chofer para demostrar el pago de al tarifa
                 </Text>

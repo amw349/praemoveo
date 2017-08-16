@@ -166,12 +166,13 @@ export default class Init extends Component {
                     <Animated.View style={{
                         width: 118,
                         height: 26,
+                        overflow: 'hidden',
                         backgroundColor: '#F7F7F7',
                         position: 'absolute',
                         right: width / 2 - 118 - (this.pinWidth / 2) - 12,
                         bottom: height / 2 - 21.5 - (this.pinHeight / 3) + this.padding,
                         borderRadius: 5,
-                        elevation: 2,
+                        elevation:2,
                         zIndex: 1004,
                         transform:[{translateX: this.state.pinSlide}]
                     }}>

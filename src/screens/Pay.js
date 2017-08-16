@@ -22,6 +22,29 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 export default class Pay extends Component {
 
+    constructor(props){
+        super(props);
+        this.state={
+            numberOfTickets: 2,
+            totalPayment: 3.00
+        }
+    }
+
+
+    increase(){
+        this.setState({
+            numberOfTickets: this.state.numberOfTickets + 1,
+            totalPayment: this.state.totalPayment + 1.50
+        });
+    }
+    decrease(){
+        if(this.state.totalPayment > 0 && this.state.numberOfTickets > 1) {
+            this.setState({
+                numberOfTickets: this.state.numberOfTickets - 1,
+                totalPayment: this.state.totalPayment - 1.50
+            });
+        }
+    }
 
     render() {
         return (
@@ -53,7 +76,7 @@ export default class Pay extends Component {
                         <Text style={{
                             marginRight: 27,
                             fontSize: 16,
-                            alignSelf:'center',
+                            alignSelf: 'center',
                             color: '#8B8A8A'
                         }}>Ruta</Text>
                         <Text style={{
@@ -64,11 +87,12 @@ export default class Pay extends Component {
                         <Text style={{
                             fontSize: 20,
                             marginLeft: 61,
+                            alignSelf:'flex-end'
                         }}>Costo</Text>
                         <Text style={{
                             fontSize: 30,
                             marginLeft: 125,
-                            fontFamily:'HelveticaNeue'
+                            fontFamily: 'HelveticaNeue'
                         }}>$1.50</Text>
                     </View>
                 </View>
@@ -91,7 +115,7 @@ export default class Pay extends Component {
                         <View style={{marginTop: 13}}>
                             <Text style={{
                                 fontSize: 50,
-                                fontFamily:'HelveticaNeue',
+                                fontFamily: 'HelveticaNeue',
                                 marginLeft: 52
                             }}>
                                 $.75
@@ -99,8 +123,8 @@ export default class Pay extends Component {
                             <Text style={{
                                 fontSize: 20,
                                 paddingHorizontal: 15,
-                                paddingBottom:10,
-                                backgroundColor:'transparent'
+                                paddingBottom: 10,
+                                backgroundColor: 'transparent'
                             }}>
                                 Fondos disponibles
                             </Text>
@@ -144,16 +168,77 @@ export default class Pay extends Component {
                     }}>Venta</Text>
                     <View style={{
                         position: 'absolute',
+                        left: '30%',
+                        top: '40%',
+                        width: 72,
+                        borderColor: '#979797',
+                        height: 45,
+                        backgroundColor: '#D8D8D8',
+                        marginBottom: 55,
+                        marginRight: 45,
+                        borderRadius: 25,
+                        justifyContent: 'flex-end',
+                    }}>
+                        <TouchableWithoutFeedback onPress={() => this.decrease()}>
+                            <View>
+                                <Text style={{
+                                    fontSize: 45,
+                                    paddingLeft: 17,
+                                    backgroundColor: 'transparent',
+                                    fontFamily: 'HelveticaNeue-Light',
+                                    color: '#777676'
+                                }}>-</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                    <View style={{
+                        position: 'absolute',
+                        right: '17%',
+                        top: '40%',
+                        alignSelf: 'center',
+                        width: 72,
+                        borderColor: '#979797',
+                        height: 45,
+                        backgroundColor: '#D8D8D8',
+                        marginBottom: 55,
+                        marginRight: 45,
+                        borderRadius: 25,
+                        justifyContent: 'flex-end',
+                        alignItems: 'flex-end'
+                    }}>
+                        <TouchableWithoutFeedback onPress={() => this.increase()}>
+                            <View>
+                                <Text style={{
+                                    fontSize: 45,
+                                    backgroundColor: 'transparent',
+                                    fontFamily: 'HelveticaNeue-Light',
+                                    paddingRight: 10,
+                                    color: '#777676'
+                                }}>+</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                    <View style={{
+                        position: 'absolute',
                         bottom: 0,
+                        flex:1,
                         width: 83,
                         borderColor: '#979797',
-                        borderWidth: 1,
                         height: 83,
                         backgroundColor: '#D8D8D8',
                         marginBottom: 21,
                         borderRadius: 41.5,
-                        alignSelf: 'center'
-                    }}/>
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={{
+                            backgroundColor: 'transparent',
+                            fontSize: 45,
+                            color: '#777676',
+                            fontFamily: 'HelveticaNeue-Light'
+                        }}> {this.state.numberOfTickets} </Text>
+                    </View>
                 </View>
 
                 <View style={{width: '100%', height: 3}}/>
@@ -172,19 +257,20 @@ export default class Pay extends Component {
                         }}>Total</Text>
                         <Text style={{
                             fontSize: 60,
-                            color:'#0A0A0A',
-                            alignSelf:'center',
+                            color: '#0A0A0A',
+                            alignSelf: 'center',
                             marginLeft: 37,
-                            fontFamily:'HelveticaNeue'
+                            fontFamily: 'HelveticaNeue'
                         }}>
-                            $3.00
+                            ${this.state.totalPayment.toFixed(2)}
                         </Text>
                     </View>
                 </View>
                 <View style={{width: '100%', height: 3}}/>
-                <View style={{flex: 1,
+                <View style={{
+                    flex: 1,
                     paddingVertical: 25,
-                    paddingHorizontal:10
+                    paddingHorizontal: 10
                 }}>
                     <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus,
                         at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. </Text>

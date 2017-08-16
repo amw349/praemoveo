@@ -51,7 +51,6 @@ export default class Map extends Component {
     watchID: ?number = null;
 
 
-
     componentDidMount() {
         navigator.geolocation.getCurrentPosition((position) => {
                 let lat = parseFloat(position.coords.latitude);
@@ -132,9 +131,15 @@ export default class Map extends Component {
         //     this.refs.map.animateToRegion(this.state.userPosition,
         //         500);
         // }
-        this.refs.map.animateToRegion(this.state.userPosition,
-            500);
-        this.setState({onRoute: !this.state.onRoute});
+        if (this.props.mapOpacity) {
+            this.refs.map.animateToRegion(this.state.userPosition,
+                500);
+            this.setState({onRoute: !this.state.onRoute});
+        } else{
+            this.refs.map.animateToCoordinate(this.props.busPosition,
+                500);
+            this.setState({onRoute: !this.state.onRoute});
+        }
     }
 
     showButton() {
@@ -183,10 +188,11 @@ export default class Map extends Component {
                 <View style={styles.container}>
                     <MapView style={styles.map}
                              ref="map"
+                             rotateEnabled={false}
                              showsUserLocation={true}
                              showsMyLocationButton={false}
                              showsCompass={false}
-                             customMapStyle={this.mapStyle}
+                             customMapStyle={mapStyles.LIGHT}
                              provider={MapView.PROVIDER_GOOGLE}
                              region={this.state.initialPosition}
                              onRegionChange={() => this.onRegionChange()}
@@ -247,7 +253,7 @@ const styles = StyleSheet.create({
         height: 50,
         margin: 20,
         borderRadius: 15,
-        backgroundColor:'rgba(42, 54, 59, 0.7)',
+        backgroundColor: 'rgba(42, 54, 59, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'flex-end',

@@ -42,7 +42,7 @@ export default class InRouteToDestination extends Component {
                                         top: 22,
                                         left: 16,
                                         height: 30,
-                                        zIndex: 1002,
+                                        zIndex: 1006,
                                     }}
                                     onPress={() => this.props.navigation.goBack()}>
                     <Ionicons name="ios-arrow-round-back" size={40}></Ionicons>
